@@ -1,0 +1,118 @@
+@import "tailwindcss";
+ 
+
+/* Poppins Font */
+
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+}
+
+/* Roboto Font */
+.font-roboto {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+}
+
+.lobster-regular {
+  font-family: "Lobster", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.caveat {
+  font-family: "Caveat", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.work {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.outfit {
+  font-family: "Outfit", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+.outfit-semibold {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Custom Animations */
+@layer utilities {
+  .animated-bg {
+    background: linear-gradient(270deg, #f79952, #41bfb8, #f79952);
+    background-size: 600% 600%;
+    animation: gradientMove 20s ease infinite;
+  }
+
+  .animate-flip {
+    animation: flip 0.3s ease-in-out;
+  }
+}
+
+/* Keyframes should be outside @layer */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes flip {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { transform: translateY(10%); opacity: 0.8; }
+  100% { transform: translateY(0%); opacity: 1; }
+}
+
+/* Custom Colors */
+.cpr {
+  color: #f79952;
+}
+.csd {
+  color: #41bfb8;
+}
+.crd {
+  color: #414042;
+}
+
+.tw {
+  color: white;
+}
+
+/* Custom Gradient Classes */
+.btn-gradient {
+  background: linear-gradient(135deg, #f79952 0%, #41bfb8 100%);
+}
+
+.btn-gradient:hover {
+  filter: brightness(0.95);
+}
+
+.text-cpr {
+  color: #f79952;
+}
+
+.text-csd {
+  color: #41bfb8;
+}
+
+.bg-cpr {
+  background-color: #f79952;
+}
+
+.bg-csd {
+  background-color: #41bfb8;
+}
+
+.border-cpr {
+  border-color: #f79952;
+}
+
+.border-csd {
+  border-color: #41bfb8;
+}
+
+ 
