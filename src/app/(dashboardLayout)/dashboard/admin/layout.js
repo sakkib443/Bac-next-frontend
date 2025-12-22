@@ -1,16 +1,23 @@
 import React from 'react';
 import AdminSidebar from '@/components/Admin/AdminSidebar';
 
-const adminLayout = ({ children }) => {
+const AdminLayout = ({ children }) => {
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Sidebar */}
       <AdminSidebar />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto">
+      <main
+        className="
+          min-h-screen
+          transition-all
+          duration-300
+          lg:ml-72   /* sidebar width */
+        "
+      >
         <div className="p-6 lg:p-8">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 min-h-[calc(100vh-4rem)]">
             {children}
           </div>
         </div>
@@ -19,4 +26,4 @@ const adminLayout = ({ children }) => {
   );
 };
 
-export default adminLayout;
+export default AdminLayout;

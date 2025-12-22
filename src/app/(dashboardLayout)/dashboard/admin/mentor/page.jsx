@@ -1,400 +1,184 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link'; // লিঙ্ক করার জন্য এটি প্রয়োজন
 import {
-  FiSearch,
-  FiPlus,
   FiEdit2,
   FiTrash2,
-  FiEye,
-  FiFilter,
-  FiChevronDown,
+  FiPlus,
+  FiSearch,
   FiMail,
   FiPhone,
 } from 'react-icons/fi';
 
 export default function MentorsPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
   const [mentors, setMentors] = useState([]);
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({
-    name: '',
-    designation: '',
-    subject: '',
-    specialized_area_str: '',
-    education_qualification_str: '',
-    work_experience_str: '',
-    training_years: '',
-    training_students: '',
-    image: '',
-    details: '',
-    lifeJourney: '',
-    email: '',
-    phone: '',
-    expertise: '',
-    status: 'Active',
-  });
-
-  // Fetch mentors
+  /* FETCH ALL MENTORS */
   useEffect(() => {
-    let mounted = true;
     const load = async () => {
       setLoading(true);
-      setError(null);
       try {
         const res = await fetch('http://localhost:5000/api/mentors');
-        if (!res.ok) throw new Error('Failed to load');
         const data = await res.json();
-
-        const normalizeMentors = (d) => {
-          if (!d) return [];
-          if (Array.isArray(d)) return d;
-          if (Array.isArray(d.data)) return d.data;
-          if (Array.isArray(d.mentors)) return d.mentors;
-          if (Array.isArray(d.items)) return d.items;
-          if (Array.isArray(d.docs)) return d.docs;
-          if (Array.isArray(d.result)) return d.result;
-          if (Array.isArray(d.payload)) return d.payload;
-          if (d.data && (Array.isArray(d.data.mentors) || Array.isArray(d.data.items)))
-            return d.data.mentors || d.data.items;
-          return [];
-        };
-
-        const list = normalizeMentors(data);
-        console.log('Fetched mentors response:', data);
-        if (mounted) setMentors(list);
-      } catch (err) {
-        if (mounted) setError('Could not fetch mentors');
+        setMentors(Array.isArray(data) ? data : data.data || []);
+      } catch (error) {
+        console.error("Error fetching mentors:", error);
       } finally {
-        if (mounted) setLoading(false);
+        setLoading(false);
       }
     };
     load();
-    return () => {
-      mounted = false;
-    };
   }, []);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Active':
-        return 'bg-green-50 text-green-700 border border-green-200';
-      case 'Pending':
-        return 'bg-yellow-50 text-yellow-700 border border-yellow-200';
-      case 'Inactive':
-        return 'bg-gray-50 text-gray-700 border border-gray-200';
-      default:
-        return 'bg-blue-50 text-blue-700 border border-blue-200';
-    }
-  };
-
-  const getRatingColor = (rating) => {
-    if (rating >= 4.8) return 'text-amber-500';
-    if (rating >= 4.5) return 'text-yellow-500';
-    return 'text-gray-400';
-  };
-
-  const openCreate = () => {
-    setEditing(null);
-    setForm({
-      name: '',
-      designation: '',
-      subject: '',
-      specialized_area_str: '',
-      education_qualification_str: '',
-      work_experience_str: '',
-      training_years: '',
-      training_students: '',
-      image: '',
-      details: '',
-      lifeJourney: '',
-      email: '',
-      phone: '',
-      expertise: '',
-      status: 'Active',
-    });
-    setModalOpen(true);
-  };
-
-  const openEdit = (m) => {
-    setEditing(m);
-    setForm({
-      name: m.name || '',
-      designation: m.designation || '',
-      subject: m.subject || '',
-      specialized_area_str: Array.isArray(m.specialized_area)
-        ? m.specialized_area.join(', ')
-        : m.specialized_area || '',
-      education_qualification_str: Array.isArray(m.education_qualification)
-        ? m.education_qualification.join(', ')
-        : m.education_qualification || '',
-      work_experience_str: Array.isArray(m.work_experience)
-        ? m.work_experience.join(', ')
-        : m.work_experience || '',
-      training_years: (m.training_experience && m.training_experience.years) || '',
-      training_students: (m.training_experience && m.training_experience.students) || '',
-      image: m.image || '',
-      details: m.details || '',
-      lifeJourney: m.lifeJourney || '',
-      email: m.email || '',
-      phone: m.phone || '',
-      expertise: m.expertise || '',
-      status: m.status || 'Active',
-    });
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setEditing(null);
-  };
-
-  const submitForm = async (e) => {
-    e.preventDefault();
-    try {
-      const payload = { ...form };
-      let res;
-      if (editing) {
-        res = await fetch(`http://localhost:5000/api/mentors/${editing._id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-      } else {
-        res = await fetch('http://localhost:5000/api/mentors/create-mentor', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-      }
-      if (!res.ok) throw new Error('Save failed');
-
-      // refresh list
-      const fresh = await fetch('http://localhost:5000/api/mentors');
-      const data = await fresh.json();
-      const normalizeMentors = (d) => {
-        if (!d) return [];
-        if (Array.isArray(d)) return d;
-        if (Array.isArray(d.items)) return d.items;
-        return [];
-      };
-      setMentors(normalizeMentors(data));
-      closeModal();
-    } catch (err) {
-      alert('Failed to save mentor');
-    }
-  };
-
+  /* DELETE MENTOR */
   const handleDelete = async (id) => {
     if (!confirm('Delete this mentor?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/mentors/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Delete failed');
+      await fetch(`http://localhost:5000/api/mentors/${id}`, {
+        method: 'DELETE',
+      });
       setMentors((prev) => prev.filter((m) => m._id !== id));
-    } catch (err) {
-      alert('Failed to delete');
+    } catch (error) {
+      alert("Failed to delete mentor");
     }
   };
 
-  // Filtered mentors
-  const filteredMentors = mentors.filter((m) => {
-    const name = (m.name || '').toLowerCase();
-    const matchesName = name.includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === 'all' || m.status === filterStatus;
-    return matchesName && matchesStatus;
-  });
+  const filtered = mentors.filter((m) =>
+    m.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="p-6 lg:p-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">Mentors</h1>
-        <p className="text-slate-600 mt-2">Manage and organize your mentor team</p>
-      </div>
-
-      {/* Top Bar */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        {/* Search */}
-        <div className="flex-1 relative">
-          <FiSearch className="absolute left-3 top-3.5 text-slate-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search mentors..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition"
-          />
+    <div className="p-4 md:p-6 font-poppins bg-slate-50 min-h-screen">
+      {/* HEADER */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 className="text-xl md:text-2xl font-outfit font-bold text-slate-900">
+            Mentors
+          </h1>
+          <p className="text-slate-500 text-xs">
+            Manage all instructors & trainers
+          </p>
         </div>
 
-        {/* Filter & Add Button */}
-        <div className="flex gap-3">
-          <div className="relative">
-            <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition">
-              <FiFilter size={18} />
-              <span>Filter</span>
-              <FiChevronDown size={16} />
-            </button>
-          </div>
-
-          <button
-            onClick={openCreate}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg btn-gradient text-white font-medium hover:shadow-lg transition"
-          >
-            <FiPlus size={20} />
-            <span>Add Mentor</span>
+        {/* ADD MENTOR LINK */}
+        <Link href="/dashboard/admin/mentor/create">
+          <button className="btn-gradient text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 font-medium text-xs transition-all hover:opacity-90 shadow-sm">
+            <FiPlus size={16} />
+            Add Mentor
           </button>
+        </Link>
+      </div>
+
+      {/* SEARCH */}
+      <div className="relative mb-6 max-w-sm">
+        <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+        <input
+          placeholder="Search mentor..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-9 pr-4 py-1.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none text-xs transition-all bg-white"
+        />
+      </div>
+
+      {/* CONTENT */}
+      {loading ? (
+        <div className="flex justify-center items-center py-20">
+             <p className="text-xs font-medium text-slate-500 animate-pulse">Loading mentors...</p>
         </div>
-      </div>
-
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-        {loading && <div className="p-6">Loading mentors...</div>}
-        {error && <div className="p-6 text-red-600">{error}</div>}
-        {!loading && !error && (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Mentor Name</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Contact</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Expertise</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-slate-900">Students</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-slate-900">Rating</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Status</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-slate-900">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredMentors.map((mentor) => (
-                  <tr key={mentor._id} className="border-b border-slate-200 hover:bg-slate-50 transition">
-                    <td className="px-6 py-4">
-                      <div>
-                        <p className="font-medium text-slate-900">{mentor.name}</p>
-                        <p className="text-xs text-slate-500 mt-1">Joined: {mentor.joinDate || '-'}</p>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-sm text-slate-600">
-                          <FiMail size={14} />
-                          <span>{mentor.email}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-slate-600">
-                          <FiPhone size={14} />
-                          <span>{mentor.phone}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div>
-                        <p className="font-medium text-slate-900">{mentor.expertise}</p>
-                        <p className="text-xs text-slate-500 mt-1">{mentor.courses ?? 0} courses</p>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="text-slate-900 font-semibold">{mentor.students ?? 0}</span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-center gap-1">
-                        <span className={`font-semibold ${getRatingColor(mentor.rating ?? 0)}`}>★</span>
-                        <span className="text-slate-900 font-medium">{mentor.rating ?? 0}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(mentor.status)}`}>
-                        {mentor.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-center gap-2">
-                        <button title="View" className="p-2 rounded-lg text-blue-600 hover:bg-blue-50 transition">
-                          <FiEye size={18} />
-                        </button>
-                        <button title="Edit" onClick={() => openEdit(mentor)} className="p-2 rounded-lg text-orange-600 hover:bg-orange-50 transition">
-                          <FiEdit2 size={18} />
-                        </button>
-                        <button title="Delete" onClick={() => handleDelete(mentor._id)} className="p-2 rounded-lg text-red-600 hover:bg-red-50 transition">
-                          <FiTrash2 size={18} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
-      {/* Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-lg w-full max-w-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">{editing ? 'Edit Mentor' : 'Create Mentor'}</h3>
-              <button onClick={closeModal} className="text-slate-500 hover:text-slate-700">Close</button>
-            </div>
-            <form onSubmit={submitForm} className="space-y-4">
-              <div>
-                <label className="text-sm text-slate-600">Name</label>
-                <input
-                  required
-                  value={form.name}
-                  onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300"
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filtered.map((mentor) => (
+            <div
+              key={mentor._id}
+              className="group bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              {/* IMAGE */}
+              <div className="relative overflow-hidden">
+                <img
+                  src={mentor.image}
+                  alt={mentor.name}
+                  className="h-60 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-sm text-slate-600">Email</label>
-                  <input
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-                    className="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300"
-                  />
+
+              {/* BODY */}
+              <div className="p-3.5">
+                <div className="mb-2">
+                  <h3 className="text-sm font-outfit font-bold text-slate-900 truncate">
+                    {mentor.name}
+                  </h3>
+                  <p className="text-[11px] font-medium text-indigo-600">
+                    {mentor.designation}
+                  </p>
                 </div>
-                <div>
-                  <label className="text-sm text-slate-600">Phone</label>
-                  <input
-                    value={form.phone}
-                    onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
-                    className="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300"
-                  />
+
+                {/* CONTACT */}
+                <div className="space-y-1 mb-3 text-[12px] text-slate-600">
+                  {mentor.email && (
+                    <div className="flex items-center gap-2">
+                      <FiMail size={12} className="text-slate-400 shrink-0" />
+                      <span className="truncate">{mentor.email}</span>
+                    </div>
+                  )}
+                  {mentor.phone && (
+                    <div className="flex items-center gap-2">
+                      <FiPhone size={12} className="text-slate-400 shrink-0" />
+                      <span>{mentor.phone}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="text-[12px] text-slate-700 mb-3">
+                  <span className="font-semibold text-slate-800 text-[11px]">Subject:</span>{' '}
+                  {mentor.subject}
+                </div>
+
+                {/* TAGS */}
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {mentor.specialized_area?.map((item, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-0.5 text-[10px] font-medium rounded bg-slate-100 text-slate-600 border border-slate-200"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                {/* EXPERIENCE */}
+                <div className="grid grid-cols-2 gap-2 pt-2.5 border-t border-slate-100 text-[10px] font-semibold">
+                  <div>
+                    <p className="text-slate-400 text-[9px] uppercase tracking-tighter">Exp.</p>
+                    <p className="text-slate-900">{mentor.training_experience?.years} Yrs</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-slate-400 text-[9px] uppercase tracking-tighter">Students</p>
+                    <p className="text-slate-900">{mentor.training_experience?.students}+</p>
+                  </div>
                 </div>
               </div>
-              <div>
-                <label className="text-sm text-slate-600">Expertise</label>
-                <input
-                  value={form.expertise}
-                  onChange={(e) => setForm((s) => ({ ...s, expertise: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300"
-                />
-              </div>
-              <div>
-                <label className="text-sm text-slate-600">Status</label>
-                <select
-                  value={form.status}
-                  onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300"
+
+              {/* ACTIONS */}
+              <div className="flex items-center justify-between px-3.5 py-2.5 bg-slate-50/80 border-t border-slate-100">
+                {/* EDIT LINK - এখানে আপনার এডিট পেজ এর লিঙ্ক বসিয়ে দেওয়া হয়েছে */}
+                <Link href={`/dashboard/admin/mentor/edit/${mentor._id}`}>
+                  <button className="text-amber-600 hover:text-amber-700 text-[12px] font-bold flex items-center gap-1 transition-colors">
+                    <FiEdit2 size={12} /> Edit
+                  </button>
+                </Link>
+
+                <button
+                  onClick={() => handleDelete(mentor._id)}
+                  className="text-rose-600 hover:text-rose-700 text-[12px] font-bold flex items-center gap-1 transition-colors"
                 >
-                  <option>Active</option>
-                  <option>Pending</option>
-                  <option>Inactive</option>
-                </select>
+                  <FiTrash2 size={12} /> Delete
+                </button>
               </div>
-
-              <div className="flex items-center justify-end gap-3">
-                <button type="button" onClick={closeModal} className="px-4 py-2 rounded-lg border border-slate-300">Cancel</button>
-                <button type="submit" className="px-4 py-2 rounded-lg btn-gradient text-white">{editing ? 'Save Changes' : 'Create Mentor'}</button>
-              </div>
-            </form>
-          </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
