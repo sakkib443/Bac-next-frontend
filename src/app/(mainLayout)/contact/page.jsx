@@ -1,257 +1,265 @@
- 
 "use client";
-import SectionHeading from "@/components/sheard/SectionHeading";
+
+import React, { useState } from "react";
 import Link from "next/link";
-import React, {  useState } from "react";
- 
-import { FiMail, FiPhone, FiMapPin, FiSend, FiYoutube } from "react-icons/fi";
-import { FiFacebook, FiLinkedin } from "react-icons/fi";
- 
+import { HiOutlineSparkles } from "react-icons/hi2";
+import { LuMail, LuPhone, LuMapPin, LuSend, LuClock, LuArrowRight } from "react-icons/lu";
+import { FaFacebookF, FaYoutube, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 
 const ContactPage = () => {
-  //const { pathname } = useLocation();
   const [messageSent, setMessageSent] = useState(false);
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, [pathname]);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessageSent(true);
-    // setTimeout(() => setMessageSent(false), 5000);
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const contactInfo = [
+    {
+      icon: LuMail,
+      title: "Email Us",
+      value: "info@bdcallingacademy.com",
+      link: "mailto:info@bdcallingacademy.com",
+      color: "#41bfb8",
+    },
+    {
+      icon: LuPhone,
+      title: "Call Us",
+      value: "+88 01321231802",
+      link: "tel:+8801321231802",
+      color: "#F79952",
+    },
+    {
+      icon: LuMapPin,
+      title: "Visit Us",
+      value: "Daisy Garden, House 14 (Level-5), Block A, Banasree, Dhaka",
+      link: "#map",
+      color: "#8B5CF6",
+    },
+    {
+      icon: LuClock,
+      title: "Office Hours",
+      value: "Sat - Thu: 9:00 AM - 6:00 PM",
+      link: null,
+      color: "#EC4899",
+    },
+  ];
+
+  const socialLinks = [
+    { icon: FaFacebookF, href: "https://www.facebook.com/bdcallingacademy.bd", label: "Facebook", color: "#1877F2" },
+    { icon: FaYoutube, href: "https://www.youtube.com/@bdCalling", label: "YouTube", color: "#FF0000" },
+    { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/bdcallingitltd", label: "LinkedIn", color: "#0A66C2" },
+    { icon: FaWhatsapp, href: "https://wa.me/8801321231802", label: "WhatsApp", color: "#25D366" },
+  ];
+
   return (
-    <div className="bg-[#ECFCFB] font-sans text-gray-800 relative min-h-screen">
-      {/* Blur background overlay */}
-      <div
-        className="animated-bg fixed z-50 left-0 top-7/12 -translate-y-1/2 text-white px-6 py-2 rounded-l-lg cursor-pointer shadow-2xl "
-        style={{
-          writingMode: "vertical-rl",
-          transform: "translateY(-50%) rotate(180deg)",
-        }}
-      >
-        <Link href="/events">
-          <h3 className=" outfit-semibold uppercase">Join Seminar</h3>
-        </Link>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Success Modal */}
       {messageSent && (
-        <div className="fixed inset-0  backdrop-blur-sm z-40"></div>
+        <>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setMessageSent(false)}></div>
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-11/12 max-w-md bg-white rounded-xl shadow-2xl p-8 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <LuSend className="text-green-600 text-2xl" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-800 outfit mb-2">Message Sent!</h3>
+            <p className="text-gray-500 work mb-6">We'll get back to you within 24 hours.</p>
+            <button
+              onClick={() => setMessageSent(false)}
+              className="px-6 py-2.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </>
       )}
 
-      {/* Popup message in center */}
-      {messageSent && (
-        <div className="fixed top-1/2 left-1/2 z-50 w-11/12 max-w-md bg-green-600 text-white px-6 py-6 rounded-xl shadow-lg flex items-center space-x-4 transform -translate-x-1/2 -translate-y-1/2">
-          <p className="font-semibold flex-grow text-center text-lg">
-            Your message has been sent successfully!
-          </p>
-          <button
-            onClick={() => setMessageSent(false)}
-            aria-label="Close popup"
-            className="text-white hover:text-gray-200 focus:outline-none text-3xl font-bold"
-          >
-            &times;
-          </button>
-        </div>
-      )}
-
-      <div className="container mx-auto pt-12 relative z-20 mb-12">
-        <SectionHeading
-          title={"Connect With Our Team"}
-          description={
-            "Unlock a wide range of practical, in-demand courses designed to match your career goals. Whether you're taking your first step into tech or advancing your skills, our learning paths are crafted by industry experts to ensure you gain real-world knowledge that truly matters."
-          }
-        /> 
-      </div>
-
-      <section className="container mx-auto px-6 relative z-30">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
-          <div className="bg-[#E1FCF9] rounded-xl p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-200">
-            <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto">
-              <FiMail className="crd text-7xl" />
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-[#e8f9f9] via-white to-[#fff8f0] border-b border-gray-200 py-12 lg:py-16">
+        <div className="container mx-auto px-4 lg:px-16">
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm">
+              <HiOutlineSparkles className="text-[#F79952] text-lg" />
+              <span className="text-sm font-medium text-gray-700 work">Get in Touch</span>
             </div>
-            <h3 className="work font-semibold text-center text-gray-500 mb-1">
-              Contact With Gmail
-            </h3>
-            <p className="text-gray-500 text-center mb-3 outfit-semibold text-xl">
-              <a
-                href="mailto:info@bdcallingacademy.com"
-                className="hover:underline"
-              >
-                info@bdcallingacademy.com
-              </a>
+            <h1 className="text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-4">
+              Connect With <span className="text-[#41bfb8]">Our Team</span>
+            </h1>
+            <p className="text-gray-500 work">
+              Have questions about our courses? Want to partner with us? We'd love to hear from you.
             </p>
-          </div>
-
-          <div className="bg-[#E1FCF9] rounded-xl p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-200">
-            <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto">
-              <FiPhone className="crd text-5xl" />
-            </div>
-            <h3 className="work font-semibold text-center text-gray-500 mb-1">
-              Contact With Phone
-            </h3>
-            <p className="text-gray-500 text-center mb-3 outfit-semibold text-xl">
-              <a href="tel:+8801321231802" className="hover:underline">
-                +88 01321231802
-              </a>
-            </p>
-          </div>
-
-          <div className="bg-[#E1FCF9] rounded-xl p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-200">
-            <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto">
-              <FiMapPin className="crd text-6xl" />
-            </div>
-            <h3 className="work font-semibold text-center text-gray-500 mb-1">
-              Location
-            </h3>
-            <address className="text-gray-500 text-center mb-3 outfit-semibold text-xl not-italic">
-              Daisy Garden, House 14 (Level-5), Block A, Main Road, Banasree,
-              Dhaka
-            </address>
           </div>
         </div>
       </section>
 
-      <section className="container mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="bg-[#E1FCF9] p-8 rounded-xl shadow-lg border work border-gray-200 transition-transform hover:shadow-xl duration-300 h-full flex flex-col justify-between">
-            <div>
-              <h2 className="text-4xl outfit font-bold mb-8">
-                Send Us a Message
-              </h2>
-              <form className="space-y-8" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-base font-medium crd mb-2"
-                    >
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none focus:border-teal-400 text-base"
-                      placeholder="John Doe"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-base font-medium crd mb-2"
-                    >
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none focus:border-teal-400 text-base"
-                      placeholder="you@example.com"
-                      required
-                    />
-                  </div>
-                </div>
+      {/* Contact Info Cards */}
+      <section className="container mx-auto px-4 lg:px-16 -mt-8 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {contactInfo.map((item, idx) => (
+            <div
+              key={idx}
+              className="group bg-white border border-gray-200 rounded-md p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+            >
+              <div
+                className="w-12 h-12 rounded-md flex items-center justify-center mb-4"
+                style={{ backgroundColor: `${item.color}15` }}
+              >
+                <item.icon className="text-xl" style={{ color: item.color }} />
+              </div>
+              <h3 className="text-sm font-medium text-gray-500 work mb-1">{item.title}</h3>
+              {item.link ? (
+                <a
+                  href={item.link}
+                  className="text-gray-800 font-semibold outfit text-sm hover:text-[#41bfb8] transition-colors"
+                >
+                  {item.value}
+                </a>
+              ) : (
+                <p className="text-gray-800 font-semibold outfit text-sm">{item.value}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="container mx-auto px-4 lg:px-16 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Contact Form */}
+          <div className="bg-white border border-gray-200 rounded-md p-8 shadow-sm">
+            <h2 className="text-2xl font-bold text-gray-800 outfit mb-6">Send Us a Message</h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-base font-medium crd mb-2"
-                  >
-                    Subject
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 work mb-1.5">
+                    Your Name
                   </label>
                   <input
                     type="text"
-                    id="subject"
-                    className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none focus:border-teal-400 text-base"
-                    placeholder="How can we help?"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm"
+                    placeholder="John Doe"
                     required
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-base font-medium crd mb-2"
-                  >
-                    Message
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 work mb-1.5">
+                    Email Address
                   </label>
-                  <textarea
-                    id="message"
-                    rows="6"
-                    className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none focus:border-teal-400 text-base"
-                    placeholder="Your message here..."
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm"
+                    placeholder="you@example.com"
                     required
-                  ></textarea>
+                  />
                 </div>
-
-                <button
-                  type="submit"
-                  className="mt-6 w-full cursor-pointer py-4 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors flex items-center justify-center space-x-2 text-lg"
-                >
-                  <FiSend />
-                  <span>Send Message</span>
-                </button>
-              </form>
-            </div>
+              </div>
+              <div>
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 work mb-1.5">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm"
+                  placeholder="How can we help?"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 work mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm resize-none"
+                  placeholder="Your message here..."
+                  required
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-all hover:shadow-lg group"
+              >
+                <LuSend className="text-lg group-hover:translate-x-1 transition-transform" />
+                <span>Send Message</span>
+              </button>
+            </form>
           </div>
 
-          <div>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8662.770468055722!2d90.41722969357912!3d23.765697600000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c754583dd209%3A0xdd0c5fcc7d2d3836!2sbdCalling%20IT%20Ltd.%20-%20Corporate%20Office!5e1!3m2!1sen!2sbd!4v1744982086149!5m2!1sen!2sbd"
-              width="100%"
-              height="500"
-              className="border-0 rounded-xl"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Global Headquarters Location"
-            />
-            <div className="bg-[#E1FCF9] p-8 rounded-xl border border-gray-200 transition-transform hover:shadow-xl duration-300 mt-4">
-              <h2 className="text-3xl font-bold mb-6">Follow Us</h2>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="https://www.facebook.com/bdcallingacademy.bd"
-                  target="_blank"
-                  className="bg-gray-100 hover:bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center transition-colors crd hover:text-blue-600"
-                  aria-label="Facebook"
-                >
-                  <FiFacebook size={20} />
-                </Link>
+          {/* Map & Social */}
+          <div className="space-y-6">
+            {/* Map */}
+            <div id="map" className="bg-white border border-gray-200 rounded-md overflow-hidden shadow-sm">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8662.770468055722!2d90.41722969357912!3d23.765697600000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c754583dd209%3A0xdd0c5fcc7d2d3836!2sbdCalling%20IT%20Ltd.%20-%20Corporate%20Office!5e1!3m2!1sen!2sbd!4v1744982086149!5m2!1sen!2sbd"
+                width="100%"
+                height="300"
+                className="border-0"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="BD Calling Academy Location"
+              />
+            </div>
 
-                <Link
-                  href="https://www.youtube.com/@bdCalling"
-                  target="_blank"
-                  className="bg-gray-100 hover:bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center transition-colors crd hover:text-sky-500"
-                  aria-label="Youtube"
-                >
-                  <FiYoutube size={20} />
-                </Link>
-
-                <Link
-                  href="https://www.linkedin.com/company/bdcallingitltd"
-                  target="_blank"
-                  className="bg-gray-100 hover:bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center transition-colors crd hover:text-blue-700"
-                  aria-label="LinkedIn"
-                >
-                  <FiLinkedin size={20} />
-                </Link>
-
-                <Link
-                  href="mailto:info@bdcallingacademy.com"
-                  className="bg-gray-100 hover:bg-green-100 w-12 h-12 rounded-full flex items-center justify-center transition-colors crd hover:text-green-600"
-                  aria-label="Email"
-                >
-                  <FiMail size={20} />
-                </Link>
-
-                <Link
-                  href="tel:+8801321231802"
-                  className="bg-gray-100 hover:bg-teal-100 w-12 h-12 rounded-full flex items-center justify-center transition-colors crd hover:text-teal-600"
-                  aria-label="Phone"
-                >
-                  <FiPhone size={20} />
-                </Link>
+            {/* Social Links */}
+            <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
+              <h3 className="text-lg font-bold text-gray-800 outfit mb-4">Follow Us</h3>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((item, idx) => (
+                  <Link
+                    key={idx}
+                    href={item.href}
+                    target="_blank"
+                    className="group w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                    aria-label={item.label}
+                  >
+                    <item.icon className="text-lg text-gray-600 group-hover:text-gray-800" style={{ color: item.color }} />
+                  </Link>
+                ))}
               </div>
+              <p className="mt-4 text-sm text-gray-500 work">
+                Stay connected with us on social media for updates, tips, and more!
+              </p>
+            </div>
+
+            {/* Quick Contact */}
+            <div className="bg-gradient-to-r from-[#41bfb8] to-[#38a89d] rounded-md p-6 text-white">
+              <h3 className="text-lg font-bold outfit mb-2">Need Quick Help?</h3>
+              <p className="text-white/80 work text-sm mb-4">
+                Chat with us directly on WhatsApp for instant support.
+              </p>
+              <a
+                href="https://wa.me/8801321231802"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#41bfb8] font-medium rounded-md hover:shadow-lg transition-all group"
+              >
+                <FaWhatsapp className="text-lg" />
+                <span>Chat on WhatsApp</span>
+                <LuArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           </div>
         </div>

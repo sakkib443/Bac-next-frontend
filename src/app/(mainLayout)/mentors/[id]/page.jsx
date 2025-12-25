@@ -2,25 +2,28 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
+import { HiOutlineBriefcase, HiOutlineAcademicCap, HiOutlineSparkles } from "react-icons/hi2";
+import { LuArrowLeft, LuMail, LuPhone, LuBadgeCheck, LuUsers, LuBookOpen } from "react-icons/lu";
+import { FaWhatsapp } from "react-icons/fa";
 
 const SingleMentor = () => {
-  const { id } = useParams(); // <-- get dynamic id from URL
+  const { id } = useParams();
   const [mentor, setMentor] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return; // wait until id is available
+    if (!id) return;
 
-    fetch("/Data/Mentors.json")
+    fetch(`https://bacdb.vercel.app/api/mentors/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to load mentors file");
+        if (!res.ok) throw new Error("Failed to load mentor");
         return res.json();
       })
-      .then((data) => {
-        const foundMentor = data.find((m) => m.id.toString() === id);
-        if (foundMentor) {
-          setMentor(foundMentor);
+      .then((result) => {
+        if (result.success && result.data) {
+          setMentor(result.data);
           window.scrollTo(0, 0);
         } else {
           setError("Mentor not found");
@@ -35,13 +38,11 @@ const SingleMentor = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-6"></div>
-          <h3 className="text-xl font-medium text-gray-800">
-            Loading mentor profile...
-          </h3>
-          <p className="text-gray-600 mt-2">We're gathering all the details for you</p>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#41bfb8] mb-4"></div>
+          <h3 className="text-lg font-medium text-gray-800 outfit">Loading mentor profile...</h3>
+          <p className="text-gray-500 text-sm work">Please wait</p>
         </div>
       </div>
     );
@@ -49,121 +50,191 @@ const SingleMentor = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Mentor Not Found</h2>
-          <p className="crd mb-6">{error}</p>
-          <button
-            onClick={() => window.history.back()}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-full transition duration-300"
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white rounded-md shadow-lg p-8 text-center border border-gray-200">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <LuUsers className="w-8 h-8 text-red-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 outfit mb-2">Mentor Not Found</h2>
+          <p className="text-gray-500 work mb-6">{error}</p>
+          <Link
+            href="/mentors"
+            className="inline-flex items-center gap-2 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium py-2.5 px-6 rounded-md transition-colors"
           >
+            <LuArrowLeft />
             Back to Mentors
-          </button>
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#ECFCFB] py-12">
-      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-8 bg-[#E1FCF9] rounded-2xl shadow-xl p-6">
-          
-          {/* Image Section */}
-          <div className="w-full lg:w-1/3 outfit">
-            <div className="relative w-full lg:h-[500px] overflow-hidden rounded-2xl lg:sticky lg:top-30">
-              <img
-                src={mentor.image}
-                alt={mentor.name}
-                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 rounded-b-2xl">
-                <h2 className="text-2xl font-bold text-white">{mentor?.name}</h2>
-                <p className="csd outfit-semibold">
-                  {mentor?.designation} {mentor?.subject && `• ${mentor.subject}`}
-                </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#e8f9f9] via-white to-[#fff8f0] border-b border-gray-200 py-4">
+        <div className="container mx-auto px-4 lg:px-16">
+          <Link
+            href="/mentors"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-[#41bfb8] transition-colors work text-sm"
+          >
+            <LuArrowLeft />
+            Back to Mentors
+          </Link>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 lg:px-16 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+
+          {/* Left - Image Section */}
+          <div className="w-full lg:w-[380px] shrink-0">
+            <div className="lg:sticky lg:top-24 space-y-4">
+              {/* Profile Image */}
+              <div className="relative bg-white border border-gray-200 rounded-md overflow-hidden shadow-sm">
+                <div className="relative h-[500px] w-full overflow-hidden">
+                  <img
+                    src={mentor.image}
+                    alt={mentor.name}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+
+                  {/* Experience Badge */}
+                  <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#41bfb8] text-white text-xs font-semibold rounded-md flex items-center gap-1.5">
+                    <LuBadgeCheck />
+                    {mentor.training_experience?.years}+ Years
+                  </div>
+
+                  {/* Name on Image */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h2 className="text-2xl font-bold text-white outfit">{mentor.name}</h2>
+                    <p className="text-white/80 text-sm work">{mentor.designation}</p>
+                  </div>
+                </div>
+
+                {/* Contact Info */}
+                <div className="p-4 space-y-3">
+                  {mentor.subject && (
+                    <span className="inline-block px-3 py-1 bg-[#F79952]/10 text-[#F79952] text-sm font-medium rounded-full">
+                      {mentor.subject}
+                    </span>
+                  )}
+
+                  {mentor.email && (
+                    <div className="flex items-center gap-3 text-sm text-gray-600 work">
+                      <div className="w-8 h-8 bg-[#41bfb8]/10 rounded-full flex items-center justify-center">
+                        <LuMail className="text-[#41bfb8] text-sm" />
+                      </div>
+                      {mentor.email}
+                    </div>
+                  )}
+
+                  {mentor.phone && (
+                    <div className="flex items-center gap-3 text-sm text-gray-600 work">
+                      <div className="w-8 h-8 bg-[#F79952]/10 rounded-full flex items-center justify-center">
+                        <LuPhone className="text-[#F79952] text-sm" />
+                      </div>
+                      {mentor.phone}
+                    </div>
+                  )}
+
+                  {/* WhatsApp Button */}
+                  <a
+                    href={`https://wa.me/88${mentor.phone || '01321231802'}?text=${encodeURIComponent(
+                      `Hello ${mentor.name}, I want to learn from you.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium rounded-md transition-colors mt-2"
+                  >
+                    <FaWhatsapp className="text-lg" />
+                    Contact via WhatsApp
+                  </a>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="w-full lg:w-2/3 lg:p-6 pl-0">
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="md:text-5xl text-4xl outfit font-bold text-gray-800">{mentor.name}</h3>
-                  <p className="text-2xl cpr font-medium outfit-semibold">{mentor.designation}</p>
-                  <div className="my-4">
-                    <div className="flex flex-wrap gap-2">
-                      {mentor.specialized_area?.map((area, idx) => (
-                        <span key={idx} className="bg-[#ECFCFB] crd border-gray-200 btn btn-sm text-sm font-medium">
-                          {area}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+          {/* Right - Content Section */}
+          <div className="flex-1 space-y-6">
+            {/* Name & Title */}
+            <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 outfit mb-2">{mentor.name}</h1>
+              <p className="text-xl text-[#F79952] font-medium outfit">{mentor.designation}</p>
+
+              {/* Specialized Areas */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {mentor.specialized_area?.map((area, idx) => (
+                  <span key={idx} className="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-full work">
+                    {area}
+                  </span>
+                ))}
               </div>
-              <p className="crd leading-relaxed work">{mentor.details}</p>
+
+              {/* About */}
+              <p className="text-gray-600 work leading-relaxed mt-4">{mentor.details}</p>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-[#ECFCFB] border border-gray-200 p-4 rounded-xl text-center">
-                <p className="text-3xl font-bold csd">{mentor.training_experience.years}+</p>
-                <p className="text-gray-600 work">Years Experience</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-white border border-gray-200 rounded-md p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-[#41bfb8]/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <LuBadgeCheck className="text-[#41bfb8] text-xl" />
+                </div>
+                <p className="text-2xl font-bold text-gray-800 outfit">{mentor.training_experience?.years}+</p>
+                <p className="text-sm text-gray-500 work">Years Experience</p>
               </div>
-              <div className="bg-[#ECFCFB] border border-gray-200 p-4 rounded-xl text-center">
-                <p className="text-3xl font-bold text-cyan-700">{mentor.training_experience.students}+</p>
-                <p className="text-gray-600 work">Students Trained</p>
+              <div className="bg-white border border-gray-200 rounded-md p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-[#F79952]/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <LuUsers className="text-[#F79952] text-xl" />
+                </div>
+                <p className="text-2xl font-bold text-gray-800 outfit">{mentor.training_experience?.students}+</p>
+                <p className="text-sm text-gray-500 work">Students Trained</p>
               </div>
-              <div className="bg-[#ECFCFB] border border-gray-200 p-4 rounded-xl text-center">
-                <p className="text-3xl font-bold csd">{mentor.specialized_area?.length || 0}</p>
-                <p className="text-gray-600 work">Specializations</p>
+              <div className="bg-white border border-gray-200 rounded-md p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <LuBookOpen className="text-purple-600 text-xl" />
+                </div>
+                <p className="text-2xl font-bold text-gray-800 outfit">{mentor.specialized_area?.length || 0}</p>
+                <p className="text-sm text-gray-500 work">Specializations</p>
               </div>
             </div>
 
-            {/* Education & Work */}
+            {/* Education & Work Experience */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="mb-8">
-                <h3 className="text-xl outfit font-bold text-gray-800 mb-3 flex items-center">
-                  <span className="w-3 h-3 bg-[#41bfb8] rounded-full mr-2"></span>
+              {/* Education */}
+              <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#41bfb8]/10 rounded-full flex items-center justify-center">
+                    <HiOutlineAcademicCap className="text-[#41bfb8] text-xl" />
+                  </div>
                   Education
                 </h3>
-                <ul className="space-y-2 work">
+                <ul className="space-y-3">
                   {mentor.education_qualification?.map((edu, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <svg
-                        className="h-5 w-5 text-[#41bfb8] mr-2 mt-0.5 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="crd">{edu}</span>
+                    <li key={idx} className="flex items-start gap-3 text-sm work">
+                      <span className="w-2 h-2 bg-[#41bfb8] rounded-full mt-2 shrink-0"></span>
+                      <span className="text-gray-600">{edu}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mb-8">
-                <h3 className="text-xl outfit font-bold text-gray-800 mb-3 flex items-center">
-                  <span className="w-3 h-3 bg-[#F79952] rounded-full mr-2"></span>
+              {/* Work Experience */}
+              <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#F79952]/10 rounded-full flex items-center justify-center">
+                    <HiOutlineBriefcase className="text-[#F79952] text-xl" />
+                  </div>
                   Work Experience
                 </h3>
-                <ul className="space-y-2 work">
+                <ul className="space-y-3">
                   {mentor.work_experience?.map((work, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <svg
-                        className="h-5 w-5 cpr mr-2 mt-0.5 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      <span className="crd">{work}</span>
+                    <li key={idx} className="flex items-start gap-3 text-sm work">
+                      <span className="w-2 h-2 bg-[#F79952] rounded-full mt-2 shrink-0"></span>
+                      <span className="text-gray-600">{work}</span>
                     </li>
                   ))}
                 </ul>
@@ -171,15 +242,21 @@ const SingleMentor = () => {
             </div>
 
             {/* Life Journey */}
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center">
-                <span className="w-3 h-3 bg-amber-500 rounded-full mr-2"></span>
-                Life Journey
-              </h3>
-              <div className="bg-[#ECFCFB] shadow-xl work border-l-4 border-yellow-400 p-4 rounded-r-lg">
-                <p className="crd leading-relaxed whitespace-pre-line">{mentor.lifeJourney}</p>
+            {mentor.lifeJourney && (
+              <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                    <HiOutlineSparkles className="text-amber-500 text-xl" />
+                  </div>
+                  Life Journey
+                </h3>
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-400 p-5 rounded-r-md">
+                  <p className="text-gray-600 work leading-relaxed whitespace-pre-line">
+                    {mentor.lifeJourney}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

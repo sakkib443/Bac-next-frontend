@@ -38,7 +38,7 @@ const EditCourse = () => {
   const [fetching, setFetching] = useState(true);
   const [categories, setCategories] = useState([]);
   const [mentors, setMentors] = useState([]);
-  
+
   const router = useRouter();
   const { id } = useParams(); // URL থেকে মঙ্গোডিবি _id নেয়
 
@@ -65,9 +65,9 @@ const EditCourse = () => {
         console.log("Fetching for ID:", id);
 
         const [catRes, mentorRes, courseRes] = await Promise.all([
-          fetch('http://localhost:5000/api/categories'),
-          fetch('http://localhost:5000/api/mentors'),
-          fetch(`http://localhost:5000/api/courses/${id}`)
+          fetch('https://bacdb.vercel.app/api/categories'),
+          fetch('https://bacdb.vercel.app/api/mentors'),
+          fetch(`https://bacdb.vercel.app/api/courses/${id}`)
         ]);
 
         const catData = await catRes.json();
@@ -76,7 +76,7 @@ const EditCourse = () => {
 
         setCategories(catData.data || []);
         setMentors(mentorData.data || []);
-        
+
         const fetchedCourse = courseData.data || courseData;
         console.log("Course Data Received:", fetchedCourse);
 
@@ -89,7 +89,7 @@ const EditCourse = () => {
             curriculum: fetchedCourse.curriculum || [],
             jobPositions: fetchedCourse.jobPositions || [],
           };
-          
+
           reset(formattedData); // এই ফাংশনটি ফর্মে ডাটা বসাবে
         }
       } catch (err) {
@@ -105,7 +105,7 @@ const EditCourse = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
+      const response = await fetch(`https://bacdb.vercel.app/api/courses/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -127,7 +127,7 @@ const EditCourse = () => {
 
   if (fetching) return (
     <div className="h-screen flex items-center justify-center bg-white">
-      <FiLoader className="animate-spin text-[#f79952]" size={35}/>
+      <FiLoader className="animate-spin text-[#f79952]" size={35} />
       <p className="ml-2 text-sm text-slate-500 font-medium uppercase tracking-widest">Loading Course Data...</p>
     </div>
   );
@@ -135,7 +135,7 @@ const EditCourse = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-poppins text-slate-700">
       <div className="max-w-5xl mx-auto pb-20">
-        
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <Link href="/dashboard/admin/courses" className="text-slate-500 flex items-center gap-2 text-xs font-bold hover:text-[#f79952] transition-all">
@@ -143,10 +143,10 @@ const EditCourse = () => {
             </Link>
             <h1 className="text-2xl font-black text-slate-900 mt-2 uppercase italic">Edit Course</h1>
           </div>
-          <button 
+          <button
             onClick={handleSubmit(onSubmit)}
             disabled={loading}
-            style={{backgroundColor: '#f79952'}} 
+            style={{ backgroundColor: '#f79952' }}
             className="text-white px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:opacity-90 disabled:bg-slate-300 transition-all"
           >
             {loading ? 'Processing...' : 'Save Changes'}
@@ -156,7 +156,7 @@ const EditCourse = () => {
         <form className="space-y-6">
           {/* Card 1 */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-5">
-            <h2 style={{color: '#41bfb8'}} className="md:col-span-3 text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">1. Identity & Classification</h2>
+            <h2 style={{ color: '#41bfb8' }} className="md:col-span-3 text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">1. Identity & Classification</h2>
             <div className="md:col-span-2">
               <label className={labelClass}>Course Title</label>
               <input {...register('title')} className={inputClass} />
@@ -166,32 +166,32 @@ const EditCourse = () => {
               <input {...register('id')} className={inputClass} readOnly />
             </div>
             <div>
-               <label className={labelClass}>Category</label>
-               <select {...register('category')} className={inputClass}>
-                 <option value="">Select Category</option>
-                 {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
-               </select>
+              <label className={labelClass}>Category</label>
+              <select {...register('category')} className={inputClass}>
+                <option value="">Select Category</option>
+                {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+              </select>
             </div>
             <div>
-               <label className={labelClass}>Mentor</label>
-               <select {...register('mentor')} className={inputClass}>
-                 <option value="">Select Mentor</option>
-                 {mentors.map(m => <option key={m._id} value={m._id}>{m.name}</option>)}
-               </select>
+              <label className={labelClass}>Mentor</label>
+              <select {...register('mentor')} className={inputClass}>
+                <option value="">Select Mentor</option>
+                {mentors.map(m => <option key={m._id} value={m._id}>{m.name}</option>)}
+              </select>
             </div>
             <div>
-               <label className={labelClass}>Delivery Type</label>
-               <select {...register('type')} className={inputClass}>
-                 <option value="Online">Online</option>
-                 <option value="Offline">Offline</option>
-                 <option value="Recorded">Recorded</option>
-               </select>
+              <label className={labelClass}>Delivery Type</label>
+              <select {...register('type')} className={inputClass}>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+                <option value="Recorded">Recorded</option>
+              </select>
             </div>
           </div>
 
           {/* Card 2 */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-5">
-            <h2 style={{color: '#41bfb8'}} className="md:col-span-4 text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">2. Metrics</h2>
+            <h2 style={{ color: '#41bfb8' }} className="md:col-span-4 text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">2. Metrics</h2>
             <div><label className={labelClass}>Fee</label><input {...register('fee')} className={inputClass} /></div>
             <div><label className={labelClass}>Duration (Months)</label><input type="number" {...register('durationMonth')} className={inputClass} /></div>
             <div><label className={labelClass}>Lectures</label><input type="number" {...register('lectures')} className={inputClass} /></div>
@@ -203,8 +203,8 @@ const EditCourse = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-2xl border shadow-sm">
               <div className="flex justify-between items-center mb-4 border-b pb-2">
-                <label style={{color: '#41bfb8'}} className="text-[10px] font-black uppercase tracking-widest italic">Curriculum</label>
-                <button type="button" onClick={() => curriculums.append('')} style={{color: '#f79952'}} className="text-[10px] font-black underline">+ ADD MODULE</button>
+                <label style={{ color: '#41bfb8' }} className="text-[10px] font-black uppercase tracking-widest italic">Curriculum</label>
+                <button type="button" onClick={() => curriculums.append('')} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD MODULE</button>
               </div>
               <div className="space-y-2">
                 {curriculums.fields.map((field, index) => (
@@ -218,14 +218,14 @@ const EditCourse = () => {
 
             <div className="bg-white p-6 rounded-2xl border shadow-sm">
               <div className="flex justify-between items-center mb-4 border-b pb-2">
-                <label style={{color: '#41bfb8'}} className="text-[10px] font-black uppercase tracking-widest italic">Job Positions</label>
-                <button type="button" onClick={() => jobs.append('')} style={{color: '#f79952'}} className="text-[10px] font-black underline">+ ADD POSITION</button>
+                <label style={{ color: '#41bfb8' }} className="text-[10px] font-black uppercase tracking-widest italic">Job Positions</label>
+                <button type="button" onClick={() => jobs.append('')} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD POSITION</button>
               </div>
               <div className="space-y-2">
                 {jobs.fields.map((f, i) => (
                   <div key={f.id} className="flex gap-2">
                     <input {...register(`jobPositions.${i}`)} className={inputClass} />
-                    <button onClick={() => jobs.remove(i)} className="text-red-400 p-2"><FiTrash2/></button>
+                    <button onClick={() => jobs.remove(i)} className="text-red-400 p-2"><FiTrash2 /></button>
                   </div>
                 ))}
               </div>
@@ -234,10 +234,10 @@ const EditCourse = () => {
 
           {/* Section 4 */}
           <div className="bg-white p-6 rounded-2xl border shadow-sm space-y-4">
-             <h2 style={{color: '#41bfb8'}} className="text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">3. Narratives</h2>
-             <div><label className={labelClass}>Target Technology</label><input {...register('technology')} className={inputClass} /></div>
-             <div><label className={labelClass}>Course Overview</label><textarea {...register('courseOverview')} rows={2} className={inputClass} /></div>
-             <div><label className={labelClass}>Detailed Info</label><textarea {...register('details')} rows={4} className={inputClass} /></div>
+            <h2 style={{ color: '#41bfb8' }} className="text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">3. Narratives</h2>
+            <div><label className={labelClass}>Target Technology</label><input {...register('technology')} className={inputClass} /></div>
+            <div><label className={labelClass}>Course Overview</label><textarea {...register('courseOverview')} rows={2} className={inputClass} /></div>
+            <div><label className={labelClass}>Detailed Info</label><textarea {...register('details')} rows={4} className={inputClass} /></div>
           </div>
         </form>
       </div>

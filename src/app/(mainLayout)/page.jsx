@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
- 
+
 import { fetchCategories } from "@/redux/categorySlice";
 import Link from "next/link";
 import Concerns from "@/components/Home/Concerns";
@@ -13,6 +13,7 @@ import SeminarAndEvent from "@/components/Home/SeminarAndEvent";
 import SuccesHistory from "@/components/Home/SuccesHistory";
 import WhatWeProvide from "@/components/Home/WhatWeProvide";
 import { fetchCoursesData } from "@/redux/CourseSlice";
+import PaymentMethod from "@/components/sheard/PaymentMethod";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="relative">
+      {/* <div className="relative">
         <div
           className="animated-bg fixed z-50 left-0 top-7/12 -translate-y-1/2 text-white  px-3 md:px-6 py-2 rounded-l-lg cursor-pointer shadow-2xl "
           style={{
@@ -57,7 +58,8 @@ const HomePage = () => {
             <Hero />
           </div>
         </div>
-      </div>
+      </div> */}
+      <Hero></Hero>
       <HomeCategory />
       <div
         className="container mx-auto rounded-2xl mb-20 bg-cover"
@@ -69,6 +71,7 @@ const HomePage = () => {
       <WhatWeProvide />
       <Concerns />
       <SuccesHistory />
+      <PaymentMethod></PaymentMethod>
     </div>
   );
 };

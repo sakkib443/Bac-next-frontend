@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories, setSelectedCategories } from "@/redux/categorySlice";
-import { IoSearchSharp } from "react-icons/io5";
+import { IoSearchSharp, IoClose } from "react-icons/io5";
 import { useSearchParams } from "next/navigation";
+import { LuFilter, LuX } from "react-icons/lu";
+import { HiOutlineSparkles } from "react-icons/hi2";
 
-const LeftCategory = ({ searchQuery, setSearchQuery }) => {
+const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedType }) => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
-  const { items: courseCategories, status, error, selectedCategories } = useSelector(
+  const { items: courseCategories, status, selectedCategories } = useSelector(
     (state) => state.categories
   );
 
@@ -16,69 +20,145 @@ const LeftCategory = ({ searchQuery, setSearchQuery }) => {
   // Handle URL category parameter
   useEffect(() => {
     const urlCategory = searchParams.get("category");
-    if (urlCategory) {
-      // If category comes from URL and it's not already selected, select it
-      if (!selectedCategories.includes(urlCategory)) {
-        dispatch(setSelectedCategories([urlCategory]));
-      }
+    if (urlCategory && !selectedCategories.includes(urlCategory)) {
+      dispatch(setSelectedCategories([urlCategory]));
     }
-  }, [searchParams, dispatch]);
+  }, [searchParams, dispatch, selectedCategories]);
 
-  const handleCheckboxChange = (categoryName) => {
+  const handleCategoryChange = (categoryName) => {
     const newSelection = selectedCategories.includes(categoryName)
       ? selectedCategories.filter((item) => item !== categoryName)
       : [...selectedCategories, categoryName];
     dispatch(setSelectedCategories(newSelection));
   };
 
-  const filteredCategories = courseCategories.filter((category) => category.name !== "All"); // show full category list (do not filter by search)
+  const clearAllFilters = () => {
+    dispatch(setSelectedCategories([]));
+    if (setSearchQuery) setSearchQuery("");
+    if (setSelectedType) setSelectedType("All");
+  };
 
+  const filteredCategories = courseCategories.filter((category) => category.name !== "All");
+  const hasActiveFilters = selectedCategories.length > 0 || searchQuery || (selectedType && selectedType !== "All");
+
+  const typeOptions = ["All", "Online", "Offline"];
 
   return (
-    <div className="w-full">
-      <div className="relative mb-6">
-        <input
-          type="text"
-          placeholder="Search categories"
-          value={searchQuery || ""}
-          onChange={(e) => setSearchQuery && setSearchQuery(e.target.value)}
-          className="w-full pl-4 pr-10 py-3 text-base crd placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F79952] focus:border-transparent transition-all duration-200"
-        />
-        <IoSearchSharp className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-xl cursor-pointer hover:text-[#F79952] transition-colors duration-200" />
+    <div className="space-y-4">
+      {/* Search Input */}
+      <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search courses..."
+            value={searchQuery || ""}
+            onChange={(e) => setSearchQuery && setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:border-[#41bfb8] focus:bg-white transition-colors work"
+          />
+          <IoSearchSharp className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              <IoClose />
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-        <h3 className="text-lg md:text-xl font-semibold text-gray-800 bg-gray-50 px-6 py-4 border-b border-gray-200">
-          Categories
-        </h3>
+      {/* Clear Filters */}
+      {hasActiveFilters && (
+        <button
+          onClick={clearAllFilters}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-md text-sm font-medium work hover:bg-red-100 transition-colors"
+        >
+          <LuX className="text-base" />
+          Clear All Filters
+        </button>
+      )}
 
-        <div className="flex flex-col gap-2 p-4">
+      {/* Course Type Filter */}
+      <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
+        <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-200">
+          <HiOutlineSparkles className="text-[#F79952]" />
+          <h3 className="font-semibold text-gray-800 outfit text-sm">Course Type</h3>
+        </div>
+        <div className="p-3 flex flex-wrap gap-2">
+          {typeOptions.map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType && setSelectedType(type)}
+              className={`px-3 py-1.5 rounded-md text-sm font-medium work transition-all duration-200 ${selectedType === type
+                  ? "bg-[#41bfb8] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Categories Filter */}
+      <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
+        <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-200">
+          <LuFilter className="text-[#41bfb8]" />
+          <h3 className="font-semibold text-gray-800 outfit text-sm">Categories</h3>
+          {selectedCategories.length > 0 && (
+            <span className="ml-auto text-xs bg-[#41bfb8] text-white px-2 py-0.5 rounded-full">
+              {selectedCategories.length}
+            </span>
+          )}
+        </div>
+
+        <div className="p-3 space-y-1  overflow-y-auto">
           {/* All Option */}
           <label
-            className={`flex items-center gap-3 cursor-pointer ${
-              selectedCategories.length === 0 ? "text-[#F79952] font-medium" : "crd hover:text-[#F79952]"
-            }`}
+            className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors ${selectedCategories.length === 0
+                ? "bg-[#41bfb8]/10 text-[#41bfb8]"
+                : "hover:bg-gray-50 text-gray-700"
+              }`}
             onClick={() => dispatch(setSelectedCategories([]))}
           >
-            <input type="checkbox" className="checkbox w-5 h-5 rounded-sm" checked={selectedCategories.length === 0} readOnly />
-            <span className="text-base md:text-lg">All</span>
+            <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${selectedCategories.length === 0 ? "border-[#41bfb8] bg-[#41bfb8]" : "border-gray-300"
+              }`}>
+              {selectedCategories.length === 0 && (
+                <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+            <span className="text-sm font-medium work">All Categories</span>
           </label>
 
-          {status === "loading" && <p>Loading...</p>}
-          {status === "failed" && <p>{error}</p>}
+          {status === "loading" && (
+            <div className="text-center py-4">
+              <div className="w-5 h-5 border-2 border-[#41bfb8] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            </div>
+          )}
+
           {status === "succeeded" &&
             filteredCategories.map((category) => (
               <label
-                key={category.id}
-                className={`flex items-center gap-3 cursor-pointer ${
-                  selectedCategories.includes(category.name)
-                    ? "text-[#F79952] font-medium"
-                    : "crd hover:text-[#F79952]"
-                }`}
-                onClick={() => handleCheckboxChange(category.name)}
+                key={category._id || category.id}
+                className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors ${selectedCategories.includes(category.name)
+                    ? "bg-[#41bfb8]/10 text-[#41bfb8]"
+                    : "hover:bg-gray-50 text-gray-700"
+                  }`}
+                onClick={() => handleCategoryChange(category.name)}
               >
-                <input type="checkbox" className="checkbox w-5 h-5 rounded-sm" checked={selectedCategories.includes(category.name)} readOnly />
-                <span className="text-base md:text-lg">{category.name}</span>
+                <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${selectedCategories.includes(category.name)
+                    ? "border-[#41bfb8] bg-[#41bfb8]"
+                    : "border-gray-300"
+                  }`}>
+                  {selectedCategories.includes(category.name) && (
+                    <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <span className="text-sm work">{category.name}</span>
               </label>
             ))}
         </div>

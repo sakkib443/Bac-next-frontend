@@ -1,13 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async fetch
+// Async fetch from backend API
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
-    const response = await fetch("/Data/courseCategory.json", { cache: "no-store" });
+    const response = await fetch("https://bacdb.vercel.app/api/categories", {
+      cache: "no-store",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
     if (!response.ok) throw new Error("Failed to fetch categories");
-    const data = await response.json();
-    return data;
+    const result = await response.json();
+    // API returns {success: true, data: [...]} so extract data array
+    return result.data || result;
   }
 );
 
@@ -15,7 +21,7 @@ const categorySlice = createSlice({
   name: "categories",
   initialState: {
     items: [],
-    selectedCategories: [], // <-- add selected categories here
+    selectedCategories: [],
     status: "idle",
     error: null,
   },

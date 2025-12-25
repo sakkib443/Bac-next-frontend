@@ -15,7 +15,7 @@ const CreateCategory = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/categories/create-category', {
+      const response = await fetch('https://bacdb.vercel.app/api/categories/create-category', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

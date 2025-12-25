@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as HiIcons from "react-icons/hi";
-import { motion } from "framer-motion";
+import { LuUsers, LuBookOpen, LuAward, LuBriefcase, LuGraduationCap, LuTrendingUp } from "react-icons/lu";
 
 const Count = () => {
     const [counters, setCounters] = useState([]);
@@ -20,15 +20,15 @@ const Count = () => {
     };
 
     const AnimatedCounter = ({ target, suffix = "" }) => {
-        const [count, setCount] = useState(1);
+        const [count, setCount] = useState(0);
 
         useEffect(() => {
             const parsedTarget = Number(target);
             if (isNaN(parsedTarget)) return;
 
-            let start = 1;
-            const duration = 1500;
-            const increment = Math.ceil(parsedTarget / 50);
+            let start = 0;
+            const duration = 2000;
+            const increment = Math.ceil(parsedTarget / 60);
             const stepTime = Math.floor(duration / (parsedTarget / increment));
 
             const counter = setInterval(() => {
@@ -47,32 +47,38 @@ const Count = () => {
         return <span>{count.toLocaleString()}{suffix}</span>;
     };
 
+    // Colors for each stat
+    const colors = ['#41bfb8', '#F79952', '#8B5CF6', '#EC4899', '#10B981', '#3B82F6'];
+
     return (
-        <div className="py-12 bg-[#ecfcfb]">
-            <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+        <section className="py-12 bg-white border-y border-gray-100">
+            <div className="container mx-auto px-4 lg:px-16">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                     {counters.map((item, index) => {
                         const Icon = getIconComponent(item?.icon);
+                        const color = colors[index % colors.length];
+
                         return (
-                            <motion.div
+                            <div
                                 key={index}
-                                className=" border-1 border-gray-200 rounded-2xl p-4 hover:shadow-md transition duration-300 flex flex-col items-center gap-2"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, delay: index * 0.1 }}
-                                viewport={{ once: true }}
+                                className="group bg-gray-50 hover:bg-white border border-gray-100 hover:border-gray-200 rounded-md p-5 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
                             >
-                                <Icon className="text-4xl text-[#41bfb8]" />
-                                <h2 className="text-2xl font-bold text-gray-600">
+                                <div
+                                    className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:scale-110"
+                                    style={{ backgroundColor: `${color}15` }}
+                                >
+                                    <Icon className="text-2xl" style={{ color: color }} />
+                                </div>
+                                <h2 className="text-2xl font-bold text-gray-800 outfit">
                                     <AnimatedCounter target={item?.count} suffix={item?.suffix || ""} />
                                 </h2>
-                                <p className="text-lg text-gray-600">{item?.label}</p>
-                            </motion.div>
+                                <p className="text-sm text-gray-500 work mt-1">{item?.label}</p>
+                            </div>
                         );
                     })}
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

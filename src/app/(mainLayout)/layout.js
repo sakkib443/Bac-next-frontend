@@ -1,6 +1,7 @@
 import Footer from '@/components/sheard/Footer';
 import Navbar from '@/components/sheard/Navbar';
 import TopHeader from '@/components/sheard/TopHeader';
+import WhatsAppButton from '@/components/sheard/WhatsAppButton';
 import React from 'react';
 
 const mainLayout = ({ children }) => {
@@ -10,6 +11,7 @@ const mainLayout = ({ children }) => {
             <Navbar></Navbar>
             {children}
             <Footer></Footer>
+            <WhatsAppButton />
         </div>
     );
 };

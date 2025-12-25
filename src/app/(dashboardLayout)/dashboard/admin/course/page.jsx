@@ -2,27 +2,30 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   FiEdit2,
   FiTrash2,
   FiPlus,
   FiSearch,
-  FiBookOpen,
+  FiBook,
   FiUser,
-  FiClock,
-  FiStar
+  FiStar,
+  FiFilter,
+  FiGrid,
+  FiList,
 } from 'react-icons/fi';
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState('grid');
 
-  /* ১. সব কোর্স ফেচ করা */
   const loadCourses = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/courses');
+      const res = await fetch('https://bacdb.vercel.app/api/courses');
       const data = await res.json();
       setCourses(Array.isArray(data) ? data : data.data || []);
     } catch (error) {
@@ -36,127 +39,190 @@ export default function CoursesPage() {
     loadCourses();
   }, []);
 
-  /* ২. কোর্স ডিলিট করার ফাংশন (API Connect) */
   const handleDelete = async (id) => {
-    // কনফার্মেশন ডায়ালগ
     if (!confirm('Are you sure you want to delete this course?')) return;
-
     try {
-      const res = await fetch(`http://localhost:5000/api/courses/${id}`, {
+      const res = await fetch(`https://bacdb.vercel.app/api/courses/${id}`, {
         method: 'DELETE',
       });
-
-      const result = await res.json();
-
       if (res.ok) {
-        // UI থেকে সাথে সাথে রিমুভ করা
         setCourses((prev) => prev.filter((course) => course._id !== id));
-        alert('Course deleted successfully! ✅');
-      } else {
-        alert(`Failed to delete: ${result.message}`);
       }
     } catch (error) {
-      console.error("Delete Error:", error);
-      alert('Network error! Could not connect to server.');
+      alert('Failed to delete course');
     }
   };
 
-  /* ফিল্টারিং লজিক */
   const filtered = courses.filter((c) =>
     c.title?.toLowerCase().includes(search.toLowerCase()) ||
     c.instructorName?.toLowerCase().includes(search.toLowerCase())
   );
 
-  return (
-    <div className="p-4 md:p-6 font-poppins bg-slate-50 min-h-screen">
-      {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-2xl font-outfit font-bold text-slate-900">Course Management</h1>
-          <p className="text-slate-500 text-xs">Manage and monitor your academic courses</p>
+  // Loading Skeleton
+  const CourseSkeleton = () => (
+    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className="h-40 bg-slate-200 animate-pulse"></div>
+      <div className="p-4 space-y-3">
+        <div className="h-4 bg-slate-200 rounded animate-pulse w-3/4"></div>
+        <div className="h-3 bg-slate-200 rounded animate-pulse w-1/2"></div>
+        <div className="flex gap-2 pt-2">
+          <div className="h-8 bg-slate-200 rounded animate-pulse flex-1"></div>
+          <div className="h-8 bg-slate-200 rounded animate-pulse flex-1"></div>
         </div>
+      </div>
+    </div>
+  );
 
+  return (
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800 outfit">Course Management</h1>
+          <p className="text-slate-500 text-sm work">Manage and monitor your academic courses</p>
+        </div>
         <Link href="/dashboard/admin/course/create">
-          <button style={{ backgroundColor: '#f79952' }} className="text-white px-5 py-2.5 rounded-xl flex items-center gap-2 font-bold text-xs shadow-lg shadow-orange-100 transition-all hover:scale-105">
-            <FiPlus size={16} /> Create Course
+          <button className="flex items-center gap-2 px-5 py-2.5 bg-[#F79952] hover:bg-[#e68a47] text-white font-medium text-sm rounded-xl shadow-lg shadow-orange-200 transition-all hover:scale-105">
+            <FiPlus size={16} />
+            Create Course
           </button>
         </Link>
       </div>
 
-      {/* SEARCH */}
-      <div className="relative mb-8 max-w-sm">
-        <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-        <input
-          placeholder="Search by title or mentor..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#f79952]/20 outline-none text-xs bg-white"
-        />
+      {/* Filters Bar */}
+      <div className="flex flex-col md:flex-row md:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200">
+        {/* Search */}
+        <div className="relative flex-1">
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            placeholder="Search courses..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-[#41bfb8]/20 focus:border-[#41bfb8] outline-none text-sm transition-all"
+          />
+        </div>
+
+        {/* View Toggle */}
+        <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg">
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-[#41bfb8]' : 'text-slate-500'}`}
+          >
+            <FiGrid size={18} />
+          </button>
+          <button
+            onClick={() => setViewMode('list')}
+            className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-[#41bfb8]' : 'text-slate-500'}`}
+          >
+            <FiList size={18} />
+          </button>
+        </div>
+
+        {/* Stats */}
+        <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-lg">
+          <FiBook className="text-[#41bfb8]" />
+          <span className="text-sm font-medium text-slate-700">{courses.length} Courses</span>
+        </div>
       </div>
 
-      {/* GRID */}
+      {/* Content */}
       {loading ? (
-        <div className="text-center py-20 font-medium text-slate-400 animate-pulse">Loading courses...</div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => <CourseSkeleton key={i} />)}
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-xl border border-slate-200">
+          <FiBook className="mx-auto text-4xl text-slate-300 mb-4" />
+          <h3 className="text-lg font-bold text-slate-800">No Courses Found</h3>
+          <p className="text-slate-500 text-sm mt-1">Try adjusting your search query</p>
+        </div>
+      ) : viewMode === 'grid' ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map((course) => (
-            <div key={course._id} className="group bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
-              
-              {/* THUMBNAIL */}
+            <div key={course._id} className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+              {/* Image */}
               <div className="relative h-40 overflow-hidden">
-                <img src={course.image} alt={course.title} className="h-full w-full object-cover transition-transform group-hover:scale-110" />
-                <div className="absolute top-2 right-2 bg-white/90 px-2 py-0.5 rounded text-[9px] font-bold text-[#41bfb8] uppercase tracking-wider shadow-sm">
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#41bfb8] text-white text-[10px] font-bold uppercase rounded-md">
                   {course.type}
                 </div>
-              </div>
-
-              {/* BODY */}
-              <div className="p-4 flex-grow flex flex-col">
-                <div className="mb-3">
-                  <h3 className="text-sm font-outfit font-bold text-slate-900 line-clamp-2 h-10 mb-1 leading-snug">
-                    {course.title}
-                  </h3>
-                  <div className="flex items-center gap-1 text-[#f79952]">
-                    <FiStar size={10} fill="#f79952" />
-                    <span className="text-[10px] font-bold">{course.rating} ({course.totalRating})</span>
-                  </div>
-                </div>
-
-                {/* DETAILS */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-[11px] text-slate-600">
-                    <FiUser size={12} className="text-[#41bfb8]" />
-                    <span className="truncate italic">{course.instructorName || course.mentor?.name}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-600">
-                    <FiBookOpen size={12} className="text-[#41bfb8]" />
-                    <span>{course.lectures} Lectures • {course.durationMonth} Months</span>
-                  </div>
-                </div>
-
-                {/* STATS */}
-                <div className="mt-auto grid grid-cols-2 gap-2 pt-3 border-t border-slate-100">
-                  <div>
-                    <p className="text-slate-400 text-[9px] uppercase font-bold tracking-tighter">Course Fee</p>
-                    <p className="text-slate-900 font-bold text-sm">{course.fee}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-slate-400 text-[9px] uppercase font-bold tracking-tighter">Enrolled</p>
-                    <p className="text-slate-900 font-bold text-[12px]">{course.totalStudentsEnroll}</p>
-                  </div>
+                <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 bg-white/90 backdrop-blur rounded text-xs font-bold text-[#F79952]">
+                  <FiStar size={10} fill="#F79952" />
+                  {course.rating}
                 </div>
               </div>
 
-              {/* ACTIONS */}
-              <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-t border-slate-100">
-                <Link href={`/dashboard/admin/course/edit/${course._id}`} className="text-amber-600 hover:text-amber-700 text-[12px] font-bold flex items-center gap-1">
-                  <FiEdit2 size={13} /> Edit
-                </Link>
-                <button 
-                  onClick={() => handleDelete(course._id)}
-                  className="text-rose-600 hover:text-rose-700 text-[12px] font-bold flex items-center gap-1"
+              {/* Content */}
+              <div className="p-4">
+                <h3 className="text-sm font-bold text-slate-800 line-clamp-2 mb-2 outfit">{course.title}</h3>
+
+                <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                  <FiUser className="text-[#41bfb8]" />
+                  <span className="truncate">{course.instructorName || course.mentor?.name || 'Unknown'}</span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
+                  <span>{course.lectures} Lectures</span>
+                  <span>{course.durationMonth} Months</span>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                  <span className="text-lg font-bold text-slate-800">{course.fee}</span>
+                  <span className="text-xs text-slate-400">{course.totalStudentsEnroll} enrolled</span>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex border-t border-slate-100">
+                <Link
+                  href={`/dashboard/admin/course/edit/${course._id}`}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 text-amber-600 hover:bg-amber-50 text-xs font-bold transition-colors"
                 >
-                  <FiTrash2 size={13} /> Delete
+                  <FiEdit2 size={14} /> Edit
+                </Link>
+                <button
+                  onClick={() => handleDelete(course._id)}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 text-rose-600 hover:bg-rose-50 text-xs font-bold transition-colors border-l border-slate-100"
+                >
+                  <FiTrash2 size={14} /> Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
+          {filtered.map((course) => (
+            <div key={course._id} className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors">
+              <img src={course.image} alt={course.title} className="w-20 h-14 object-cover rounded-lg" />
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-bold text-slate-800 truncate">{course.title}</h3>
+                <div className="flex items-center gap-4 text-xs text-slate-500 mt-1">
+                  <span>{course.type}</span>
+                  <span>{course.lectures} Lectures</span>
+                  <span>{course.durationMonth} Months</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-bold text-slate-800">{course.fee}</p>
+                <p className="text-xs text-slate-400">{course.totalStudentsEnroll} enrolled</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/dashboard/admin/course/edit/${course._id}`}
+                  className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                >
+                  <FiEdit2 size={16} />
+                </Link>
+                <button
+                  onClick={() => handleDelete(course._id)}
+                  className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                >
+                  <FiTrash2 size={16} />
                 </button>
               </div>
             </div>

@@ -1,153 +1,152 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import SectionHeading from "@/components/sheard/SectionHeading";
+import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 const seminars = [
-    {
+  {
     id: 1,
     speaker: "Sakibul Hasan",
     title: "MERN Stack Career Roadmap",
-    date: "2025-09-18",
-    time: "15:30",
+    time: "15:30 PM",
     image: "https://i.ibb.co/XZ78JQ9f/Mern-card.jpg",
+    type: "Seminar",
+    location: "Offline",
+    startsIn: "Start In A Week",
   },
   {
     id: 2,
     speaker: "Sheikh Sakibul",
     title: "Career Of Wordpress",
-    date: "2025-09-12",
-    time: "16:00",
+    time: "16:00 PM",
     image: "https://i.ibb.co/GvS6k4FJ/DM-caed.jpg",
+    type: "Seminar",
+    location: "Offline",
+    startsIn: "Start In A Week",
   },
-
   {
     id: 3,
     speaker: "Ashraf Hossain",
     title: "Digital Marketing Trends 2025",
-    date: "2025-09-25",
-    time: "16:00",
+    time: "16:00 PM",
     image: "https://i.ibb.co/GvS6k4FJ/DM-caed.jpg",
+    type: "Seminar",
+    location: "Online",
+    startsIn: "Start In A Week",
   },
   {
     id: 4,
     speaker: "Abu Sayeed",
     title: "Graphics Design With AI",
-    date: "2025-09-25",
-    time: "16:00",
+    time: "16:00 PM",
     image: "https://i.ibb.co/zWvWjS9X/GD-Card-1.jpg",
+    type: "Seminar",
+    location: "Offline",
+    startsIn: "Start In A Week",
   },
 ];
 
-// ⏱ Helper function
-const getTimeRemaining = (eventDateTime) => {
-  const total = new Date(eventDateTime).getTime() - new Date().getTime();
-  const seconds = Math.floor((total / 1000) % 60);
-  const minutes = Math.floor((total / 1000 / 60) % 60);
-  const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-  const days = Math.floor(total / (1000 * 60 * 60 * 24));
-  return { total, days, hours, minutes, seconds };
-};
-
-const SeminarAndEventCard = () => {
-  const [countdowns, setCountdowns] = useState(
-    seminars.map((event) => getTimeRemaining(`${event.date}T${event.time}`))
-  );
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdowns(
-        seminars.map((event) => getTimeRemaining(`${event.date}T${event.time}`))
-      );
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
+const EventsPage = () => {
   return (
-    <div className="w-11/12 md:w-8/12 mx-auto my-6">
-      <div className="mb-8">
-        <SectionHeading
-          title={"Events & Seminars"}
-          description={"Whether you’re a student or a professional, our seminars and events are designed to inspire, educate, and prepare you for a successful tech career. Connect with industry experts, expand your knowledge, and gain practical insights into the latest tech trends."}
-        />
-      </div>
-      <ul className="bg-[#E1FCF9] rounded-xl shadow-lg cursor-pointer ">
-        {seminars.map((event, index) => {
-          const countdown = countdowns[index];
-          return (
-            <li
+    <div className="min-h-screen bg-[#ecfcfb]">
+      {/* Hero Header */}
+      <section className="relative bg-gradient-to-br from-[#e8f9f9] via-white to-[#fff8f0] overflow-hidden border-b border-gray-200">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(65,191,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(65,191,184,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute top-10 left-10 w-60 h-60 bg-[#41bfb8]/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-60 h-60 bg-[#F79952]/10 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto px-4 lg:px-16 py-10 lg:py-12 relative z-10">
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 bg-[#F79952]/10 border border-[#F79952]/20 rounded-full">
+              <HiOutlineCalendarDays className="text-[#F79952] text-base" />
+              <span className="text-xs font-medium text-gray-700 work">Upcoming Events</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2">
+              Events & <span className="text-[#41bfb8]">Seminars</span>
+            </h1>
+            <p className="text-gray-500 work text-sm leading-relaxed">
+              Connect with industry experts and gain practical insights into the latest tech trends.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Events List */}
+      <section className="container mx-auto px-4 lg:px-16 pb-12">
+        <div className="space-y-3">
+          {seminars.map((event, index) => (
+            <div
               key={event.id}
-              className="flex flex-col md:flex-row  md:items-center border-b border-gray-200 shadow md:shadow-none rounded-b-2xl gap-4 px-4 py-3 hover:shadow-md transition crd"
+              className="bg-[#E1FCF9] rounded-lg border border-gray-200 py-4 px-6 hover:shadow-md transition-shadow"
             >
-              <div className="text-3xl font-mono text-gray-300 w-10 text-center">
-                {String(index + 1).padStart(2, "0")}
-              </div>
-              <div className="md:w-36 md:h-24 relative rounded-lg overflow-hidden flex-shrink-0">
-                <Image
-                  src={event.image}
-                  alt={event.speaker}
-                  fill
-                  sizes="(max-width: 768px) 150px, 144px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <div className="work flex gap-3">
-                  <button className="btn btn-xs bg-transparent crd">
-                    Offline
-                  </button>
-                  <button className="btn btn-xs  bg-transparent crd">
-                    Seminar
-                  </button>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800">
-                  {event.title}
-                </h3>
-                <p className="text-md text-gray-500">{event.speaker}</p>
-              </div>
+              <div className="flex items-center gap-6">
+                {/* Number */}
+                <span className="text-2xl font-bold text-[#41bfb8] outfit w-8">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
 
-              <div className="flex-1 flex">
-                <div className="flex flex-col md:justify-center  md:text-center">
-                  <p className="outfit-semibold">{event.time} PM</p>
-                  {/* <p className="text-gray-400 work">{event.date}</p> */}
-                  <p className="text-gray-400 work">Start In A Week</p>
+                {/* Image */}
+                <div className="relative w-24 h-16 rounded-md overflow-hidden shrink-0">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-              </div>
-              <div className=""></div>
 
-              <div className="text-center border-l md:pl-12 border-gray-300 md:pr-8 ">
-                <div>
-                  <a
-                    href={`https://wa.me/8801321231802?text=${encodeURIComponent(
-                      `আমি "${event.title}" সেমিনারটি করতে চাই।`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <button className="mb-1 px-4 py-2 rounded-md bg-[#41bfb8] text-white font-semibold hover:bg-[#36a9a1] transition">
-                      Register
-                    </button>
-                  </a>
+                {/* Info */}
+                <div className="flex-1">
+                  {/* Badges */}
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs text-gray-500 work">
+                      {event.location}
+                    </span>
+                    <span className="text-gray-300">|</span>
+                    <span className="text-xs text-[#41bfb8] font-medium work">
+                      {event.type}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-lg font-bold text-gray-800 outfit">
+                    {event.title}
+                  </h3>
+
+                  {/* Speaker */}
+                  <p className="text-sm text-gray-500 work">
+                    {event.speaker}
+                  </p>
                 </div>
-                {/* <div className="font-mono translate-y-3 text-gray-800">
-                  {countdown.total > 0 ? (
-                    <>
-                      <span>{countdown.days}d </span>
-                      <span>{countdown.hours}h </span>
-                      <span>{countdown.minutes}m </span>
-                      <span>{countdown.seconds}s</span>
-                    </>
-                  ) : (
-                    <span className="text-red-500">Event Started</span>
-                  )}
-                </div> */}
+
+                {/* Time & Start */}
+                <div className="text-center hidden md:block">
+                  <p className="text-lg font-semibold text-gray-700 outfit">
+                    {event.time}
+                  </p>
+                  <p className="text-sm text-gray-400 work">
+                    {event.startsIn}
+                  </p>
+                </div>
+
+                {/* Register Button */}
+                <a
+                  href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+                    `আমি "${event.title}" সেমিনারটিতে যোগ দিতে চাই।`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2 border border-gray-300 text-gray-600 hover:bg-[#41bfb8] hover:text-white hover:border-[#41bfb8] font-medium text-sm rounded-md transition-all"
+                >
+                  Register
+                </a>
               </div>
-            </li>
-          );
-        })}
-      </ul>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
 
-export default SeminarAndEventCard;
+export default EventsPage;

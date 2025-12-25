@@ -54,9 +54,9 @@ const EditMentor = () => {
     const fetchMentor = async () => {
       try {
         setFetching(true);
-        const res = await fetch(`http://localhost:5000/api/mentors/${id}`);
+        const res = await fetch(`https://bacdb.vercel.app/api/mentors/${id}`);
         const result = await res.json();
-        
+
         if (res.ok) {
           reset(result.data || result);
         } else {
@@ -76,7 +76,7 @@ const EditMentor = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/mentors/${id}`, {
+      const response = await fetch(`https://bacdb.vercel.app/api/mentors/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -118,7 +118,7 @@ const EditMentor = () => {
             </Link>
             <h1 className="text-2xl font-outfit font-bold text-slate-900">Update Mentor Details</h1>
           </div>
-          <button 
+          <button
             onClick={handleSubmit(onSubmit)}
             disabled={loading}
             style={{ backgroundColor: '#f79952' }}
@@ -132,7 +132,7 @@ const EditMentor = () => {
           {/* Card 1: Core Information */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-5">
             <div style={{ color: '#41bfb8' }} className="md:col-span-2 text-[11px] font-extrabold border-b pb-2 uppercase tracking-[2px]">Core Identity & Contact</div>
-            
+
             <div className="space-y-1">
               <label className={labelClass}>Mentor Unique ID</label>
               <input {...register('id')} className={inputClass} readOnly />
@@ -167,7 +167,7 @@ const EditMentor = () => {
               <input {...register('subject')} className={inputClass} placeholder="Subject Name" />
               {errors.subject && <p className={errorClass}>{errors.subject.message}</p>}
             </div>
-            
+
             <div className="md:col-span-2 space-y-1">
               <label className={labelClass}>Profile Image URL</label>
               <input {...register('image')} className={inputClass} placeholder="https://..." />
@@ -194,7 +194,7 @@ const EditMentor = () => {
 
           {/* Dynamic List Sections (Arrays) */}
           <div className="grid grid-cols-1 gap-6">
-            {[ 
+            {[
               { title: 'Specialized Areas', fields: specFields, name: 'specialized_area', ph: 'Skill...' },
               { title: 'Education Background', fields: eduFields, name: 'education_qualification', ph: 'Degree...' },
               { title: 'Professional Work History', fields: workFields, name: 'work_experience', ph: 'Company/Role...' }
@@ -202,9 +202,9 @@ const EditMentor = () => {
               <div key={section.name} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                   <label style={{ color: '#41bfb8' }} className="text-[11px] font-extrabold uppercase tracking-[2px]">{section.title}</label>
-                  <button 
-                    type="button" 
-                    onClick={() => section.fields.append('')} 
+                  <button
+                    type="button"
+                    onClick={() => section.fields.append('')}
                     style={{ color: '#f79952' }}
                     className="text-[10px] flex items-center gap-1 font-black hover:bg-orange-50 px-2 py-1 rounded"
                   >
@@ -214,9 +214,9 @@ const EditMentor = () => {
                 <div className="space-y-3">
                   {section.fields.fields.map((field, index) => (
                     <div key={field.id} className="flex gap-2 group">
-                      <input 
-                        {...register(`${section.name}.${index}`)} 
-                        className={inputClass} 
+                      <input
+                        {...register(`${section.name}.${index}`)}
+                        className={inputClass}
                         placeholder={section.ph}
                       />
                       {section.fields.fields.length > 1 && (

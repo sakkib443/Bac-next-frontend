@@ -4,13 +4,30 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { BiCategory, BiMenu, BiX } from "react-icons/bi";
-import { LuBookOpenCheck } from "react-icons/lu";
+import { LuBookOpenCheck, LuChevronDown, LuLogOut, LuLayoutDashboard } from "react-icons/lu";
+import { HiOutlineSparkles, HiOutlineUserCircle } from "react-icons/hi2";
 
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    closeMobileMenu();
+    window.location.href = "/login";
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,152 +55,246 @@ const Navbar = () => {
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
     { href: "/certification", label: "Certification" },
-    // { href: "/phoenix", label: "Phoenix" }
   ];
 
   return (
     <>
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <div
-        className={`fixed lg:hidden top-0 left-0 w-[70%] bg-white shadow-lg z-40 transform transition-all duration-300 ease-in-out ${
-          isMobileMenuOpen
-            ? "translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
-        }`}
-        style={{
-          height: "calc(100vh - 80px)",
-          marginTop: "68px",
-        }}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+        onClick={closeMobileMenu}
+      />
+
+      {/* Mobile Menu Panel */}
+      <div
+        className={`fixed lg:hidden top-0 left-0 w-[80%] max-w-[320px] h-full bg-gradient-to-b from-white to-gray-50 shadow-2xl z-50 transform transition-transform duration-500 ease-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
-        <div className="p-4 flex flex-col h-full">
-          <nav className="flex-1">
-            <ul className="space-y-4">
-              {menu.map(({ href, label }) => (
+        {/* Mobile Menu Header */}
+        <div className="flex items-center justify-between p-5 border-b border-gray-100">
+          <Link href="/" onClick={closeMobileMenu}>
+            <img className="w-32" src="/images/logo.png" alt="BD Calling Academy" />
+          </Link>
+          <button
+            onClick={closeMobileMenu}
+            className="w-10 h-10 flex items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+          >
+            <BiX className="text-2xl text-gray-600" />
+          </button>
+        </div>
+
+        {/* Mobile Menu Content */}
+        <div className="p-5 flex flex-col h-[calc(100%-80px)]">
+          <nav className="flex-1 overflow-y-auto">
+            <ul className="space-y-1">
+              {menu.map(({ href, label }, index) => (
                 <li key={href}>
                   <Link
                     href={href}
                     onClick={closeMobileMenu}
-                    className={`block px-4 py-3 rounded-lg transition-all duration-300 text-lg ${
-                      pathname === href
-                        ? "bg-[#41bfb8] text-white"
-                        : "hover:bg-gray-100"
-                    }`}
+                    className={`group flex items-center justify-between px-4 py-3.5 rounded-md transition-all duration-300 ${pathname === href
+                      ? "bg-gradient-to-r from-[#41bfb8]/20 to-[#41bfb8]/5 text-[#0f766e] border-l-4 border-[#41bfb8]"
+                      : "hover:bg-gray-100 text-gray-700 border-l-4 border-transparent hover:border-gray-200"
+                      }`}
+                    style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    {label}
+                    <span className="font-medium text-[15px]">{label}</span>
+                    {pathname === href && (
+                      <span className="w-2 h-2 rounded-full bg-[#41bfb8]"></span>
+                    )}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <Link href="/courses" onClick={closeMobileMenu}>
-            <div className="mt-auto mb-6">
-              <div className="flex gap-2 items-center justify-center bg-[#41bfb8] px-4 py-3 rounded-md cursor-pointer transition-all hover:brightness-110">
-                <LuBookOpenCheck className="text-2xl text-white font-semibold" />
-                <p className="text-white text-[16px] font-semibold">
-                  GetCourse
-                </p>
-              </div>
-            </div>
-          </Link>
-        </div>
-      </div>
-
-      {/* Main Navbar */}
-      <div
-        className={`border-b px-3 border-gray-200 font-poppins sticky top-0 z-50 bg-white transition-all duration-500 ease-in-out ${
-          isSticky ? "shadow-md opacity-100 translate-y-0" : "shadow-none"
-        }`}
-      >
-        <div className="container mx-auto">
-          <div className="container sm:px-0 mx-auto py-4 text-[16px] flex flex-col md:flex-row justify-between items-center transition-all duration-500 ease-in-out">
-            {/* Logo and Category */}
-            <div className="w-full lg:w-auto flex justify-between items-center">
-              <div className="flex gap-8">
-                <Link
-                  href="/"
-                  className="md:border-r border-gray-400 flex gap-8 pr-8 2xl:pr-12"
-                >
-                  <img
-                    className="w-32 lg:w-44"
-                    src="/images/logo.png"
-                    alt="Logo"
-                  />
-                </Link>
-
-                <div className="relative group hidden md:flex items-center gap-2 dark:text-black/70 cursor-pointer">
-                  <BiCategory className="text-3xl" />
-                  <p className="text-[18px]">Category</p>
-
-                  <div className="absolute top-full mt-2 left-0 w-48 bg-white dark:bg-gray-200 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                    <ul className="py-2 px-4 space-y-2 text-black">
-                      {courseTypes.map((type) => (
-                        <li
-                          key={type}
-                          onClick={() => handleCourseTypeClick(type)}
-                          className="hover:text-[#41BFB8] cursor-pointer py-2 px-2 rounded hover:bg-gray-100 transition-colors"
-                        >
-                          {type} Course
-                        </li>
-                      ))}
-                    </ul>
+          {/* Mobile CTA Button / User Profile */}
+          <div className="mt-6 space-y-4">
+            {user ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#41bfb8]">
+                    {user.image ? (
+                      <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#41bfb8] to-[#F79952] flex items-center justify-center text-white font-bold">
+                        {(user.name || user.gmail || "U").charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-gray-900 truncate">{user.name || user.gmail?.split('@')[0]}</p>
+                    <p className="text-[11px] text-gray-500 truncate">
+                      {user.role === 'admin' ? 'Administrator' : (user.role || 'Student Account')}
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Mobile menu button */}
-              <button
-                className="lg:hidden text-3xl focus:outline-none cursor-pointer"
-                onClick={toggleMobileMenu}
-              >
-                {isMobileMenuOpen ? <BiX /> : <BiMenu />}
-              </button>
-            </div>
-
-            {/* Navigation Links - Desktop */}
-            <div className="hidden lg:flex lg:gap-4 2xl:gap-8 font-poppins">
-              {menu.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`relative pb-1 transition-all duration-300 
-                    hover:text-[#41bfb8] text-[16px]
-                    ${
-                      pathname === href
-                        ? "text-[#F79952] after:scale-x-100"
-                        : "text-black after:scale-x-0"
-                    } 
-                    after:content-[''] after:absolute after:left-0 after:bottom-0 
-                    after:w-full after:h-[2px] after:bg-[#F79952] after:transition-transform 
-                    after:duration-300 after:scale-x-0 after:origin-left hover:after:scale-x-100`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-
-            {/* GetCourse Button - Desktop */}
-            <Link href="/courses">
-              <div className="hidden lg:block">
-                <div className="flex gap-2 text-xl items-center bg-[#41bfb8] px-4 py-2 rounded-md cursor-pointer transition-all hover:brightness-110">
-                  <LuBookOpenCheck className="text-2xl text-white font-semibold" />
-                  <p className="text-white text-[16px] font-semibold">
-                    GetCourse
-                  </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard/user"}
+                    onClick={closeMobileMenu}
+                    className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl border border-gray-100 bg-white hover:bg-gray-50 transition-colors group"
+                  >
+                    <LuLayoutDashboard className="text-xl text-[#41bfb8] group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-bold text-gray-600">Dashboard</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl border border-red-100 bg-red-50/30 hover:bg-red-50 transition-colors group"
+                  >
+                    <LuLogOut className="text-xl text-red-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-bold text-red-600">Logout</span>
+                  </button>
                 </div>
               </div>
-            </Link>
+            ) : (
+              <div className="flex flex-col gap-3">
+                <Link href="/login" onClick={closeMobileMenu} className="flex items-center justify-center gap-2 py-4 rounded-xl border border-gray-100 bg-white text-[15px] font-bold text-gray-700 hover:bg-gray-50 transition-colors">
+                  <HiOutlineUserCircle className="text-xl" />
+                  Sign In
+                </Link>
+                <Link href="/register" onClick={closeMobileMenu} className="block text-center py-4 rounded-xl bg-[#41bfb8] text-white text-[15px] font-bold shadow-lg shadow-teal-100">
+                  Get Started
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/10 backdrop-blur-sm z-30 lg:hidden"
-          onClick={closeMobileMenu}
-        ></div>
-      )}
+      {/* Main Navbar */}
+      <nav
+        className={`outfit sticky top-0 z-40 transition-all duration-500 ease-out ${isSticky
+          ? "bg-white/95 backdrop-blur-xl shadow-lg shadow-gray-200/50 border-b border-gray-100"
+          : "bg-white border-b border-gray-100"
+          }`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-[80px]">
+            {/* Logo Section */}
+            <div className="flex items-center gap-6 lg:gap-10">
+              <Link href="/" className="relative group">
+                <img
+                  className="w-32 lg:w-40 transition-transform duration-300 group-hover:scale-105"
+                  src="/images/logo.png"
+                  alt="BD Calling Academy"
+                />
+              </Link>
+
+              {/* Category Dropdown - Desktop */}
+              <div className="hidden md:block h-8 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent"></div>
+
+              <div className="relative group hidden md:flex items-center gap-2 cursor-pointer">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-gray-50 hover:bg-gray-100 border border-gray-100 hover:border-gray-200 transition-all duration-300">
+                  <BiCategory className="text-2xl text-[#41bfb8]" />
+                  <span className="text-[15px] font-medium text-gray-700">Category</span>
+                  <LuChevronDown className="text-gray-400 group-hover:rotate-180 transition-transform duration-300" />
+                </div>
+
+                {/* Dropdown Menu */}
+                <div className="absolute top-full mt-3 left-0 w-56 bg-white rounded-md shadow-xl shadow-gray-200/50 border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-300 z-50 overflow-hidden">
+                  <div className="p-2">
+                    {courseTypes.map((type, index) => (
+                      <button
+                        key={type}
+                        onClick={() => handleCourseTypeClick(type)}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-md text-left hover:bg-gradient-to-r hover:from-[#41bfb8]/10 hover:to-transparent transition-all duration-200 group/item"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#41bfb8] to-[#F79952] opacity-0 group-hover/item:opacity-100 transition-opacity"></span>
+                        <span className="text-[14px] text-gray-600 group-hover/item:text-gray-900 font-medium transition-colors">
+                          {type} Course
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="h-1 bg-gradient-to-r from-[#41bfb8] via-[#F79952] to-[#41bfb8]"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Links - Desktop */}
+            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+              {menu.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`relative px-4 py-2 font-medium text-[15px] transition-all duration-300 ${pathname === href
+                    ? "text-[#41bfb8]"
+                    : "text-gray-600 hover:text-[#41bfb8]"
+                    }`}
+                >
+                  {label}
+
+                  {/* Simple Underline Indicator */}
+                  <span
+                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#41bfb8] transition-all duration-300 ${pathname === href ? "w-6" : "w-0 group-hover:w-4"
+                      }`}
+                  ></span>
+                </Link>
+              ))}
+            </div>
+
+            {/* CTA Button & Mobile Toggle */}
+            <div className="flex items-center gap-4">
+              {/* Get Course Button - Desktop */}
+              <Link href="/courses" className="hidden lg:block">
+                <div className="relative group overflow-hidden rounded-md">
+                  {/* Gradient Background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#41bfb8] via-[#2dd4bf] to-[#41bfb8] bg-[length:200%_100%] group-hover:animate-[shimmer_2s_linear_infinite] transition-all"></div>
+
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute inset-0 bg-[#41bfb8] blur-xl opacity-40"></div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="relative flex gap-2 items-center px-5 py-2.5">
+                    <LuBookOpenCheck className="text-xl text-white group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="text-white font-semibold text-[14px] tracking-wide">
+                      Get Course
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                className="lg:hidden relative w-11 h-11 flex items-center justify-center rounded-md bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-all duration-300"
+                onClick={toggleMobileMenu}
+              >
+                <div className="relative w-5 h-4 flex flex-col justify-between">
+                  <span
+                    className={`w-full h-0.5 bg-gray-600 rounded-full transition-all duration-300 origin-center ${isMobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
+                      }`}
+                  ></span>
+                  <span
+                    className={`w-full h-0.5 bg-gray-600 rounded-full transition-all duration-300 ${isMobileMenuOpen ? "opacity-0 scale-x-0" : ""
+                      }`}
+                  ></span>
+                  <span
+                    className={`w-full h-0.5 bg-gray-600 rounded-full transition-all duration-300 origin-center ${isMobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                      }`}
+                  ></span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Shimmer Animation Keyframe */}
+      <style jsx>{`
+        @keyframes shimmer {
+          0% {
+            background-position: 200% 0;
+          }
+          100% {
+            background-position: -200% 0;
+          }
+        }
+      `}</style>
     </>
   );
 };

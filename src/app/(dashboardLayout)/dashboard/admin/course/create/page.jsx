@@ -71,8 +71,8 @@ const CreateCourse = () => {
     const fetchData = async () => {
       try {
         const [catRes, mentorRes] = await Promise.all([
-          fetch('http://localhost:5000/api/categories'),
-          fetch('http://localhost:5000/api/mentors')
+          fetch('https://bacdb.vercel.app/api/categories'),
+          fetch('https://bacdb.vercel.app/api/mentors')
         ]);
         const catData = await catRes.json();
         const mentorData = await mentorRes.json();
@@ -86,7 +86,7 @@ const CreateCourse = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/courses/create-course', {
+      const response = await fetch('https://bacdb.vercel.app/api/courses/create-course', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -112,12 +112,20 @@ const CreateCourse = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-poppins">
       <div className="max-w-5xl mx-auto pb-20">
-        
+
+        {/* Back Navigation */}
+        <Link href="/dashboard/admin/course" className="inline-flex items-center gap-2 text-slate-500 hover:text-[#41bfb8] text-sm mb-6 transition-colors font-medium">
+          <FiArrowLeft /> Back to Courses
+        </Link>
+
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-outfit font-bold text-slate-900">Create Course</h1>
-          <button onClick={handleSubmit(onSubmit)} disabled={loading} style={{ backgroundColor: '#f79952' }} className="text-white px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:opacity-90 disabled:opacity-50 transition-all">
-            {loading ? 'Publishing...' : 'Publish Course'}
+          <div>
+            <h1 className="text-2xl font-outfit font-bold text-slate-900">Create New Course</h1>
+            <p className="text-slate-500 text-sm mt-1">Fill in the details to publish a new course</p>
+          </div>
+          <button onClick={handleSubmit(onSubmit)} disabled={loading} className="flex items-center gap-2 bg-[#F79952] hover:bg-[#e68a47] text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg transition-all disabled:opacity-50">
+            {loading ? 'Publishing...' : <><FiSave /> Publish Course</>}
           </button>
         </div>
 
@@ -132,7 +140,7 @@ const CreateCourse = () => {
         <form className="space-y-8">
           {/* 1. Basic Info */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-5">
-            <h2 style={{color: '#41bfb8'}} className="md:col-span-3 text-xs font-black uppercase border-b pb-2 italic">General Details</h2>
+            <h2 style={{ color: '#41bfb8' }} className="md:col-span-3 text-xs font-black uppercase border-b pb-2 italic">General Details</h2>
             <div className="md:col-span-2">
               <label className={labelClass}>Course Title</label>
               <input {...register('title')} className={inputClass} placeholder="MERN Stack Masterclass" />
@@ -167,7 +175,7 @@ const CreateCourse = () => {
 
           {/* 2. Pricing & Metrics */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-5">
-            <h2 style={{color: '#41bfb8'}} className="md:col-span-4 text-xs font-black uppercase border-b pb-2 italic">Pricing & Metrics</h2>
+            <h2 style={{ color: '#41bfb8' }} className="md:col-span-4 text-xs font-black uppercase border-b pb-2 italic">Pricing & Metrics</h2>
             <div><label className={labelClass}>Course Fee</label><input {...register('fee')} className={inputClass} /></div>
             <div><label className={labelClass}>Type</label><select {...register('type')} className={inputClass}><option value="Online">Online</option><option value="Offline">Offline</option><option value="Recorded">Recorded</option></select></div>
             <div><label className={labelClass}>Rating</label><input type="number" step="0.1" {...register('rating')} className={inputClass} /></div>
@@ -176,7 +184,7 @@ const CreateCourse = () => {
             <div><label className={labelClass}>Lectures</label><input type="number" {...register('lectures')} className={inputClass} /></div>
             <div><label className={labelClass}>Duration (Months)</label><input type="number" {...register('durationMonth')} className={inputClass} /></div>
             <div><label className={labelClass}>Start Date</label><input {...register('courseStart')} className={inputClass} /></div>
-            
+
             {/* Added missing Total Exam and Project */}
             <div><label className={labelClass}>Total Exams</label><input type="number" {...register('totalExam')} className={inputClass} /></div>
             <div><label className={labelClass}>Total Projects</label><input type="number" {...register('totalProject')} className={inputClass} /></div>
@@ -187,13 +195,13 @@ const CreateCourse = () => {
             {/* Curriculum Section */}
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <label style={{color: '#41bfb8'}} className="text-xs font-bold uppercase italic">Course Curriculum</label>
-                <button type="button" onClick={() => curriculums.append('')} style={{color: '#f79952'}} className="text-[10px] font-black underline">+ ADD MODULE</button>
+                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">Course Curriculum</label>
+                <button type="button" onClick={() => curriculums.append('')} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD MODULE</button>
               </div>
               <div className="space-y-3">
                 {curriculums.fields.map((field, index) => (
                   <div key={field.id} className="flex gap-2">
-                    <input {...register(`curriculum.${index}`)} className={inputClass} placeholder={`Module ${index+1}`} />
+                    <input {...register(`curriculum.${index}`)} className={inputClass} placeholder={`Module ${index + 1}`} />
                     <button type="button" onClick={() => curriculums.remove(index)} className="text-red-400 p-2"><FiTrash2 /></button>
                   </div>
                 ))}
@@ -203,8 +211,8 @@ const CreateCourse = () => {
             {/* Course Includes Section */}
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <label style={{color: '#41bfb8'}} className="text-xs font-bold uppercase italic">What's Included</label>
-                <button type="button" onClick={() => includes.append({ icon: 'FiCheck', text: '' })} style={{color: '#f79952'}} className="text-[10px] font-black underline">+ ADD BENEFIT</button>
+                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">What's Included</label>
+                <button type="button" onClick={() => includes.append({ icon: 'FiCheck', text: '' })} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD BENEFIT</button>
               </div>
               <div className="space-y-3">
                 {includes.fields.map((field, index) => (
@@ -222,14 +230,14 @@ const CreateCourse = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <label style={{color: '#41bfb8'}} className="text-xs font-bold uppercase italic">Software You'll Learn</label>
-                <button type="button" onClick={() => softwares.append('')} style={{color: '#f79952'}} className="text-[10px] font-black underline">+ ADD</button>
+                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">Software You'll Learn</label>
+                <button type="button" onClick={() => softwares.append('')} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD</button>
               </div>
               <div className="space-y-2">
                 {softwares.fields.map((f, i) => (
                   <div key={f.id} className="flex gap-2">
                     <input {...register(`softwareYoullLearn.${i}`)} className={inputClass} />
-                    <button onClick={() => softwares.remove(i)}><FiTrash2 className="text-red-400"/></button>
+                    <button onClick={() => softwares.remove(i)}><FiTrash2 className="text-red-400" /></button>
                   </div>
                 ))}
               </div>
@@ -237,14 +245,14 @@ const CreateCourse = () => {
 
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <label style={{color: '#41bfb8'}} className="text-xs font-bold uppercase italic">Job Positions</label>
-                <button type="button" onClick={() => jobs.append('')} style={{color: '#f79952'}} className="text-[10px] font-black underline">+ ADD</button>
+                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">Job Positions</label>
+                <button type="button" onClick={() => jobs.append('')} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD</button>
               </div>
               <div className="space-y-2">
                 {jobs.fields.map((f, i) => (
                   <div key={f.id} className="flex gap-2">
                     <input {...register(`jobPositions.${i}`)} className={inputClass} />
-                    <button onClick={() => jobs.remove(i)}><FiTrash2 className="text-red-400"/></button>
+                    <button onClick={() => jobs.remove(i)}><FiTrash2 className="text-red-400" /></button>
                   </div>
                 ))}
               </div>
@@ -253,7 +261,7 @@ const CreateCourse = () => {
 
           {/* 5. Narratives */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-            <h2 style={{color: '#41bfb8'}} className="text-xs font-black uppercase border-b pb-2 italic">Detailed Descriptions</h2>
+            <h2 style={{ color: '#41bfb8' }} className="text-xs font-black uppercase border-b pb-2 italic">Detailed Descriptions</h2>
             <div><label className={labelClass}>Technology (Comma Separated)</label><input {...register('technology')} className={inputClass} /></div>
             <div><label className={labelClass}>Course Overview</label><textarea {...register('courseOverview')} className={inputClass} rows={2} /></div>
             <div><label className={labelClass}>Full Course Details</label><textarea {...register('details')} className={inputClass} rows={4} /></div>

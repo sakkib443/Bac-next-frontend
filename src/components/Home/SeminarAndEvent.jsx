@@ -1,77 +1,150 @@
- 
-import { LuBookOpenCheck } from "react-icons/lu";
-import { LuAlarmClockMinus } from "react-icons/lu";
+"use client";
+
+import { useEffect, useState } from "react";
+import { LuAlarmClockMinus, LuCalendarDays, LuUsers, LuArrowRight } from "react-icons/lu";
 import { PiCertificateThin } from "react-icons/pi";
-import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import { HiOutlineComputerDesktop, HiOutlineSparkles } from "react-icons/hi2";
 import Link from "next/link";
- 
 
 const SeminarAndEvent = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   return (
-    <>
-      <div
-        className="flex lg:flex-row flex-col justify-center items-center gap-12 border crd border-gray-200 bg-cover  container mx-auto bg-[#e8f9f9] py-16 rounded-2xl"
-        style={{ backgroundImage: `url("/images/bg1.png")` }}
-      >
-        <div className="lg:w-6/12">
-          <div className="flex justify-end ">
-            {" "}
-            <img className="md:w-[650px] px-4 md:px-0  " src="/images/seminar02.png" alt="" />
-          </div>
-        </div>
-        <div className="lg:w-6/12 container">
-          <div className="lg:w-[550px] px-6 md:px-0">
-            <div>
-              <div className="flex items-center gap-2 border border-gray-200 py-1 px-2 pr-5 rounded-4xl work w-fit">
-                <div className=" rounded-full p-3 bg-[#D8F7F6]">
-                  <LuAlarmClockMinus />
+    <section className="relative py-16 lg:py-20 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#e8f9f9] via-white to-[#e8f9f9]"></div>
+      <div className="absolute top-10 right-10 w-72 h-72 bg-[#41bfb8]/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#F79952]/10 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-4 lg:px-16 relative z-10">
+        <div className="flex lg:flex-row flex-col justify-center items-center gap-12 lg:gap-16">
+
+          {/* Left - Image */}
+          <div className={`flex-1 w-full transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+            <div className="relative">
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -left-4 w-24 h-24 bg-[#41bfb8]/20 rounded-md -z-10"></div>
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-[#F79952]/20 rounded-md -z-10"></div>
+
+              {/* Main Image */}
+              <div className="relative rounded-md overflow-hidden shadow-2xl">
+                <img
+                  className="w-full h-auto object-cover"
+                  src="/images/seminar02.png"
+                  alt="Seminar & Events"
+                />
+
+                {/* Overlay Badge */}
+                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-md px-4 py-3 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-[#41bfb8] to-[#38a89d] rounded-md flex items-center justify-center">
+                      <LuCalendarDays className="text-white text-lg" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-800 outfit">100+</p>
+                      <p className="text-xs text-gray-500 work">Events Completed</p>
+                    </div>
+                  </div>
                 </div>
-                <p>To know Us Better</p>
               </div>
-              <h1 className="outfit-semibold lg:text-[40px] md:text-[30px] text-2xl my-2 md:my-0 ">
-                Let's Explore the
-                <span className="csd"> World of IT</span> <br />
-              </h1>
-              <p className="work crd mt-2">
-                Whether you're a student or a working professional, our interactive seminars and industry events are crafted to educate, motivate, and equip you for a successful career in the tech industry. Gain valuable insights from experienced professionals, stay updated with emerging technology trends, and build the knowledge you need to thrive in today’s digital economy.
-              </p>
             </div>
+          </div>
 
-            <div className="mt-4">
-              {/* Seminar Section */}
-              <Link href="/events">
-                <div className="border border-gray-300 py-4 hover:shadow-md px-4 rounded-md flex items-center gap-3 cursor-pointer transition-all duration-300">
-                  <div className="rounded-full p-3 bg-[#D8F7F6] w-fit">
-                    <PiCertificateThin className="text-5xl" />
+          {/* Right - Content */}
+          <div className={`flex-1 w-full transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            <div className="max-w-lg">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-[#D8F7F6] flex items-center justify-center">
+                  <LuAlarmClockMinus className="text-[#41bfb8]" />
+                </div>
+                <span className="text-sm font-medium text-gray-700 work">To Know Us Better</span>
+              </div>
+
+              {/* Heading */}
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit-semibold text-gray-800 mb-4">
+                Let's Explore the
+                <span className="text-[#41bfb8]"> World of IT</span>
+              </h2>
+
+              {/* Description */}
+              <p className="text-gray-600 work text-sm sm:text-base leading-relaxed mb-6">
+                Whether you're a student or a working professional, our interactive seminars and
+                industry events are crafted to educate, motivate, and equip you for a successful
+                career in the tech industry. Gain valuable insights from experienced professionals.
+              </p>
+
+              {/* Event Cards */}
+              <div className="space-y-4">
+                {/* Seminar Card */}
+                <Link href="/events" className="block group">
+                  <div className="relative bg-white border border-gray-200 rounded-md p-4 flex items-center gap-4 transition-all duration-300 hover:shadow-xl hover:border-[#41bfb8]/30 hover:-translate-y-1">
+                    <div className="absolute top-0 left-0 w-0 group-hover:w-full h-1 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] rounded-t-md transition-all duration-500"></div>
+                    <div className="w-14 h-14 rounded-md bg-gradient-to-br from-[#41bfb8]/10 to-[#41bfb8]/5 flex items-center justify-center shrink-0">
+                      <PiCertificateThin className="text-3xl text-[#41bfb8]" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg text-gray-800 outfit-semibold group-hover:text-[#41bfb8] transition-colors">
+                        Join Our Seminar
+                      </h3>
+                      <p className="text-sm text-gray-500 work">
+                        Unlock your potential with guidance from industry leaders.
+                      </p>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-[#41bfb8] flex items-center justify-center transition-all duration-300">
+                      <LuArrowRight className="text-gray-400 group-hover:text-white transition-colors" />
+                    </div>
                   </div>
+                </Link>
+
+                {/* Events Card */}
+                <Link href="/events" className="block group">
+                  <div className="relative bg-white border border-gray-200 rounded-md p-4 flex items-center gap-4 transition-all duration-300 hover:shadow-xl hover:border-[#F79952]/30 hover:-translate-y-1">
+                    <div className="absolute top-0 left-0 w-0 group-hover:w-full h-1 bg-gradient-to-r from-[#F79952] to-[#f59e0b] rounded-t-md transition-all duration-500"></div>
+                    <div className="w-14 h-14 rounded-md bg-gradient-to-br from-[#F79952]/10 to-[#F79952]/5 flex items-center justify-center shrink-0">
+                      <HiOutlineComputerDesktop className="text-3xl text-[#F79952]" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg text-gray-800 outfit-semibold group-hover:text-[#F79952] transition-colors">
+                        Enjoy Our Events
+                      </h3>
+                      <p className="text-sm text-gray-500 work">
+                        Build your network through meaningful connections.
+                      </p>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-[#F79952] flex items-center justify-center transition-all duration-300">
+                      <LuArrowRight className="text-gray-400 group-hover:text-white transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+              {/* Stats */}
+              <div className="flex gap-6 mt-6 pt-6 border-t border-gray-200">
+                <div className="flex items-center gap-2">
+                  <LuUsers className="text-[#41bfb8] text-xl" />
                   <div>
-                    <p className="outfit-semibold text-xl">Join Our Seminar</p>
-                    <p className="work">
-                      Unlock your potential with guidance from industry leaders.
-                    </p>
+                    <p className="text-lg font-bold text-gray-800 outfit">5000+</p>
+                    <p className="text-xs text-gray-500 work">Attendees</p>
                   </div>
                 </div>
-              </Link>
-
-              {/* Workshop Section */}
-              <Link href="/events">
-                <div className="border border-gray-300 py-4 px-4 hover:shadow-md rounded-md flex items-center gap-3 mt-4 cursor-pointer transition-all duration-300">
-                  <div className="rounded-full p-3 bg-[#D8F7F6] w-fit">
-                    <HiOutlineComputerDesktop className="text-5xl" />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <HiOutlineSparkles className="text-[#F79952] text-xl" />
                   <div>
-                    <p className="outfit-semibold text-xl">Enjoy Our Events</p>
-                    <p className="work">
-                      Build your network through meaningful connections.
-                    </p>
+                    <p className="text-lg font-bold text-gray-800 outfit">50+</p>
+                    <p className="text-xs text-gray-500 work">Expert Speakers</p>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

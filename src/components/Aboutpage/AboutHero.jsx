@@ -1,80 +1,111 @@
- 
 import Image from "next/image";
+import { HiOutlineSparkles } from "react-icons/hi2";
+import { LuArrowRight, LuTarget, LuUsers, LuTrendingUp } from "react-icons/lu";
+import Link from "next/link";
 
 const AboutHero = () => {
   return (
-    <div className="pt-10 bg-[#ecfcfb] ">
-      <div className="mx-auto container px-4 lg:px-12">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 ">
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="overflow-hidden ">
-              <div className="h-full w-full">
+    <section className="relative bg-gradient-to-br from-[#e8f9f9] via-white to-[#fff8f0] overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(65,191,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(65,191,184,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-[#41bfb8]/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#F79952]/10 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-4 lg:px-16 py-12 lg:py-16 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          {/* Left - Original Image Layout */}
+          <div className="w-full lg:w-1/2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Large Image Left */}
+              <div className="relative h-80 md:h-[400px] rounded-md overflow-hidden shadow-lg group">
                 <Image
                   src="/images/aboutpage/02.jpg"
-                  alt="02.jpg"
-                  width={700}
-                  height={400}
+                  alt="BD Calling Academy"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-            </div>
-            <div className="grid grid-rows-1 md:grid-rows-2 gap-6 md:gap-4">
-              <div className="overflow-hidden rounded-lg">
-                <Image
-                  src="/images/aboutpage/022.jpg"
-                  alt="02.jpg"
-                  width={700}
-                  height={400}
-                />
-              </div>
-              <div className="overflow-hidden rounded-lg">
-                <Image
-                  src="/images/aboutpage/033.jpg"
-                  alt="02.jpg"
-                  width={700}
-                  height={400}
-                />
+
+              {/* Two Stacked Images Right */}
+              <div className="grid grid-rows-2 gap-4">
+                <div className="relative h-[190px] rounded-md overflow-hidden shadow-lg group">
+                  <Image
+                    src="/images/aboutpage/022.jpg"
+                    alt="Training Session"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="relative h-[190px] rounded-md overflow-hidden shadow-lg group">
+                  <Image
+                    src="/images/aboutpage/033.jpg"
+                    alt="Students"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div className="w-full flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <h2 className="text-4xl outfit crd">
-                Our Dream
-                <span className="cpr"> Our Purpose</span>
-              </h2>
-              <p className="text-lg font-semibold csd capitalize  outfit-semibold">
-                Hub of skill development. We are committed to building a skilled
-                and digitally empowered Bangladesh.
+
+          {/* Right - Content */}
+          <div className="w-full lg:w-1/2">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm">
+              <HiOutlineSparkles className="text-[#F79952] text-lg" />
+              <span className="text-sm font-medium text-gray-700 work">About Us</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-4">
+              Our Dream, <span className="text-[#41bfb8]">Our Purpose</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-lg font-semibold text-[#F79952] outfit mb-4">
+              Hub of skill development. We are committed to building a skilled and digitally empowered Bangladesh.
+            </p>
+
+            {/* Description */}
+            <div className="space-y-4 text-gray-600 work text-sm leading-relaxed">
+              <p>
+                Our courses cover a wide range of in-demand IT fields, including web development, software development, networking, cybersecurity, database management, multimedia, programming, marketing, and design.
+              </p>
+              <p>
+                At Bdcalling Academy, we believe in practical learning, industry-relevant training, and a supportive community. Our mission is to bridge the skills gap, foster innovation, and create opportunities for the next generation of digital pioneers.
               </p>
             </div>
-            <div className="flex flex-col gap-4 text-[#414042] work">
-              <p>
-                Our courses cover a wide range of in-demand IT fields, including
-                web development, software development, networking,
-                cybersecurity, database management, multimedia, programming,
-                marketing, and design. Whether you’re a student, professional,
-                entrepreneur, or homemaker looking to upskill, our flexible
-                training programs are designed to help you achieve your goals.
-              </p>
-              <p>
-                At Bdcalling Academy, we believe in practical learning,
-                industry-relevant training, and a supportive community. Our
-                mission is to bridge the skills gap, foster innovation, and
-                create opportunities for the next generation of digital
-                pioneers.
-              </p>
-              <p>
-                We’re the best place to build your IT career! We offer a variety
-                of expert-led courses to boost your tech skills and help you
-                grow. Learn from real-world professionals, gain hands-on
-                experience, and turn your dreams into reality. Start your
-                journey with Bdcalling Academy today!
-              </p>
+
+            {/* Features */}
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              <div className="text-center p-3 bg-white border border-gray-100 rounded-md shadow-sm">
+                <LuTarget className="text-2xl text-[#41bfb8] mx-auto mb-1" />
+                <p className="text-xs text-gray-600 work">Practical Training</p>
+              </div>
+              <div className="text-center p-3 bg-white border border-gray-100 rounded-md shadow-sm">
+                <LuUsers className="text-2xl text-[#F79952] mx-auto mb-1" />
+                <p className="text-xs text-gray-600 work">Expert Mentors</p>
+              </div>
+              <div className="text-center p-3 bg-white border border-gray-100 rounded-md shadow-sm">
+                <LuTrendingUp className="text-2xl text-purple-500 mx-auto mb-1" />
+                <p className="text-xs text-gray-600 work">Career Growth</p>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="mt-6">
+              <Link
+                href="/courses"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-all hover:shadow-lg work group"
+              >
+                <span>Explore Courses</span>
+                <LuArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

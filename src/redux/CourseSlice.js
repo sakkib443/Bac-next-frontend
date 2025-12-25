@@ -1,13 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async fetch
+// Async fetch from backend API
 export const fetchCoursesData = createAsyncThunk(
   "courses/fetchCoursesData",
   async () => {
-    const response = await fetch("/Data/Courses.json", { cache: "no-store" });
+    const response = await fetch("https://bacdb.vercel.app/api/courses", {
+      cache: "no-store",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
     if (!response.ok) throw new Error("Failed to fetch courses");
-    const data = await response.json();
-    return data;
+    const result = await response.json();
+    // API returns {success: true, data: [...]} so extract data array
+    return result.data || result;
   }
 );
 
@@ -21,7 +27,7 @@ const courseSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCoursesData.pending, (state) => { state.loading = true; })
+      .addCase(fetchCoursesData.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(fetchCoursesData.fulfilled, (state, action) => {
         state.loading = false;
         state.courses = action.payload;
