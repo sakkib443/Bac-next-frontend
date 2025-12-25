@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { HiOutlineSparkles } from "react-icons/hi2";
-import { LuSearch, LuDownload, LuEye, LuAward, LuUser, LuBookOpen, LuHash } from "react-icons/lu";
+import { LuSearch, LuDownload, LuEye, LuAward, LuUser, LuBookOpen, LuHash, LuArrowRight } from "react-icons/lu";
 
 const CertificationPage = () => {
   const [users, setUsers] = useState([]);
@@ -219,7 +220,7 @@ const CertificationPage = () => {
                 </div>
                 <h3 className="text-lg font-medium text-gray-700 outfit mb-2">No Certificates Found</h3>
                 <p className="text-gray-400 work text-sm">
-                  We couldn't find any certificates matching your search criteria.
+                  We couldn&apos;t find any certificates matching your search criteria.
                 </p>
               </div>
             ) : (
@@ -246,12 +247,12 @@ const CertificationPage = () => {
                     </div>
 
                     {/* Details */}
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center justify-between text-sm">
+                    <div className="space-y-2 mb-4 text-sm">
+                      <div className="flex items-center justify-between">
                         <span className="text-gray-500 work">Course</span>
                         <span className="font-medium text-gray-700">{user.courseName}</span>
                       </div>
-                      <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center justify-between">
                         <span className="text-gray-500 work">Batch</span>
                         <span className="font-medium text-gray-700">{user.batchName}</span>
                       </div>
@@ -282,6 +283,22 @@ const CertificationPage = () => {
         </div>
       </section>
 
+      {/* Footer Banner */}
+      <section className="container mx-auto px-4 lg:px-16 pt-6 pb-4">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 px-4 text-center md:flex-row md:justify-between md:text-left">
+          <h2 className="text-2xl font-bold text-orange-400 font-Inter sm:text-3xl">
+            Register for Today&apos;s Free Seminar
+          </h2>
+          <Link
+            href="#"
+            className="flex items-center gap-2 rounded-full px-12 py-4 bg-white text-[#41bfb8] font-bold hover:shadow-lg transition-all"
+          >
+            Join Now
+            <LuArrowRight />
+          </Link>
+        </div>
+      </section>
+
       {/* Info Section */}
       <section className="container mx-auto px-4 lg:px-16 pb-12">
         <div className="bg-gradient-to-r from-[#41bfb8] to-[#38a89d] rounded-md p-8 text-white">
@@ -289,7 +306,7 @@ const CertificationPage = () => {
             <div>
               <h3 className="text-xl font-bold outfit mb-2">Need Help Finding Your Certificate?</h3>
               <p className="text-white/80 work text-sm">
-                Contact our support team if you're having trouble locating your certificate.
+                Contact our support team if you&apos;re having trouble locating your certificate.
               </p>
             </div>
             <a

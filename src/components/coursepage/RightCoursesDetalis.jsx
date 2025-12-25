@@ -50,8 +50,11 @@ const RightCoursesDetalis = ({ searchQuery }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (urlType && ["Online", "Offline", "Recorded"].includes(urlType)) setSelectedType(urlType);
-    else setSelectedType("All");
+    if (urlType && ["Online", "Offline", "Recorded"].includes(urlType)) {
+      setTimeout(() => setSelectedType(urlType), 0);
+    } else {
+      setTimeout(() => setSelectedType("All"), 0);
+    }
   }, [urlType]);
 
   // Get category name from ID
@@ -125,8 +128,8 @@ const RightCoursesDetalis = ({ searchQuery }) => {
                 key={type}
                 onClick={() => setSelectedType(type)}
                 className={`px-3 py-1.5 rounded-md text-sm font-medium work transition-all duration-200 ${selectedType === type
-                    ? "bg-[#41bfb8] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-[#41bfb8] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
               >
                 {type}

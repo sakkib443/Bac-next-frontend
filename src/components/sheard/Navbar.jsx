@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { BiCategory, BiMenu, BiX } from "react-icons/bi";
@@ -17,7 +18,7 @@ const Navbar = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setTimeout(() => setUser(JSON.parse(storedUser)), 0);
     }
   }, []);
 
@@ -26,7 +27,7 @@ const Navbar = () => {
     localStorage.removeItem("user");
     setUser(null);
     closeMobileMenu();
-    window.location.href = "/login";
+    router.replace("/login");
   };
 
   useEffect(() => {
@@ -74,6 +75,7 @@ const Navbar = () => {
         {/* Mobile Menu Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <Link href="/" onClick={closeMobileMenu}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="w-32" src="/images/logo.png" alt="BD Calling Academy" />
           </Link>
           <button
@@ -116,6 +118,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
                   <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#41bfb8]">
                     {user.image ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-[#41bfb8] to-[#F79952] flex items-center justify-center text-white font-bold">
@@ -176,6 +179,7 @@ const Navbar = () => {
             {/* Logo Section */}
             <div className="flex items-center gap-6 lg:gap-10">
               <Link href="/" className="relative group">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="w-32 lg:w-40 transition-transform duration-300 group-hover:scale-105"
                   src="/images/logo.png"

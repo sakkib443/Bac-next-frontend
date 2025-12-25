@@ -255,6 +255,7 @@ export default function AdminDashboard() {
                   <div key={course._id || idx} className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors">
                     <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0">
                       {course.image ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
                         <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-[#41bfb8] to-[#F79952] flex items-center justify-center text-white font-bold">
@@ -296,6 +297,7 @@ export default function AdminDashboard() {
                   <div key={mentor._id || idx} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
                       {mentor.image ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
                         <img src={mentor.image} alt={mentor.name} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-[#41bfb8] to-[#F79952] flex items-center justify-center text-white font-bold text-sm">

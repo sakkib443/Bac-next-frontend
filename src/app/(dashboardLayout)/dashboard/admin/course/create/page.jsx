@@ -114,8 +114,9 @@ const CreateCourse = () => {
       <div className="max-w-5xl mx-auto pb-20">
 
         {/* Back Navigation */}
-        <Link href="/dashboard/admin/course" className="inline-flex items-center gap-2 text-slate-500 hover:text-[#41bfb8] text-sm mb-6 transition-colors font-medium">
-          <FiArrowLeft /> Back to Courses
+        <Link href="/dashboard/admin/course" className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-orange-50 text-[#F79952] font-semibold hover:bg-orange-100 transition-colors"
+        >
+          <FiArrowLeft /> Back to Course&apos;s
         </Link>
 
         {/* Header */}
@@ -211,7 +212,7 @@ const CreateCourse = () => {
             {/* Course Includes Section */}
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">What's Included</label>
+                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">What&apos;s Included</label>
                 <button type="button" onClick={() => includes.append({ icon: 'FiCheck', text: '' })} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD BENEFIT</button>
               </div>
               <div className="space-y-3">
@@ -230,7 +231,7 @@ const CreateCourse = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">Software You'll Learn</label>
+                <label style={{ color: '#41bfb8' }} className="text-xs font-bold uppercase italic">Software You&apos;ll Learn</label>
                 <button type="button" onClick={() => softwares.append('')} style={{ color: '#f79952' }} className="text-[10px] font-black underline">+ ADD</button>
               </div>
               <div className="space-y-2">

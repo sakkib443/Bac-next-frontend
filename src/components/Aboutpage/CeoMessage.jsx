@@ -117,12 +117,14 @@ const CeoMessage = () => {
                 {/* Heading */}
                 <h4 className={`text-lg font-bold outfit mb-2 transition-colors duration-300 ${activeIndex === idx ? "text-[#41bfb8]" : "text-white/80 group-hover:text-[#41bfb8]"
                   }`}>
-                  "{msg.heading}"
+                  &quot;{msg.heading}&quot;
                 </h4>
 
                 {/* Message */}
-                <p className="text-white/60 work text-sm leading-relaxed">
-                  {msg.message}
+                <p className="text-gray-600 leading-relaxed italic relative z-10">
+                  &quot;Empowering individuals with the right skills is the key to
+                  unlocking global opportunities. At BD Calling Academy, we
+                  don&apos;t just teach; we prepare you for the future.&quot;
                 </p>
               </div>
 

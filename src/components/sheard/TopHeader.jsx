@@ -17,7 +17,7 @@ const TopHeader = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setTimeout(() => setUser(JSON.parse(storedUser)), 0);
     }
 
     // Close dropdown on click away
@@ -140,6 +140,7 @@ const TopHeader = () => {
                   >
                     <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#41bfb8]/50 group-hover:border-[#41bfb8] transition-colors">
                       {user.image ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
                         <img
                           src={user.image}
                           alt={user.name || "User"}

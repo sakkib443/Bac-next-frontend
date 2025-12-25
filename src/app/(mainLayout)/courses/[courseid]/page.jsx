@@ -18,7 +18,7 @@ const SingleCourse = () => {
   const params = useParams();
   const courseId = params.courseid;
   const dispatch = useDispatch();
-  
+
   const { courses = [] } = useSelector((state) => state.courses || {});
   const [activeTab, setActiveTab] = useState("overview");
   const [course, setCourse] = useState(null);
@@ -31,8 +31,10 @@ const SingleCourse = () => {
   useEffect(() => {
     if (courses && courses.length > 0) {
       const foundCourse = courses.find((c) => c.id == courseId);
-      setCourse(foundCourse);
-      setPopularCourses(courses.filter((c) => c.id != courseId).slice(0, 2));
+      setTimeout(() => {
+        setCourse(foundCourse);
+        setPopularCourses(courses.filter((c) => c.id != courseId).slice(0, 2));
+      }, 0);
     }
   }, [courses, courseId]);
 
@@ -165,31 +167,28 @@ const SingleCourse = () => {
                 <div className="text-gray-600">
                   <div className="flex gap-4 rounded-md border-gray-300 py-3 px-4">
                     <button
-                      className={`px-5 py-2.5 rounded-md transition-all border border-gray-300 shadow-none duration-300 cursor-pointer ${
-                        activeTab === "overview"
+                      className={`px-5 py-2.5 rounded-md transition-all border border-gray-300 shadow-none duration-300 cursor-pointer ${activeTab === "overview"
                           ? "bg-[#43c3bc] text-white shadow-none border-[#43c3bc]"
                           : "bg-white crd hover:bg-gray-50 shadow-md"
-                      }`}
+                        }`}
                       onClick={() => setActiveTab("overview")}
                     >
                       Overview
                     </button>
                     <button
-                      className={`px-5 py-2.5 rounded-lg font-medium shadow-none border border-gray-300 text-sm transition-all duration-300 ease-in-out cursor-pointer ${
-                        activeTab === "curriculum"
+                      className={`px-5 py-2.5 rounded-lg font-medium shadow-none border border-gray-300 text-sm transition-all duration-300 ease-in-out cursor-pointer ${activeTab === "curriculum"
                           ? "bg-[#43c3bc] text-white shadow-none border-[#43c3bc]"
                           : "bg-white crd hover:bg-gray-50 shadow-md"
-                      }`}
+                        }`}
                       onClick={() => setActiveTab("curriculum")}
                     >
                       Curriculum
                     </button>
                     <button
-                      className={`px-5 py-2.5 rounded-md shadow-none border border-gray-300 transition-all duration-300 cursor-pointer ${
-                        activeTab === "instructor"
+                      className={`px-5 py-2.5 rounded-md shadow-none border border-gray-300 transition-all duration-300 cursor-pointer ${activeTab === "instructor"
                           ? "bg-[#43c3bc] text-white shadow-none border-[#43c3bc]"
                           : "bg-white crd hover:bg-gray-50 shadow-md"
-                      }`}
+                        }`}
                       onClick={() => setActiveTab("instructor")}
                     >
                       Instructor
@@ -328,7 +327,7 @@ const SingleCourse = () => {
                   </h3>
                   <div className="flex flex-col gap-6">
                     {popularCourses.map((item) => <CourseCard key={item.id} course={item}></CourseCard>
-                    
+
                     )}
                   </div>
                 </div>

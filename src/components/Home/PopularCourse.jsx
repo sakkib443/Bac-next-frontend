@@ -10,7 +10,8 @@ const PopularCourse = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -39,8 +40,8 @@ const PopularCourse = () => {
 
           {/* Description */}
           <p className="mt-4 text-gray-500 work text-sm sm:text-base max-w-3xl mx-auto leading-relaxed">
-            At Bdcalling Academy, we provide skill-based training programs customized to meet the evolving needs of today's job market.
-            Whether you're just beginning your career or looking to upgrade your professional expertise,
+            At Bdcalling Academy, we provide skill-based training programs customized to meet the evolving needs of today&apos;s job market.
+            Whether you&apos;re just beginning your career or looking to upgrade your professional expertise,
             our flexible learning options are designed to help you stay competitive.
           </p>
 

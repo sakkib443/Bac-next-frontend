@@ -183,8 +183,8 @@ export default function FeedbackPage() {
             </div>
 
             {/* Message */}
-            <p className="text-slate-700 mb-4 leading-relaxed">
-              "{feedback.message}"
+            <p className="text-slate-600 leading-relaxed italic">
+              &quot;{feedback.message || "No message provided"}&quot;
             </p>
 
             {/* Footer */}

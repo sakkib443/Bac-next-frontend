@@ -36,7 +36,8 @@ const WhatWeProvide = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -57,7 +58,7 @@ const WhatWeProvide = () => {
             What We <span className="text-[#41bfb8]">Provide</span>
           </h2>
           <p className="mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto">
-            We're committed to elevating your learning journey with special features and support that empower you to grow without limitations.
+            We&apos;re committed to elevating your learning journey with special features and support that empower you to grow without limitations.
           </p>
         </div>
 

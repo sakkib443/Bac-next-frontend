@@ -10,7 +10,8 @@ const SeminarAndEvent = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -67,13 +68,13 @@ const SeminarAndEvent = () => {
 
               {/* Heading */}
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit-semibold text-gray-800 mb-4">
-                Let's Explore the
+                Let&apos;s Explore the
                 <span className="text-[#41bfb8]"> World of IT</span>
               </h2>
 
               {/* Description */}
               <p className="text-gray-600 work text-sm sm:text-base leading-relaxed mb-6">
-                Whether you're a student or a working professional, our interactive seminars and
+                Whether you&apos;re a student or a working professional, our interactive seminars and
                 industry events are crafted to educate, motivate, and equip you for a successful
                 career in the tech industry. Gain valuable insights from experienced professionals.
               </p>

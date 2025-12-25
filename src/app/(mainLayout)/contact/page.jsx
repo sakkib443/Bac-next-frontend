@@ -73,7 +73,7 @@ const ContactPage = () => {
               <LuSend className="text-green-600 text-2xl" />
             </div>
             <h3 className="text-xl font-bold text-gray-800 outfit mb-2">Message Sent!</h3>
-            <p className="text-gray-500 work mb-6">We'll get back to you within 24 hours.</p>
+            <p className="text-gray-500 work mb-6">We&apos;ll get back to you within 24 hours.</p>
             <button
               onClick={() => setMessageSent(false)}
               className="px-6 py-2.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-colors"
@@ -95,8 +95,9 @@ const ContactPage = () => {
             <h1 className="text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-4">
               Connect With <span className="text-[#41bfb8]">Our Team</span>
             </h1>
-            <p className="text-gray-500 work">
-              Have questions about our courses? Want to partner with us? We'd love to hear from you.
+            <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed work">
+              Have questions about our courses or careers? We&apos;re here to help!
+              Reach out and let&apos;s start a conversation about your future.
             </p>
           </div>
         </div>

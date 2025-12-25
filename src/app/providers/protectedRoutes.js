@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children, role }) => {
         router.replace("/login");
         return;
       }
-      setIsAuthorized(true);
+      setTimeout(() => setIsAuthorized(true), 0);
     } catch (e) {
       router.replace("/login");
     }
