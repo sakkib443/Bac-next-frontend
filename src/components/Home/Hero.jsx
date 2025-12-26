@@ -46,7 +46,7 @@ const Hero = () => {
             <div className="absolute -bottom-20 left-1/3 w-72 h-72 bg-gradient-to-br from-[#41bfb8]/15 to-purple-200/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
 
             {/* Floating Geometric Shapes */}
-            <div className="absolute top-20 right-[15%] w-16 h-16 border-2 border-[#41bfb8]/20 rounded-lg animate-float rotate-12"></div>
+            <div className="absolute bottom-20 right-[5%] w-16 h-16 border-2 border-[#41bfb8]/20 rounded-lg animate-float rotate-12"></div>
             <div className="absolute top-40 left-[10%] w-12 h-12 border-2 border-[#F79952]/20 rounded-full animate-float animation-delay-1000"></div>
             <div className="absolute bottom-32 right-[25%] w-10 h-10 bg-[#41bfb8]/10 rounded-lg animate-float animation-delay-2000 rotate-45"></div>
             <div className="absolute top-1/2 left-[5%] w-8 h-8 border-2 border-[#41bfb8]/15 rounded-full animate-float animation-delay-3000"></div>
@@ -203,10 +203,10 @@ const Hero = () => {
                         <div className="relative">
                             {/* Decorative Elements - Ice Blocks */}
                             <div className="absolute -top-3 -left-3 w-20 h-20 bg-[#b2dfdb]/30 rounded-lg -z-10 backdrop-blur-sm border border-white/20"></div>
-                            <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-[#ffccbc]/20 rounded-lg -z-10 backdrop-blur-sm border border-white/20"></div>
+                            <div className="absolute -top-3 -right-3 w-24 h-24 bg-[#ffccbc]/20 rounded-lg -z-10 backdrop-blur-sm border border-white/20"></div>
 
-                            {/* Floating Badge - Top */}
-                            <div className="absolute -top-4 -right-2 z-20 bg-white/90 backdrop-blur-md shadow-lg rounded-md px-3 py-2 border border-white/50">
+                            {/* Floating Badge - Moved to Bottom Right */}
+                            <div className="absolute -bottom-4 -right-2 z-20 bg-white/90 backdrop-blur-md shadow-lg rounded-md px-3 py-2 border border-white/50">
                                 <div className="flex items-center gap-2">
                                     <div className="w-7 h-7 bg-gradient-to-br from-[#F79952] to-[#f59e0b] rounded-md flex items-center justify-center">
                                         <FiAward className="text-white text-xs" />
