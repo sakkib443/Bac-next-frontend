@@ -49,7 +49,7 @@ const CourseContent = () => {
         <div className="container mx-auto px-4 lg:px-16 py-10 lg:py-12 relative z-10">
           <div className="text-center max-w-2xl mx-auto">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 bg-[#41bfb8]/10 border border-[#41bfb8]/20 rounded-full">
+            <div className="inline-flex  items-center gap-2 mb-3 px-3 py-1.5 bg-[#41bfb8]/10 border border-[#41bfb8]/20 rounded-full">
               <HiOutlineAcademicCap className="text-[#41bfb8] text-base" />
               <span className={`text-xs font-medium text-gray-700 work ${bengaliClass}`}>{t("coursesPage.badge")}</span>
             </div>
