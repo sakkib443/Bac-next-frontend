@@ -9,10 +9,15 @@ import { FiYoutube } from "react-icons/fi";
 import { LuFacebook, LuChevronDown } from "react-icons/lu";
 import { FaInstagram } from "react-icons/fa";
 import { HiOutlineUserCircle } from "react-icons/hi2";
+import { useLanguage } from "@/context/LanguageContext";
 
 const TopHeader = () => {
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { t, language } = useLanguage();
+
+  // Apply Bengali font class when language is Bengali
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -154,10 +159,10 @@ const TopHeader = () => {
                     </div>
                     <div className="hidden sm:block text-left">
                       <p className="text-white text-[12px] font-semibold leading-tight max-w-[100px] truncate">
-                        {user.name || user.gmail?.split('@')[0] || "User"}
+                        {user.firstName || user.name || user.email?.split('@')[0] || "User"}
                       </p>
-                      <p className="text-white/60 text-[10px] uppercase tracking-tighter">
-                        {user.role === 'admin' ? 'Admin Panel' : (user.role || 'Student Account')}
+                      <p className={`text-white/60 text-[10px] uppercase tracking-tighter ${bengaliClass}`}>
+                        {user.role === 'admin' ? t("topHeader.adminPanel") : user.role === 'mentor' ? 'Mentor' : 'Student'}
                       </p>
                     </div>
                     <LuChevronDown className={`text-white/60 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
@@ -170,20 +175,20 @@ const TopHeader = () => {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div className="p-4 border-b border-gray-50 bg-gray-50/50">
-                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Signed in as</p>
+                        <p className={`text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1 ${bengaliClass}`}>{t("topHeader.signedInAs")}</p>
                         <p className="text-[13px] font-bold text-gray-800 truncate">{user.gmail}</p>
                       </div>
 
                       <div className="p-2">
                         <Link
-                          href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard/user"}
+                          href={user.role === 'admin' ? "/dashboard/admin" : user.role === 'mentor' ? "/dashboard/mentor" : "/dashboard/user"}
                           onClick={() => setIsDropdownOpen(false)}
                           className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#41bfb8]/10 hover:text-[#41bfb8] transition-all group/item"
                         >
                           <div className="p-2 rounded-lg bg-gray-100 group-hover/item:bg-[#41bfb8]/20 group-hover/item:text-[#41bfb8] transition-colors">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                           </div>
-                          <span className="text-[14px] font-semibold">Dashboard</span>
+                          <span className={`text-[14px] font-semibold ${bengaliClass}`}>{t("navbar.dashboard")}</span>
                         </Link>
 
                         <button
@@ -193,7 +198,7 @@ const TopHeader = () => {
                           <div className="p-2 rounded-lg bg-red-50 group-hover/logout:bg-red-100 transition-colors">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                           </div>
-                          <span className="text-[14px] font-semibold">Logout</span>
+                          <span className={`text-[14px] font-semibold ${bengaliClass}`}>{t("navbar.logout")}</span>
                         </button>
                       </div>
                     </div>
@@ -205,9 +210,9 @@ const TopHeader = () => {
                     href="/login"
                     className="relative px-5 py-1.5 rounded-full bg-white/5 border border-white/20 text-white/90 hover:bg-white/10 hover:border-white/30 hover:text-white transition-all duration-300 overflow-hidden group"
                   >
-                    <span className="relative z-10 flex items-center gap-1.5">
+                    <span className={`relative z-10 flex items-center gap-1.5 ${bengaliClass}`}>
                       <HiOutlineUserCircle className="text-[16px]" />
-                      Login
+                      {t("topHeader.login")}
                     </span>
                   </Link>
 
@@ -219,8 +224,8 @@ const TopHeader = () => {
                     <span className="absolute inset-0 bg-gradient-to-r from-[#41bfb8] to-[#2dd4bf] group-hover:from-[#2dd4bf] group-hover:to-[#41bfb8] transition-all duration-500"></span>
                     {/* Shine Effect */}
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
-                    <span className="relative z-10 text-white font-semibold">
-                      Register
+                    <span className={`relative z-10 text-white font-semibold ${bengaliClass}`}>
+                      {t("topHeader.register")}
                     </span>
                   </Link>
                 </>

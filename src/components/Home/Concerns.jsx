@@ -5,10 +5,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { HiOutlineBuildingOffice2, HiOutlineSparkles } from "react-icons/hi2";
 import { LuHandshake, LuUsers } from "react-icons/lu";
+import { useLanguage } from "@/context/LanguageContext";
 
 const Concerns = () => {
   const [selectedCategory, setSelectedCategory] = useState("Our Concern");
   const [isVisible, setIsVisible] = useState(false);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -75,32 +78,62 @@ const Concerns = () => {
   ];
 
   const categories = [
-    { name: "Our Concern", icon: HiOutlineBuildingOffice2, count: 9 },
-    { name: "Colaboration With", icon: LuHandshake, count: 38 },
-    { name: "Member Of", icon: LuUsers, count: 4 },
+    { name: "Our Concern", labelKey: "ourConcern", icon: HiOutlineBuildingOffice2, count: 9 },
+    { name: "Colaboration With", labelKey: "collaborationWith", icon: LuHandshake, count: 38 },
+    { name: "Member Of", labelKey: "memberOf", icon: LuUsers, count: 4 },
   ];
 
   const filteredImages = images.filter((image) => image.category === selectedCategory);
 
   return (
     <section className="relative py-16 lg:py-20 bg-white overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 via-white to-gray-50/50"></div>
-      <div className="absolute top-20 right-10 w-72 h-72 bg-[#41bfb8]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#F79952]/5 rounded-full blur-3xl"></div>
+      {/* Topography Pattern */}
+      <div className="absolute inset-0 opacity-[0.015]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cpath fill='none' stroke='%2341bfb8' stroke-width='1' d='M239.5 139.5l0 -5l0 -5l0 -5l0 -5l5 0l0 -5l5 0l0 -5l5 0l5 0l5 0l5 0l0 5l5 0l0 5l0 5l5 0l0 5l0 5l0 5l0 5l0 5l0 5l0 5l0 5l0 5l0 5l0 5l-5 0l0 5l-5 0l0 5l-5 0l-5 0l-5 0l-5 0l0 -5l-5 0l0 -5l0 -5l-5 0l0 -5l0 -5l0 -5l0 -5l0 -5l0 -5l0 -5l0 -5z'/%3E%3C/svg%3E")`
+      }}></div>
+
+      {/* Base Subtle Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50/30 via-white to-gray-50/30"></div>
+
+      {/* Gradient Mesh */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-bl from-[#41bfb8]/8 via-transparent to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-gradient-to-tr from-[#F79952]/8 via-transparent to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-gradient-to-r from-purple-100/20 via-transparent to-transparent rounded-full blur-3xl"></div>
+
+      {/* Diamond Grid */}
+      <div className="absolute top-20 right-[5%] grid grid-cols-3 gap-2 opacity-10">
+        {[...Array(9)].map((_, i) => (
+          <div key={i} className="w-3 h-3 bg-[#41bfb8] rotate-45"></div>
+        ))}
+      </div>
+      <div className="absolute bottom-20 left-[5%] grid grid-cols-3 gap-2 opacity-10">
+        {[...Array(9)].map((_, i) => (
+          <div key={i} className="w-3 h-3 bg-[#F79952] rotate-45"></div>
+        ))}
+      </div>
+
+      {/* Floating Rings */}
+      <div className="absolute top-1/4 left-[8%] w-24 h-24 border border-[#41bfb8]/10 rounded-full"></div>
+      <div className="absolute top-1/4 left-[8%] w-20 h-20 border border-[#41bfb8]/5 rounded-full translate-x-2 translate-y-2"></div>
+      <div className="absolute bottom-1/4 right-[10%] w-20 h-20 border border-[#F79952]/10 rounded-full"></div>
+      <div className="absolute bottom-1/4 right-[10%] w-16 h-16 border border-[#F79952]/5 rounded-full translate-x-2 translate-y-2"></div>
+
+      {/* Decorative Lines */}
+      <div className="absolute top-0 right-1/4 w-px h-32 bg-gradient-to-b from-[#41bfb8]/20 to-transparent"></div>
+      <div className="absolute bottom-0 left-1/3 w-px h-24 bg-gradient-to-t from-[#F79952]/20 to-transparent"></div>
 
       <div className="container mx-auto px-4 lg:px-16 relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full">
             <HiOutlineSparkles className="text-[#41bfb8] text-lg" />
-            <span className="text-sm font-medium text-gray-700 work">Trusted By Industry Leaders</span>
+            <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("concerns.badge")}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800">
-            Our <span className="text-[#41bfb8]">Working Partners</span>
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+            {t("concerns.title1")}<span className="text-[#41bfb8]">{t("concerns.title2")}</span>
           </h2>
-          <p className="mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto">
-            We collaborate with leading organizations, universities, and institutions to provide the best learning experience.
+          <p className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}>
+            {t("concerns.subtitle")}
           </p>
         </div>
 
@@ -110,7 +143,7 @@ const Concerns = () => {
             <button
               key={idx}
               onClick={() => setSelectedCategory(cat.name)}
-              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-md font-medium text-sm work transition-all duration-300 overflow-hidden ${selectedCategory === cat.name
+              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-md font-medium text-sm work transition-all duration-300 overflow-hidden ${bengaliClass} ${selectedCategory === cat.name
                 ? "text-white shadow-lg shadow-[#41bfb8]/30"
                 : "bg-white text-gray-600 border border-gray-200 hover:border-[#41bfb8]/50 hover:text-[#41bfb8]"
                 }`}
@@ -120,7 +153,7 @@ const Concerns = () => {
               )}
               <span className="relative z-10 flex items-center gap-2">
                 <cat.icon className="text-lg" />
-                {cat.name}
+                {t(`concerns.${cat.labelKey}`)}
                 <span className={`text-xs px-1.5 py-0.5 rounded-full ${selectedCategory === cat.name ? 'bg-white/20' : 'bg-gray-100'}`}>
                   {cat.count}
                 </span>
@@ -166,7 +199,7 @@ const Concerns = () => {
             ))
           ) : (
             <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 work">No partners to display.</p>
+              <p className={`text-gray-500 work ${bengaliClass}`}>{t("concerns.noPartners")}</p>
             </div>
           )}
         </div>
@@ -175,17 +208,17 @@ const Concerns = () => {
         <div className={`flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-gray-100 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
           <div className="text-center">
             <p className="text-3xl font-bold text-[#41bfb8] outfit">50+</p>
-            <p className="text-sm text-gray-500 work">Partners</p>
+            <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("concerns.partners")}</p>
           </div>
           <div className="w-px h-12 bg-gray-200"></div>
           <div className="text-center">
             <p className="text-3xl font-bold text-[#F79952] outfit">30+</p>
-            <p className="text-sm text-gray-500 work">Universities</p>
+            <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("concerns.universities")}</p>
           </div>
           <div className="w-px h-12 bg-gray-200"></div>
           <div className="text-center">
             <p className="text-3xl font-bold text-[#8B5CF6] outfit">10+</p>
-            <p className="text-sm text-gray-500 work">Govt. Organizations</p>
+            <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("concerns.govtOrganizations")}</p>
           </div>
         </div>
       </div>

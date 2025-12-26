@@ -5,6 +5,7 @@ import {
   Caveat,
   Work_Sans,
   Outfit,
+  Hind_Siliguri,
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/sheard/Navbar";
@@ -12,6 +13,7 @@ import Footer from "@/components/sheard/Footer";
 import TopHeader from "@/components/sheard/TopHeader";
 import PaymentMethod from "@/components/sheard/PaymentMethod";
 import ReduxProviderWrapper from "@/components/ReduxProvaiderWrapper";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 // Google Fonts
 const poppins = Poppins({
@@ -44,6 +46,12 @@ const outfit = Outfit({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-outfit",
 });
+// Hind Siliguri for Bengali text
+const hindSiliguri = Hind_Siliguri({
+  subsets: ["bengali", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-hind-siliguri",
+});
 
 export const metadata = {
   title: "Bd Calling Academy",
@@ -55,13 +63,13 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${roboto.variable} ${lobster.variable} ${caveat.variable} ${worksans.variable} ${outfit.variable}`}
+      className={`${poppins.variable} ${roboto.variable} ${lobster.variable} ${caveat.variable} ${worksans.variable} ${outfit.variable} ${hindSiliguri.variable}`}
     >
       <body className="antialiased">
         <ReduxProviderWrapper>
-    
-          {children}
-    
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ReduxProviderWrapper>
       </body>
     </html>

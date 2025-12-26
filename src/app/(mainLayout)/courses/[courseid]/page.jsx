@@ -24,11 +24,14 @@ import { RiLiveLine, RiComputerLine, RiTranslate2 } from "react-icons/ri";
 
 import CourseCard from "@/components/sheard/CourseCard";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 const SingleCourse = () => {
   const params = useParams();
   const courseId = params.courseid;
   const dispatch = useDispatch();
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const { courses = [] } = useSelector((state) => state.courses || {});
   const { mentors = [] } = useSelector((state) => state.mentors || {});
@@ -103,7 +106,7 @@ const SingleCourse = () => {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="relative">
           <div className="w-16 h-16 border-4 border-teal-100 border-t-teal-500 rounded-full animate-spin"></div>
-          <p className="mt-4 text-gray-500 font-medium outfit text-center">Loading...</p>
+          <p className={`mt-4 text-gray-500 font-medium outfit text-center ${bengaliClass}`}>{t("courseDetails.loading")}</p>
         </div>
       </div>
     );
@@ -111,25 +114,46 @@ const SingleCourse = () => {
 
   return (
     <div className="min-h-screen bg-[#FDFEFF]">
-      {/* Premium Hero Section */}
-      <section className="relative overflow-hidden bg-[#0A1D1C] text-white pt-16 pb-32 lg:pt-24 lg:pb-48">
+      {/* Premium Hero Section - Light Theme with Animations */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#f0fffe] via-[#e8f9f8] to-[#f5f5ff] pt-10 pb-24 lg:pt-16 lg:pb-36">
         {/* Animated Background Elements */}
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-teal-500/10 to-transparent blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-teal-400/15 to-transparent blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-teal-300/20 to-cyan-300/20 rounded-full blur-2xl pointer-events-none animate-pulse"></div>
+
+        {/* Floating Animated Shapes */}
+        <motion.div
+          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-32 right-1/4 w-20 h-20 bg-gradient-to-br from-teal-400/30 to-cyan-400/20 rounded-2xl blur-sm pointer-events-none"
+        ></motion.div>
+        <motion.div
+          animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-40 right-1/3 w-16 h-16 bg-gradient-to-br from-amber-400/25 to-orange-300/20 rounded-full blur-sm pointer-events-none"
+        ></motion.div>
+        <motion.div
+          animate={{ y: [0, -10, 0], x: [0, 10, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute top-1/2 right-10 w-12 h-12 bg-gradient-to-br from-purple-400/20 to-pink-300/15 rounded-xl blur-sm pointer-events-none"
+        ></motion.div>
+
+        {/* Decorative Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
         <div className="container mx-auto px-4 lg:px-24 relative z-10">
-          <div className="max-w-4xl space-y-8">
+          <div className="max-w-4xl space-y-6">
             {/* Badges */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-wrap gap-3"
             >
-              <span className="px-4 py-1.5 bg-teal-500/20 border border-teal-500/30 rounded-full text-teal-400 text-xs font-bold uppercase tracking-widest work">
-                Best Seller
+              <span className={`px-4 py-1.5 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full text-white text-xs font-bold uppercase tracking-widest work shadow-lg shadow-teal-200/50 ${bengaliClass}`}>
+                {t("courseDetails.bestSeller")}
               </span>
-              <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-gray-300 text-xs font-bold uppercase tracking-widest work">
-                {course.type} Learning
+              <span className={`px-4 py-1.5 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full text-gray-700 text-xs font-bold uppercase tracking-widest work shadow-sm ${bengaliClass}`}>
+                {course.type} {t("courseDetails.learning")}
               </span>
             </motion.div>
 
@@ -138,7 +162,7 @@ const SingleCourse = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl lg:text-6xl font-extrabold outfit leading-tight tracking-tight"
+              className="text-3xl lg:text-5xl font-extrabold outfit leading-tight tracking-tight text-gray-900"
             >
               {course.title}
             </motion.h1>
@@ -148,7 +172,7 @@ const SingleCourse = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg lg:text-xl text-gray-400 work font-medium leading-relaxed max-w-3xl"
+              className="text-base lg:text-lg text-gray-600 work font-medium leading-relaxed max-w-3xl"
             >
               {course.courseOverview || course.details?.substring(0, 160) + "..."}
             </motion.p>
@@ -158,26 +182,26 @@ const SingleCourse = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="flex flex-wrap items-center gap-8 pt-4"
+              className="flex flex-wrap items-center gap-6 pt-2"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-2xl shadow-sm border border-gray-100">
                 <div className="flex text-amber-400">
                   {renderStars(course.rating)}
                 </div>
-                <span className="font-bold outfit text-lg">{course.rating}</span>
-                <span className="text-gray-500 text-sm work">({course.totalRating} ratings)</span>
+                <span className="font-bold outfit text-lg text-gray-900">{course.rating}</span>
+                <span className={`text-gray-500 text-sm work ${bengaliClass}`}>({course.totalRating} {t("courseDetails.ratings")})</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                  <FaUsers className="text-teal-400" />
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-2xl shadow-sm border border-gray-100">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center shadow-inner">
+                  <FaUsers className="text-teal-600 text-sm" />
                 </div>
-                <span className="text-gray-300 font-medium work">{course.totalStudentsEnroll}+ students enrolled</span>
+                <span className={`text-gray-700 font-medium work ${bengaliClass}`}>{course.totalStudentsEnroll}+ {t("courseDetails.studentsEnrolled")}</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                  <RiTranslate2 className="text-teal-400" />
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-2xl shadow-sm border border-gray-100">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center shadow-inner">
+                  <RiTranslate2 className="text-purple-600 text-sm" />
                 </div>
-                <span className="text-gray-300 font-medium work">Bengali / English</span>
+                <span className="text-gray-700 font-medium work">Bengali / English</span>
               </div>
             </motion.div>
 
@@ -186,14 +210,14 @@ const SingleCourse = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex items-center gap-4 pt-6"
+              className="flex items-center gap-4 pt-3"
             >
-              <div className="flex items-center gap-2 group cursor-pointer">
-                <span className="text-gray-500 work">Instructed by</span>
-                <span className="text-teal-400 font-bold outfit underline decoration-teal-400/30 underline-offset-4 group-hover:decoration-teal-400 transition-all">
-                  {instructor?.name || "Senior Tech Expert"}
+              <div className="flex items-center gap-2 group cursor-pointer bg-white/60 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                <span className={`text-gray-500 work ${bengaliClass}`}>{t("courseDetails.instructedBy")}</span>
+                <span className="text-teal-600 font-bold outfit underline decoration-teal-400/30 underline-offset-4 group-hover:decoration-teal-600 transition-all">
+                  {instructor?.name || t("courseDetails.seniorExpert")}
                 </span>
-                {instructor && <MdVerified className="text-blue-400 text-lg" />}
+                {instructor && <MdVerified className="text-blue-500 text-lg" />}
               </div>
             </motion.div>
           </div>
@@ -214,10 +238,10 @@ const SingleCourse = () => {
                   <span className="text-3xl font-bold text-gray-900 outfit">{course.fee}</span>
                   <span className="line-through text-gray-400 font-bold">25,000৳</span>
                 </div>
-                <button className="w-full py-4 bg-[#43c3bc] text-white font-bold rounded-2xl shadow-lg shadow-teal-100 mb-4 transition-all active:scale-95">
-                  Enroll Now
+                <button className={`w-full py-4 bg-[#43c3bc] text-white font-bold rounded-2xl shadow-lg shadow-teal-100 mb-4 transition-all active:scale-95 ${bengaliClass}`}>
+                  {t("courseDetails.enrollNow")}
                 </button>
-                <p className="text-center text-xs text-gray-500 font-bold work uppercase tracking-wider">30-Day Money Back Guarantee</p>
+                <p className={`text-center text-xs text-gray-500 font-bold work uppercase tracking-wider ${bengaliClass}`}>{t("courseDetails.moneyBack")}</p>
               </div>
             </div>
 
@@ -225,14 +249,14 @@ const SingleCourse = () => {
             <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-xl overflow-hidden">
               <div className="flex border-b border-gray-100 bg-gray-50/50 p-2">
                 {[
-                  { id: "overview", label: "Course Overview", icon: LuLayoutGrid },
-                  { id: "curriculum", label: "Curriculum", icon: MdOutlineMenuBook },
-                  { id: "instructor", label: "Instructor", icon: LuUsers },
+                  { id: "overview", label: t("courseDetails.courseOverview"), icon: LuLayoutGrid },
+                  { id: "curriculum", label: t("courseDetails.curriculum"), icon: MdOutlineMenuBook },
+                  { id: "instructor", label: t("courseDetails.instructor"), icon: LuUsers },
                 ].map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold outfit transition-all relative rounded-2xl ${activeTab === tab.id
+                    className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold outfit transition-all relative rounded-2xl ${bengaliClass} ${activeTab === tab.id
                       ? "text-teal-600 bg-white shadow-sm"
                       : "text-gray-500 hover:text-gray-800"
                       }`}
@@ -262,9 +286,9 @@ const SingleCourse = () => {
                       className="space-y-12"
                     >
                       <div className="space-y-6">
-                        <h2 className="text-3xl font-bold outfit text-gray-900 flex items-center gap-3">
+                        <h2 className={`text-3xl font-bold outfit text-gray-900 flex items-center gap-3 ${bengaliClass}`}>
                           <span className="w-2 h-8 bg-teal-500 rounded-full"></span>
-                          Course Details
+                          {t("courseDetails.courseDetails")}
                         </h2>
                         <p className="text-gray-600 work text-lg leading-relaxed text-justify">
                           {course.details}
@@ -273,9 +297,9 @@ const SingleCourse = () => {
 
                       {/* What you will learn grid */}
                       <div className="space-y-8">
-                        <h3 className="text-2xl font-bold outfit text-gray-900 flex items-center gap-3">
+                        <h3 className={`text-2xl font-bold outfit text-gray-900 flex items-center gap-3 ${bengaliClass}`}>
                           <span className="w-2 h-8 bg-amber-500 rounded-full"></span>
-                          Core Value Proposition
+                          {t("courseDetails.coreValue")}
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {course.courseIncludes?.map((item, idx) => (
@@ -301,9 +325,9 @@ const SingleCourse = () => {
                       className="space-y-12"
                     >
                       <div className="space-y-6">
-                        <h2 className="text-3xl font-bold outfit text-gray-900 flex items-center gap-3">
+                        <h2 className={`text-3xl font-bold outfit text-gray-900 flex items-center gap-3 ${bengaliClass}`}>
                           <span className="w-2 h-8 bg-teal-500 rounded-full"></span>
-                          Learning Modules
+                          {t("courseDetails.learningModules")}
                         </h2>
                         <div className="space-y-4">
                           {course.curriculum?.map((item, idx) => (
@@ -322,9 +346,9 @@ const SingleCourse = () => {
 
                       {/* Software Stack */}
                       <div className="space-y-6">
-                        <h2 className="text-2xl font-bold outfit text-gray-900 flex items-center gap-3">
+                        <h2 className={`text-2xl font-bold outfit text-gray-900 flex items-center gap-3 ${bengaliClass}`}>
                           <span className="w-2 h-8 bg-amber-500 rounded-full"></span>
-                          Industry Standard Tools
+                          {t("courseDetails.industryTools")}
                         </h2>
                         <div className="flex flex-wrap gap-3">
                           {(Array.isArray(course.softwareYoullLearn) ? course.softwareYoullLearn : course.softwareYoullLearn?.split(",") || []).map((tech, idx) => (
@@ -360,9 +384,9 @@ const SingleCourse = () => {
                               </div>
                               <p className="text-teal-600 font-bold work text-xl">{instructor.designation} • {instructor.subject}</p>
                               <div className="flex gap-4">
-                                <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl">
+                                <div className={`flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl ${bengaliClass}`}>
                                   <FaStar className="text-amber-400" />
-                                  <span className="font-bold outfit">4.9/5 Rating</span>
+                                  <span className="font-bold outfit">4.9/5 {t("courseDetails.ratings")}</span>
                                 </div>
                                 <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl">
                                   <FaGraduationCap className="text-teal-500" />
@@ -389,9 +413,9 @@ const SingleCourse = () => {
                           {/* Experience Sections */}
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="p-8 bg-[#F8FAFB] rounded-[2.5rem] border border-gray-100">
-                              <h4 className="text-xl font-bold outfit text-gray-900 mb-6 flex items-center gap-2">
+                              <h4 className={`text-xl font-bold outfit text-gray-900 mb-6 flex items-center gap-2 ${bengaliClass}`}>
                                 <LuTrophy className="text-amber-500" />
-                                Certifications
+                                {t("courseDetails.certifications")}
                               </h4>
                               <ul className="space-y-4">
                                 {instructor.education_qualification?.map((item, idx) => (
@@ -403,9 +427,9 @@ const SingleCourse = () => {
                               </ul>
                             </div>
                             <div className="p-8 bg-[#F8FAFB] rounded-[2.5rem] border border-gray-100">
-                              <h4 className="text-xl font-bold outfit text-gray-900 mb-6 flex items-center gap-2">
+                              <h4 className={`text-xl font-bold outfit text-gray-900 mb-6 flex items-center gap-2 ${bengaliClass}`}>
                                 <MdWorkOutline className="text-teal-500" />
-                                Work History
+                                {t("courseDetails.workHistory")}
                               </h4>
                               <ul className="space-y-4">
                                 {instructor.work_experience?.slice(0, 5).map((item, idx) => (
@@ -421,8 +445,8 @@ const SingleCourse = () => {
                       ) : (
                         <div className="text-center py-20 bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
                           <LuUsers className="mx-auto text-6xl text-gray-300 mb-4" />
-                          <h4 className="text-2xl font-bold text-gray-700 outfit">Mentor Not Assigned</h4>
-                          <p className="text-gray-500 work">Check back soon for instructor details.</p>
+                          <h4 className={`text-2xl font-bold text-gray-700 outfit ${bengaliClass}`}>{t("courseDetails.mentorNotAssigned")}</h4>
+                          <p className={`text-gray-500 work ${bengaliClass}`}>{t("courseDetails.checkBack")}</p>
                         </div>
                       )}
                     </motion.div>
@@ -448,51 +472,51 @@ const SingleCourse = () => {
                     <span className="text-4xl font-extrabold text-[#0A1D1C] outfit leading-none">{course.fee}</span>
                     <span className="line-through text-gray-400 font-bold work text-lg">25,000৳</span>
                   </div>
-                  <p className="text-teal-600 font-bold work text-sm uppercase tracking-widest">Early Bird Offer - 20% OFF</p>
+                  <p className={`text-teal-600 font-bold work text-sm uppercase tracking-widest ${bengaliClass}`}>{t("courseDetails.earlyBird")}</p>
                 </div>
 
                 <div className="space-y-4">
-                  <button className="w-full py-5 bg-[#43c3bc] hover:bg-[#38a89d] text-white font-bold rounded-2xl shadow-xl shadow-teal-50 transform transition-all active:scale-95 flex items-center justify-center gap-3">
-                    Enroll in this Course
+                  <button className={`w-full py-5 bg-[#43c3bc] hover:bg-[#38a89d] text-white font-bold rounded-2xl shadow-xl shadow-teal-50 transform transition-all active:scale-95 flex items-center justify-center gap-3 ${bengaliClass}`}>
+                    {t("courseDetails.enrollCourse")}
                     <FaArrowRight className="text-sm" />
                   </button>
-                  <button className="w-full py-4 bg-white border-2 border-gray-200 hover:border-teal-500 hover:text-teal-600 text-gray-700 font-bold rounded-2xl transition-all">
-                    Add to Cart
+                  <button className={`w-full py-4 bg-white border-2 border-gray-200 hover:border-teal-500 hover:text-teal-600 text-gray-700 font-bold rounded-2xl transition-all ${bengaliClass}`}>
+                    {t("courseDetails.addToCart")}
                   </button>
                 </div>
 
                 <div className="space-y-6 pt-4 border-t border-gray-50">
-                  <h5 className="font-bold outfit text-gray-900">What is Included:</h5>
+                  <h5 className={`font-bold outfit text-gray-900 ${bengaliClass}`}>{t("courseDetails.whatIncluded")}</h5>
                   <ul className="space-y-4">
-                    <li className="flex items-center gap-3 text-gray-600 work text-sm font-medium">
+                    <li className={`flex items-center gap-3 text-gray-600 work text-sm font-medium ${bengaliClass}`}>
                       <LuMonitor className="text-teal-500 text-lg" />
-                      {course.lectures}+ Video Lessons
+                      {course.lectures}+ {t("courseDetails.videoLessons")}
                     </li>
-                    <li className="flex items-center gap-3 text-gray-600 work text-sm font-medium">
+                    <li className={`flex items-center gap-3 text-gray-600 work text-sm font-medium ${bengaliClass}`}>
                       <LuTarget className="text-teal-500 text-lg" />
-                      {course.totalProject}+ Professional Projects
+                      {course.totalProject}+ {t("courseDetails.projects")}
                     </li>
-                    <li className="flex items-center gap-3 text-gray-600 work text-sm font-medium">
+                    <li className={`flex items-center gap-3 text-gray-600 work text-sm font-medium ${bengaliClass}`}>
                       <LuClock className="text-teal-500 text-lg" />
-                      {course.durationMonth || course.duration} Months Duration
+                      {course.durationMonth || course.duration} {t("courseDetails.duration")}
                     </li>
-                    <li className="flex items-center gap-3 text-gray-600 work text-sm font-medium">
+                    <li className={`flex items-center gap-3 text-gray-600 work text-sm font-medium ${bengaliClass}`}>
                       <LuTrophy className="text-teal-500 text-lg" />
-                      Certificate of Completion
+                      {t("courseDetails.certificate")}
                     </li>
                   </ul>
                 </div>
 
                 <div className="flex items-center justify-center gap-6 pt-4 border-t border-gray-50">
-                  <p className="text-xs text-gray-400 font-bold work cursor-help hover:text-teal-500 transition-colors uppercase tracking-widest">Share Course</p>
-                  <p className="text-xs text-gray-400 font-bold work cursor-help hover:text-teal-500 transition-colors uppercase tracking-widest">Gift Course</p>
+                  <p className={`text-xs text-gray-400 font-bold work cursor-help hover:text-teal-500 transition-colors uppercase tracking-widest ${bengaliClass}`}>{t("courseDetails.shareCourse")}</p>
+                  <p className={`text-xs text-gray-400 font-bold work cursor-help hover:text-teal-500 transition-colors uppercase tracking-widest ${bengaliClass}`}>{t("courseDetails.giftCourse")}</p>
                 </div>
               </div>
             </div>
 
             {/* Popular Courses Secondary Widget */}
             <div className="bg-[#F8FAFB] rounded-[2.5rem] p-8 space-y-8 border border-gray-100">
-              <h3 className="text-xl font-bold outfit text-gray-900">Recommended Courses</h3>
+              <h3 className={`text-xl font-bold outfit text-gray-900 ${bengaliClass}`}>{t("courseDetails.recommendedCourses")}</h3>
               <div className="space-y-6">
                 {popularCourses.map(item => (
                   <Link href={`/courses/${item.id}`} key={item.id} className="flex gap-4 group">
@@ -510,8 +534,8 @@ const SingleCourse = () => {
                   </Link>
                 ))}
               </div>
-              <Link href="/courses" className="flex items-center justify-center w-full py-4 text-teal-600 font-bold work text-sm border-2 border-dashed border-teal-200 rounded-2xl hover:bg-teal-50 transition-all">
-                View All Courses
+              <Link href="/courses" className={`flex items-center justify-center w-full py-4 text-teal-600 font-bold work text-sm border-2 border-dashed border-teal-200 rounded-2xl hover:bg-teal-50 transition-all ${bengaliClass}`}>
+                {t("courseDetails.viewAllCourses")}
               </Link>
             </div>
           </div>

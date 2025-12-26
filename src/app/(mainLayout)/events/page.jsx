@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
+import { useLanguage } from "@/context/LanguageContext";
 
 const seminars = [
   {
@@ -47,6 +48,16 @@ const seminars = [
 ];
 
 const EventsPage = () => {
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
+  const getLocationType = (location) => {
+    if (language === "bn") {
+      return location === "Online" ? t("eventsPage.online") : t("eventsPage.offline");
+    }
+    return location;
+  };
+
   return (
     <div className="min-h-screen bg-[#ecfcfb]">
       {/* Hero Header */}
@@ -59,87 +70,121 @@ const EventsPage = () => {
           <div className="text-center max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 bg-[#F79952]/10 border border-[#F79952]/20 rounded-full">
               <HiOutlineCalendarDays className="text-[#F79952] text-base" />
-              <span className="text-xs font-medium text-gray-700 work">Upcoming Events</span>
+              <span className={`text-xs font-medium text-gray-700 work ${bengaliClass}`}>{t("eventsPage.badge")}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2">
-              Events & <span className="text-[#41bfb8]">Seminars</span>
+            <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2 ${bengaliClass}`}>
+              {t("eventsPage.title1")}<span className="text-[#41bfb8]">{t("eventsPage.title2")}</span>
             </h1>
-            <p className="text-gray-500 work text-sm leading-relaxed">
-              Connect with industry experts and gain practical insights into the latest tech trends.
+            <p className={`text-gray-500 work text-sm leading-relaxed ${bengaliClass}`}>
+              {t("eventsPage.subtitle")}
             </p>
           </div>
         </div>
       </section>
 
       {/* Events List */}
-      <section className="container mx-auto px-4 lg:px-16 pb-12">
-        <div className="space-y-3">
+      <section className="container mx-auto px-4 lg:px-16 py-10">
+        <div className="space-y-4">
           {seminars.map((event, index) => (
             <div
               key={event.id}
-              className="bg-[#E1FCF9] rounded-lg border border-gray-200 py-4 px-6 hover:shadow-md transition-shadow"
+              className="group relative bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-[#41bfb8]/10 transition-all duration-300"
             >
-              <div className="flex items-center gap-6">
-                {/* Number */}
-                <span className="text-2xl font-bold text-[#41bfb8] outfit w-8">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
+              {/* Left Accent Bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#41bfb8] to-[#F79952] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                {/* Image */}
-                <div className="relative w-24 h-16 rounded-md overflow-hidden shrink-0">
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    className="object-cover"
-                  />
+              <div className="flex flex-col md:flex-row items-stretch">
+                {/* Left Section - Number & Image */}
+                <div className="flex items-center gap-4 p-5 md:p-6 md:border-r border-gray-100">
+                  {/* Number Badge */}
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#41bfb8]/10 to-[#41bfb8]/5 flex items-center justify-center shrink-0">
+                    <span className="text-xl font-bold text-[#41bfb8] outfit">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+
+                  {/* Image */}
+                  <div className="relative w-32 h-20 rounded-lg overflow-hidden shrink-0 shadow-sm">
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    {/* Live Indicator */}
+                    <div className="absolute top-2 left-2 px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full flex items-center gap-1">
+                      <span className={`w-2 h-2 rounded-full ${event.location === "Online" ? "bg-green-500 animate-pulse" : "bg-[#F79952]"}`}></span>
+                      <span className="text-[10px] font-medium text-gray-700">{event.location === "Online" ? "LIVE" : "VENUE"}</span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Info */}
-                <div className="flex-1">
-                  {/* Badges */}
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs text-gray-500 work">
-                      {event.location}
+                {/* Middle Section - Info */}
+                <div className="flex-1 p-5 md:p-6 flex flex-col justify-center">
+                  {/* Type & Location Badges */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-md ${event.location === "Online"
+                      ? "bg-green-50 text-green-600 border border-green-100"
+                      : "bg-[#F79952]/10 text-[#F79952] border border-[#F79952]/20"
+                      } ${bengaliClass}`}>
+                      {getLocationType(event.location)}
                     </span>
-                    <span className="text-gray-300">|</span>
-                    <span className="text-xs text-[#41bfb8] font-medium work">
-                      {event.type}
+                    <span className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider bg-[#41bfb8]/10 text-[#41bfb8] border border-[#41bfb8]/20 rounded-md ${bengaliClass}`}>
+                      {language === "bn" ? t("eventsPage.seminar") : event.type}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg font-bold text-gray-800 outfit">
+                  <h3 className="text-xl font-bold text-gray-800 outfit group-hover:text-[#41bfb8] transition-colors mb-1">
                     {event.title}
                   </h3>
 
-                  {/* Speaker */}
-                  <p className="text-sm text-gray-500 work">
-                    {event.speaker}
-                  </p>
+                  {/* Speaker with Avatar */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#41bfb8] to-[#F79952] flex items-center justify-center text-white text-[10px] font-bold">
+                      {event.speaker.charAt(0)}
+                    </div>
+                    <p className="text-sm text-gray-500 work">
+                      {event.speaker}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Time & Start */}
-                <div className="text-center hidden md:block">
-                  <p className="text-lg font-semibold text-gray-700 outfit">
-                    {event.time}
-                  </p>
-                  <p className="text-sm text-gray-400 work">
-                    {event.startsIn}
-                  </p>
-                </div>
+                {/* Right Section - Time & CTA */}
+                <div className="flex items-center gap-6 p-5 md:p-6 bg-gradient-to-r from-transparent to-gray-50/50 md:border-l border-gray-100">
+                  {/* Time Block - Made smaller */}
+                  <div className="text-center hidden md:block">
+                    <div className="flex items-center gap-1 text-gray-400 mb-1">
+                      <HiOutlineCalendarDays className="text-xs" />
+                      <span className={`text-[10px] work ${bengaliClass}`}>
+                        {language === "bn" ? t("eventsPage.startsIn") : event.startsIn}
+                      </span>
+                    </div>
+                    <p className="text-lg font-bold text-gray-800 outfit">
+                      {event.time}
+                    </p>
+                  </div>
 
-                {/* Register Button */}
-                <a
-                  href={`https://wa.me/8801321231802?text=${encodeURIComponent(
-                    `আমি "${event.title}" সেমিনারটিতে যোগ দিতে চাই।`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-2 border border-gray-300 text-gray-600 hover:bg-[#41bfb8] hover:text-white hover:border-[#41bfb8] font-medium text-sm rounded-md transition-all"
-                >
-                  Register
-                </a>
+                  {/* Divider */}
+                  <div className="hidden md:block w-px h-12 bg-gray-200"></div>
+
+                  {/* Register Button */}
+                  <a
+                    href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+                      `আমি "${event.title}" সেমিনারটিতে যোগ দিতে চাই।`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`relative overflow-hidden px-6 py-3 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white font-semibold text-sm rounded-lg shadow-md shadow-[#41bfb8]/20 hover:shadow-lg hover:shadow-[#41bfb8]/30 hover:-translate-y-0.5 transition-all duration-300 group/btn ${bengaliClass}`}
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      {t("eventsPage.register")}
+                      <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                  </a>
+                </div>
               </div>
             </div>
           ))}

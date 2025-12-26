@@ -6,12 +6,15 @@ import Link from "next/link";
 import { HiOutlineBriefcase, HiOutlineAcademicCap, HiOutlineSparkles } from "react-icons/hi2";
 import { LuArrowLeft, LuMail, LuPhone, LuBadgeCheck, LuUsers, LuBookOpen } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const SingleMentor = () => {
   const { id } = useParams();
   const [mentor, setMentor] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     if (!id) return;
@@ -41,8 +44,8 @@ const SingleMentor = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#41bfb8] mb-4"></div>
-          <h3 className="text-lg font-medium text-gray-800 outfit">Loading mentor profile...</h3>
-          <p className="text-gray-500 text-sm work">Please wait</p>
+          <h3 className={`text-lg font-medium text-gray-800 outfit ${bengaliClass}`}>{t("mentorDetails.loading")}</h3>
+          <p className={`text-gray-500 text-sm work ${bengaliClass}`}>{t("mentorDetails.pleaseWait")}</p>
         </div>
       </div>
     );
@@ -55,14 +58,14 @@ const SingleMentor = () => {
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <LuUsers className="w-8 h-8 text-red-500" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 outfit mb-2">Mentor Not Found</h2>
+          <h2 className={`text-2xl font-bold text-gray-800 outfit mb-2 ${bengaliClass}`}>{t("mentorDetails.mentorNotFound")}</h2>
           <p className="text-gray-500 work mb-6">{error}</p>
           <Link
             href="/mentors"
-            className="inline-flex items-center gap-2 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium py-2.5 px-6 rounded-md transition-colors"
+            className={`inline-flex items-center gap-2 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium py-2.5 px-6 rounded-md transition-colors ${bengaliClass}`}
           >
             <LuArrowLeft />
-            Back to Mentors
+            {t("mentorDetails.backToMentors")}
           </Link>
         </div>
       </div>
@@ -76,10 +79,10 @@ const SingleMentor = () => {
         <div className="container mx-auto px-4 lg:px-16">
           <Link
             href="/mentors"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-[#41bfb8] transition-colors work text-sm"
+            className={`inline-flex items-center gap-2 text-gray-600 hover:text-[#41bfb8] transition-colors work text-sm ${bengaliClass}`}
           >
             <LuArrowLeft />
-            Back to Mentors
+            {t("mentorDetails.backToMentors")}
           </Link>
         </div>
       </div>
@@ -102,9 +105,9 @@ const SingleMentor = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
 
                   {/* Experience Badge */}
-                  <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#41bfb8] text-white text-xs font-semibold rounded-md flex items-center gap-1.5">
+                  <div className={`absolute top-4 left-4 px-3 py-1.5 bg-[#41bfb8] text-white text-xs font-semibold rounded-md flex items-center gap-1.5 ${bengaliClass}`}>
                     <LuBadgeCheck />
-                    {mentor.training_experience?.years}+ Years
+                    {mentor.training_experience?.years}+ {t("mentorDetails.years")}
                   </div>
 
                   {/* Name on Image */}
@@ -147,10 +150,10 @@ const SingleMentor = () => {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium rounded-md transition-colors mt-2"
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium rounded-md transition-colors mt-2 ${bengaliClass}`}
                   >
                     <FaWhatsapp className="text-lg" />
-                    Contact via WhatsApp
+                    {t("mentorDetails.contactWhatsapp")}
                   </a>
                 </div>
               </div>
@@ -184,21 +187,21 @@ const SingleMentor = () => {
                   <LuBadgeCheck className="text-[#41bfb8] text-xl" />
                 </div>
                 <p className="text-2xl font-bold text-gray-800 outfit">{mentor.training_experience?.years}+</p>
-                <p className="text-sm text-gray-500 work">Years Experience</p>
+                <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("mentorDetails.yearsExperience")}</p>
               </div>
               <div className="bg-white border border-gray-200 rounded-md p-5 text-center shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 bg-[#F79952]/10 rounded-full flex items-center justify-center mx-auto mb-2">
                   <LuUsers className="text-[#F79952] text-xl" />
                 </div>
                 <p className="text-2xl font-bold text-gray-800 outfit">{mentor.training_experience?.students}+</p>
-                <p className="text-sm text-gray-500 work">Students Trained</p>
+                <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("mentorDetails.studentsTrained")}</p>
               </div>
               <div className="bg-white border border-gray-200 rounded-md p-5 text-center shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
                   <LuBookOpen className="text-purple-600 text-xl" />
                 </div>
                 <p className="text-2xl font-bold text-gray-800 outfit">{mentor.specialized_area?.length || 0}</p>
-                <p className="text-sm text-gray-500 work">Specializations</p>
+                <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("mentorDetails.specializations")}</p>
               </div>
             </div>
 
@@ -206,11 +209,11 @@ const SingleMentor = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Education */}
               <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3">
+                <h3 className={`text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3 ${bengaliClass}`}>
                   <div className="w-10 h-10 bg-[#41bfb8]/10 rounded-full flex items-center justify-center">
                     <HiOutlineAcademicCap className="text-[#41bfb8] text-xl" />
                   </div>
-                  Education
+                  {t("mentorDetails.education")}
                 </h3>
                 <ul className="space-y-3">
                   {mentor.education_qualification?.map((edu, idx) => (
@@ -224,11 +227,11 @@ const SingleMentor = () => {
 
               {/* Work Experience */}
               <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3">
+                <h3 className={`text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3 ${bengaliClass}`}>
                   <div className="w-10 h-10 bg-[#F79952]/10 rounded-full flex items-center justify-center">
                     <HiOutlineBriefcase className="text-[#F79952] text-xl" />
                   </div>
-                  Work Experience
+                  {t("mentorDetails.workExperience")}
                 </h3>
                 <ul className="space-y-3">
                   {mentor.work_experience?.map((work, idx) => (
@@ -244,11 +247,11 @@ const SingleMentor = () => {
             {/* Life Journey */}
             {mentor.lifeJourney && (
               <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3">
+                <h3 className={`text-lg font-bold text-gray-800 outfit mb-4 flex items-center gap-3 ${bengaliClass}`}>
                   <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
                     <HiOutlineSparkles className="text-amber-500 text-xl" />
                   </div>
-                  Life Journey
+                  {t("mentorDetails.lifeJourney")}
                 </h3>
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-400 p-5 rounded-r-md">
                   <p className="text-gray-600 work leading-relaxed whitespace-pre-line">

@@ -5,8 +5,12 @@ import Link from "next/link";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { LuMail, LuPhone, LuMapPin, LuSend, LuClock, LuArrowRight } from "react-icons/lu";
 import { FaFacebookF, FaYoutube, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const ContactPage = () => {
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
   const [messageSent, setMessageSent] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,29 +31,30 @@ const ContactPage = () => {
   const contactInfo = [
     {
       icon: LuMail,
-      title: "Email Us",
+      titleKey: "emailUs",
       value: "info@bdcallingacademy.com",
       link: "mailto:info@bdcallingacademy.com",
       color: "#41bfb8",
     },
     {
       icon: LuPhone,
-      title: "Call Us",
+      titleKey: "callUs",
       value: "+88 01321231802",
       link: "tel:+8801321231802",
       color: "#F79952",
     },
     {
       icon: LuMapPin,
-      title: "Visit Us",
+      titleKey: "visitUs",
       value: "Daisy Garden, House 14 (Level-5), Block A, Banasree, Dhaka",
+      valueBn: "ডেইজি গার্ডেন, বাড়ি ১৪ (লেভেল-৫), ব্লক এ, বনশ্রী, ঢাকা",
       link: "#map",
       color: "#8B5CF6",
     },
     {
       icon: LuClock,
-      title: "Office Hours",
-      value: "Sat - Thu: 9:00 AM - 6:00 PM",
+      titleKey: "officeHours",
+      valueKey: "officeHoursValue",
       link: null,
       color: "#EC4899",
     },
@@ -72,13 +77,13 @@ const ContactPage = () => {
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <LuSend className="text-green-600 text-2xl" />
             </div>
-            <h3 className="text-xl font-bold text-gray-800 outfit mb-2">Message Sent!</h3>
-            <p className="text-gray-500 work mb-6">We&apos;ll get back to you within 24 hours.</p>
+            <h3 className={`text-xl font-bold text-gray-800 outfit mb-2 ${bengaliClass}`}>{t("contactPage.messageSent")}</h3>
+            <p className={`text-gray-500 work mb-6 ${bengaliClass}`}>{t("contactPage.messageResponse")}</p>
             <button
               onClick={() => setMessageSent(false)}
-              className="px-6 py-2.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-colors"
+              className={`px-6 py-2.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-colors ${bengaliClass}`}
             >
-              Close
+              {t("contactPage.close")}
             </button>
           </div>
         </>
@@ -90,14 +95,13 @@ const ContactPage = () => {
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm">
               <HiOutlineSparkles className="text-[#F79952] text-lg" />
-              <span className="text-sm font-medium text-gray-700 work">Get in Touch</span>
+              <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("contactPage.badge")}</span>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-4">
-              Connect With <span className="text-[#41bfb8]">Our Team</span>
+            <h1 className={`text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-4 ${bengaliClass}`}>
+              {t("contactPage.title1")}<span className="text-[#41bfb8]">{t("contactPage.title2")}</span>
             </h1>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed work">
-              Have questions about our courses or careers? We&apos;re here to help!
-              Reach out and let&apos;s start a conversation about your future.
+            <p className={`text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed work ${bengaliClass}`}>
+              {t("contactPage.subtitle")}
             </p>
           </div>
         </div>
@@ -117,16 +121,18 @@ const ContactPage = () => {
               >
                 <item.icon className="text-xl" style={{ color: item.color }} />
               </div>
-              <h3 className="text-sm font-medium text-gray-500 work mb-1">{item.title}</h3>
+              <h3 className={`text-sm font-medium text-gray-500 work mb-1 ${bengaliClass}`}>{t(`contactPage.${item.titleKey}`)}</h3>
               {item.link ? (
                 <a
                   href={item.link}
-                  className="text-gray-800 font-semibold outfit text-sm hover:text-[#41bfb8] transition-colors"
+                  className={`text-gray-800 font-semibold outfit text-sm hover:text-[#41bfb8] transition-colors ${bengaliClass}`}
                 >
-                  {item.value}
+                  {language === "bn" && item.valueBn ? item.valueBn : item.value}
                 </a>
               ) : (
-                <p className="text-gray-800 font-semibold outfit text-sm">{item.value}</p>
+                <p className={`text-gray-800 font-semibold outfit text-sm ${bengaliClass}`}>
+                  {item.valueKey ? t(`contactPage.${item.valueKey}`) : item.value}
+                </p>
               )}
             </div>
           ))}
@@ -138,12 +144,12 @@ const ContactPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Form */}
           <div className="bg-white border border-gray-200 rounded-md p-8 shadow-sm">
-            <h2 className="text-2xl font-bold text-gray-800 outfit mb-6">Send Us a Message</h2>
+            <h2 className={`text-2xl font-bold text-gray-800 outfit mb-6 ${bengaliClass}`}>{t("contactPage.sendMessage")}</h2>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 work mb-1.5">
-                    Your Name
+                  <label htmlFor="name" className={`block text-sm font-medium text-gray-700 work mb-1.5 ${bengaliClass}`}>
+                    {t("contactPage.yourName")}
                   </label>
                   <input
                     type="text"
@@ -156,8 +162,8 @@ const ContactPage = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 work mb-1.5">
-                    Email Address
+                  <label htmlFor="email" className={`block text-sm font-medium text-gray-700 work mb-1.5 ${bengaliClass}`}>
+                    {t("contactPage.emailAddress")}
                   </label>
                   <input
                     type="email"
@@ -171,39 +177,39 @@ const ContactPage = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 work mb-1.5">
-                  Subject
+                <label htmlFor="subject" className={`block text-sm font-medium text-gray-700 work mb-1.5 ${bengaliClass}`}>
+                  {t("contactPage.subject")}
                 </label>
                 <input
                   type="text"
                   id="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm"
-                  placeholder="How can we help?"
+                  className={`w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm ${bengaliClass}`}
+                  placeholder={t("contactPage.howCanWeHelp")}
                   required
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 work mb-1.5">
-                  Message
+                <label htmlFor="message" className={`block text-sm font-medium text-gray-700 work mb-1.5 ${bengaliClass}`}>
+                  {t("contactPage.message")}
                 </label>
                 <textarea
                   id="message"
                   rows="5"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm resize-none"
-                  placeholder="Your message here..."
+                  className={`w-full px-4 py-3 border border-gray-200 rounded-md focus:ring-2 focus:ring-[#41bfb8] focus:border-[#41bfb8] outline-none transition-all text-sm resize-none ${bengaliClass}`}
+                  placeholder={t("contactPage.yourMessageHere")}
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-all hover:shadow-lg group"
+                className={`w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-all hover:shadow-lg group ${bengaliClass}`}
               >
                 <LuSend className="text-lg group-hover:translate-x-1 transition-transform" />
-                <span>Send Message</span>
+                <span>{t("contactPage.send")}</span>
               </button>
             </form>
           </div>
@@ -226,7 +232,7 @@ const ContactPage = () => {
 
             {/* Social Links */}
             <div className="bg-white border border-gray-200 rounded-md p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-800 outfit mb-4">Follow Us</h3>
+              <h3 className={`text-lg font-bold text-gray-800 outfit mb-4 ${bengaliClass}`}>{t("contactPage.followUs")}</h3>
               <div className="flex flex-wrap gap-3">
                 {socialLinks.map((item, idx) => (
                   <Link
@@ -240,25 +246,25 @@ const ContactPage = () => {
                   </Link>
                 ))}
               </div>
-              <p className="mt-4 text-sm text-gray-500 work">
-                Stay connected with us on social media for updates, tips, and more!
+              <p className={`mt-4 text-sm text-gray-500 work ${bengaliClass}`}>
+                {t("contactPage.socialDescription")}
               </p>
             </div>
 
             {/* Quick Contact */}
             <div className="bg-gradient-to-r from-[#41bfb8] to-[#38a89d] rounded-md p-6 text-white">
-              <h3 className="text-lg font-bold outfit mb-2">Need Quick Help?</h3>
-              <p className="text-white/80 work text-sm mb-4">
-                Chat with us directly on WhatsApp for instant support.
+              <h3 className={`text-lg font-bold outfit mb-2 ${bengaliClass}`}>{t("contactPage.needQuickHelp")}</h3>
+              <p className={`text-white/80 work text-sm mb-4 ${bengaliClass}`}>
+                {t("contactPage.whatsappDescription")}
               </p>
               <a
                 href="https://wa.me/8801321231802"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#41bfb8] font-medium rounded-md hover:shadow-lg transition-all group"
+                className={`inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#41bfb8] font-medium rounded-md hover:shadow-lg transition-all group ${bengaliClass}`}
               >
                 <FaWhatsapp className="text-lg" />
-                <span>Chat on WhatsApp</span>
+                <span>{t("contactPage.chatWhatsapp")}</span>
                 <LuArrowRight className="group-hover:translate-x-1 transition-transform" />
               </a>
             </div>

@@ -6,26 +6,31 @@ import React, { useState } from "react";
 import { FaFacebook, FaLinkedin, FaYoutube, FaInstagram } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import { LuSend, LuArrowUpRight, LuHeart } from "react-icons/lu";
+import { useLanguage } from "@/context/LanguageContext";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const { t, language } = useLanguage();
+
+  // Apply Bengali font class when language is Bengali
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const quickLinks = [
-    { to: "/", label: "Home" },
-    { to: "/about", label: "About Us" },
-    { to: "/courses", label: "All Courses" },
-    { to: "/events", label: "Events" },
-    { to: "/mentors", label: "Mentors" },
-    { to: "/contact", label: "Contact" },
+    { to: "/", label: t("navbar.home") },
+    { to: "/about", label: t("navbar.about") },
+    { to: "/courses", label: t("navbar.courses") },
+    { to: "/success-story", label: t("navbar.successHistory") },
+    { to: "/mentors", label: t("navbar.mentors") },
+    { to: "/contact", label: t("navbar.contact") },
   ];
 
   const categories = [
-    "Programming",
-    "Digital Marketing",
-    "Art & Design",
-    "Networking",
-    "Database",
-    "Language Skills",
+    { key: "Programming", label: t("footer.programming") },
+    { key: "Digital Marketing", label: t("footer.digitalMarketing") },
+    { key: "Art & Design", label: t("footer.artDesign") },
+    { key: "Networking", label: t("footer.networking") },
+    { key: "Database", label: t("footer.database") },
+    { key: "Language Skills", label: t("footer.languageSkills") },
   ];
 
   const socialLinks = [
@@ -49,18 +54,18 @@ const Footer = () => {
         <div className="container mx-auto px-4 lg:px-16 py-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 rounded-md p-6 lg:p-8 border border-gray-200">
             <div className="text-center lg:text-left">
-              <h3 className="text-xl lg:text-2xl font-bold text-gray-800 outfit mb-2">
-                Ready to Start Your Learning Journey?
+              <h3 className={`text-xl lg:text-2xl font-bold text-gray-800 outfit mb-2 ${bengaliClass}`}>
+                {t("footer.ctaHeading")}
               </h3>
-              <p className="text-gray-500 work text-sm">
-                Join thousands of successful students and transform your career today.
+              <p className={`text-gray-500 work text-sm ${bengaliClass}`}>
+                {t("footer.ctaDescription")}
               </p>
             </div>
             <Link
               href="/courses"
-              className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white rounded-md font-semibold work hover:shadow-lg hover:shadow-[#41bfb8]/30 transition-all duration-300"
+              className={`group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white rounded-md font-semibold work hover:shadow-lg hover:shadow-[#41bfb8]/30 transition-all duration-300 ${bengaliClass}`}
             >
-              <span>Explore Courses</span>
+              <span>{t("footer.exploreCourses")}</span>
               <LuArrowUpRight className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
@@ -76,10 +81,8 @@ const Footer = () => {
             <Link href="/" className="inline-block">
               <img src="/images/logo.png" alt="BD Calling Academy" className="h-12 lg:h-14" />
             </Link>
-            <p className="text-gray-600 work text-sm leading-relaxed max-w-sm">
-              Bdcalling Academy is a leading IT training institute in Bangladesh,
-              offering career-oriented courses to help you enhance your skills and
-              build a successful career in the tech industry.
+            <p className={`text-gray-600 work text-sm leading-relaxed max-w-sm ${bengaliClass}`}>
+              {t("footer.brandDescription")}
             </p>
 
             {/* Social Links */}
@@ -106,14 +109,14 @@ const Footer = () => {
 
             {/* Newsletter */}
             <div className="pt-4">
-              <h4 className="text-gray-800 font-semibold outfit mb-3">Subscribe to Newsletter</h4>
+              <h4 className={`text-gray-800 font-semibold outfit mb-3 ${bengaliClass}`}>{t("footer.subscribeNewsletter")}</h4>
               <div className="flex gap-2">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-md text-gray-800 text-sm work placeholder:text-gray-400 focus:outline-none focus:border-[#41bfb8] transition-colors"
+                  placeholder={t("footer.enterEmail")}
+                  className={`flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-md text-gray-800 text-sm work placeholder:text-gray-400 focus:outline-none focus:border-[#41bfb8] transition-colors ${bengaliClass}`}
                 />
                 <button className="px-4 py-2.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white rounded-md transition-colors">
                   <LuSend className="text-lg" />
@@ -124,16 +127,16 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-gray-800 font-semibold outfit mb-5 flex items-center gap-2">
+            <h4 className={`text-gray-800 font-semibold outfit mb-5 flex items-center gap-2 ${bengaliClass}`}>
               <span className="w-2 h-2 bg-[#41bfb8] rounded-full"></span>
-              Quick Links
+              {t("footer.quickLinks")}
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.to}
-                    className="text-gray-600 hover:text-[#41bfb8] text-sm work transition-colors inline-flex items-center gap-2 group"
+                    className={`text-gray-600 hover:text-[#41bfb8] text-sm work transition-colors inline-flex items-center gap-2 group ${bengaliClass}`}
                   >
                     <span className="w-0 group-hover:w-2 h-px bg-[#41bfb8] transition-all duration-300"></span>
                     {link.label}
@@ -145,19 +148,19 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h4 className="text-gray-800 font-semibold outfit mb-5 flex items-center gap-2">
+            <h4 className={`text-gray-800 font-semibold outfit mb-5 flex items-center gap-2 ${bengaliClass}`}>
               <span className="w-2 h-2 bg-[#F79952] rounded-full"></span>
-              Categories
+              {t("footer.categories")}
             </h4>
             <ul className="space-y-3">
               {categories.map((cat) => (
-                <li key={cat}>
+                <li key={cat.key}>
                   <Link
-                    href={`/courses?category=${encodeURIComponent(cat)}`}
-                    className="text-gray-600 hover:text-[#F79952] text-sm work transition-colors inline-flex items-center gap-2 group"
+                    href={`/courses?category=${encodeURIComponent(cat.key)}`}
+                    className={`text-gray-600 hover:text-[#F79952] text-sm work transition-colors inline-flex items-center gap-2 group ${bengaliClass}`}
                   >
                     <span className="w-0 group-hover:w-2 h-px bg-[#F79952] transition-all duration-300"></span>
-                    {cat}
+                    {cat.label}
                   </Link>
                 </li>
               ))}
@@ -166,9 +169,9 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-gray-800 font-semibold outfit mb-5 flex items-center gap-2">
+            <h4 className={`text-gray-800 font-semibold outfit mb-5 flex items-center gap-2 ${bengaliClass}`}>
               <span className="w-2 h-2 bg-[#41bfb8] rounded-full"></span>
-              Contact Us
+              {t("footer.contactUs")}
             </h4>
             <ul className="space-y-4">
               <li>
@@ -177,7 +180,7 @@ const Footer = () => {
                     <IoCallOutline className="text-[#41bfb8]" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400 work">Phone</p>
+                    <p className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("footer.phone")}</p>
                     <p className="text-gray-700 text-sm work group-hover:text-[#41bfb8] transition-colors">+880 1321-231802</p>
                   </div>
                 </a>
@@ -188,7 +191,7 @@ const Footer = () => {
                     <IoMailOutline className="text-[#F79952]" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400 work">Email</p>
+                    <p className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("footer.email")}</p>
                     <p className="text-gray-700 text-sm work group-hover:text-[#F79952] transition-colors break-all">info@bdcallingacademy.com</p>
                   </div>
                 </a>
@@ -199,8 +202,8 @@ const Footer = () => {
                     <IoLocationOutline className="text-[#41bfb8]" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400 work">Address</p>
-                    <p className="text-gray-700 text-sm work">Daisy Garden, House 14, Block A, Banasree, Dhaka-1219</p>
+                    <p className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("footer.address")}</p>
+                    <p className={`text-gray-700 text-sm work ${bengaliClass}`}>{t("footer.addressValue")}</p>
                   </div>
                 </div>
               </li>
@@ -213,15 +216,15 @@ const Footer = () => {
       <div className="relative border-t border-gray-200 bg-white/50">
         <div className="container mx-auto px-4 lg:px-16 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm work text-center md:text-left">
-              © 2025 <span className="text-[#41bfb8] font-medium">Bdcalling Academy</span>. All Rights Reserved.
+            <p className={`text-gray-500 text-sm work text-center md:text-left ${bengaliClass}`}>
+              {t("footer.copyright")}
             </p>
             <div className="flex items-center gap-6">
               <span className="text-gray-400 text-xs work">
-                Trade License: TRAD/DNCC/032933/2023
+                {t("footer.tradeLicense")}
               </span>
-              <span className="text-gray-500 text-sm work flex items-center gap-1">
-                Made with <LuHeart className="text-red-500 text-xs" /> in Bangladesh
+              <span className={`text-gray-500 text-sm work flex items-center gap-1 ${bengaliClass}`}>
+                {t("footer.madeWith")} <LuHeart className="text-red-500 text-xs" /> {t("footer.inBangladesh")}
               </span>
             </div>
           </div>

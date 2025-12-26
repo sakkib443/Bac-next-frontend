@@ -1,5 +1,6 @@
 import Footer from "@/components/sheard/Footer";
 import Navbar from "@/components/sheard/Navbar";
+import TopHeader from "@/components/sheard/TopHeader";
 
 export const metadata = {
   title: "Authentication | Bd Calling Academy",
@@ -8,14 +9,11 @@ export const metadata = {
 
 export default function AuthLayout({ children }) {
   return (
-    <html lang="en">
-      <body className=" ">
-        <div className=" ">
-           
-          {children}
-          <Footer/>
-        </div>
-      </body>
-    </html>
+    <>
+      <TopHeader />
+      <Navbar />
+      {children}
+      <Footer />
+    </>
   );
 }

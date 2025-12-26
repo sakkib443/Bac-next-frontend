@@ -7,6 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { BiCategory, BiMenu, BiX } from "react-icons/bi";
 import { LuBookOpenCheck, LuChevronDown, LuLogOut, LuLayoutDashboard } from "react-icons/lu";
 import { HiOutlineSparkles, HiOutlineUserCircle } from "react-icons/hi2";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "@/context/LanguageContext";
 
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -14,6 +16,7 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -41,7 +44,11 @@ const Navbar = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const courseTypes = ["Online", "Offline", "Recorded"];
+  const courseTypes = [
+    { key: "Online", label: t("navbar.onlineCourse") },
+    { key: "Offline", label: t("navbar.offlineCourse") },
+    { key: "Recorded", label: t("navbar.recordedCourse") },
+  ];
 
   const handleCourseTypeClick = (courseType) => {
     closeMobileMenu();
@@ -49,20 +56,23 @@ const Navbar = () => {
   };
 
   const menu = [
-    { href: "/", label: "Home" },
-    { href: "/courses", label: "Courses" },
-    { href: "/events", label: "Events" },
-    { href: "/mentors", label: "Mentors" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
-    { href: "/certification", label: "Certification" },
+    { href: "/", label: t("navbar.home") },
+    { href: "/courses", label: t("navbar.courses") },
+    { href: "/success-story", label: t("navbar.successHistory") },
+    { href: "/mentors", label: t("navbar.mentors") },
+    { href: "/about", label: t("navbar.about") },
+    { href: "/contact", label: t("navbar.contact") },
+    { href: "/certification", label: t("navbar.certification") },
   ];
+
+  // Apply Bengali font class when language is Bengali
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   return (
     <>
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 cursor-pointer ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         onClick={closeMobileMenu}
       />
@@ -76,7 +86,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <Link href="/" onClick={closeMobileMenu}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-32" src="/images/logo.png" alt="BD Calling Academy" />
+            <img className="w-32 cursor-pointer" src="/images/logo.png" alt="BD Calling Academy" />
           </Link>
           <button
             onClick={closeMobileMenu}
@@ -88,6 +98,11 @@ const Navbar = () => {
 
         {/* Mobile Menu Content */}
         <div className="p-5 flex flex-col h-[calc(100%-80px)]">
+          {/* Language Switcher for Mobile */}
+          <div className="mb-4 pb-4 border-b border-gray-100">
+            <LanguageSwitcher variant="compact" />
+          </div>
+
           <nav className="flex-1 overflow-y-auto">
             <ul className="space-y-1">
               {menu.map(({ href, label }, index) => (
@@ -95,13 +110,13 @@ const Navbar = () => {
                   <Link
                     href={href}
                     onClick={closeMobileMenu}
-                    className={`group flex items-center justify-between px-4 py-3.5 rounded-md transition-all duration-300 ${pathname === href
-                      ? "bg-gradient-to-r from-[#41bfb8]/20 to-[#41bfb8]/5 text-[#0f766e] border-l-4 border-[#41bfb8]"
-                      : "hover:bg-gray-100 text-gray-700 border-l-4 border-transparent hover:border-gray-200"
+                    className={`group flex items-center justify-between px-4 py-3.5 rounded-md transition-all duration-300 cursor-pointer ${pathname === href
+                      ? "bg-gradient-to-r from-[#41bfb8]/20 to-[#41bfb8]/5 text-[#0f766e] border-l-4  cursor-pointer border-[#41bfb8]"
+                      : "hover:bg-gray-100 text-gray-700 border-l-4 border-transparent hover:border-gray-200 cursor-pointer"
                       }`}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    <span className="font-medium text-[15px]">{label}</span>
+                    <span className={`font-medium text-[15px] ${bengaliClass}`}>{label}</span>
                     {pathname === href && (
                       <span className="w-2 h-2 rounded-full bg-[#41bfb8]"></span>
                     )}
@@ -128,38 +143,38 @@ const Navbar = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-gray-900 truncate">{user.name || user.gmail?.split('@')[0]}</p>
-                    <p className="text-[11px] text-gray-500 truncate">
-                      {user.role === 'admin' ? 'Administrator' : (user.role || 'Student Account')}
+                    <p className={`text-[11px] text-gray-500 truncate ${bengaliClass}`}>
+                      {user.role === 'admin' ? t("navbar.administrator") : (user.role || t("navbar.studentAccount"))}
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <Link
-                    href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard/user"}
+                    href={user.role === 'admin' ? "/dashboard/admin" : user.role === 'mentor' ? "/dashboard/mentor" : "/dashboard/user"}
                     onClick={closeMobileMenu}
                     className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl border border-gray-100 bg-white hover:bg-gray-50 transition-colors group"
                   >
                     <LuLayoutDashboard className="text-xl text-[#41bfb8] group-hover:scale-110 transition-transform" />
-                    <span className="text-xs font-bold text-gray-600">Dashboard</span>
+                    <span className={`text-xs font-bold text-gray-600 ${bengaliClass}`}>{t("navbar.dashboard")}</span>
                   </Link>
                   <button
                     onClick={handleLogout}
                     className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl border border-red-100 bg-red-50/30 hover:bg-red-50 transition-colors group"
                   >
                     <LuLogOut className="text-xl text-red-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-xs font-bold text-red-600">Logout</span>
+                    <span className={`text-xs font-bold text-red-600 ${bengaliClass}`}>{t("navbar.logout")}</span>
                   </button>
                 </div>
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                <Link href="/login" onClick={closeMobileMenu} className="flex items-center justify-center gap-2 py-4 rounded-xl border border-gray-100 bg-white text-[15px] font-bold text-gray-700 hover:bg-gray-50 transition-colors">
+                <Link href="/login" onClick={closeMobileMenu} className={`flex items-center justify-center gap-2 py-4 rounded-xl border border-gray-100 bg-white text-[15px] font-bold text-gray-700 hover:bg-gray-50 transition-colors ${bengaliClass}`}>
                   <HiOutlineUserCircle className="text-xl" />
-                  Sign In
+                  {t("navbar.signIn")}
                 </Link>
-                <Link href="/register" onClick={closeMobileMenu} className="block text-center py-4 rounded-xl bg-[#41bfb8] text-white text-[15px] font-bold shadow-lg shadow-teal-100">
-                  Get Started
+                <Link href="/register" onClick={closeMobileMenu} className={`block text-center py-4 rounded-xl bg-[#41bfb8] text-white text-[15px] font-bold shadow-lg shadow-teal-100 ${bengaliClass}`}>
+                  {t("navbar.getStarted")}
                 </Link>
               </div>
             )}
@@ -193,7 +208,7 @@ const Navbar = () => {
               <div className="relative group hidden md:flex items-center gap-2 cursor-pointer">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-gray-50 hover:bg-gray-100 border border-gray-100 hover:border-gray-200 transition-all duration-300">
                   <BiCategory className="text-2xl text-[#41bfb8]" />
-                  <span className="text-[15px] font-medium text-gray-700">Category</span>
+                  <span className={`text-[15px] font-medium text-gray-700 ${bengaliClass}`}>{t("navbar.category")}</span>
                   <LuChevronDown className="text-gray-400 group-hover:rotate-180 transition-transform duration-300" />
                 </div>
 
@@ -202,13 +217,13 @@ const Navbar = () => {
                   <div className="p-2">
                     {courseTypes.map((type, index) => (
                       <button
-                        key={type}
-                        onClick={() => handleCourseTypeClick(type)}
+                        key={type.key}
+                        onClick={() => handleCourseTypeClick(type.key)}
                         className="w-full flex items-center gap-3 px-4 py-3 rounded-md text-left hover:bg-gradient-to-r hover:from-[#41bfb8]/10 hover:to-transparent transition-all duration-200 group/item"
                       >
                         <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#41bfb8] to-[#F79952] opacity-0 group-hover/item:opacity-100 transition-opacity"></span>
-                        <span className="text-[14px] text-gray-600 group-hover/item:text-gray-900 font-medium transition-colors">
-                          {type} Course
+                        <span className={`text-[14px] text-gray-600 group-hover/item:text-gray-900 font-medium transition-colors ${bengaliClass}`}>
+                          {type.label}
                         </span>
                       </button>
                     ))}
@@ -224,7 +239,7 @@ const Navbar = () => {
                 <Link
                   key={href}
                   href={href}
-                  className={`relative px-4 py-2 font-medium text-[15px] transition-all duration-300 ${pathname === href
+                  className={`relative px-4 py-2 font-medium text-[15px] transition-all duration-300 cursor-pointer ${bengaliClass} ${pathname === href
                     ? "text-[#41bfb8]"
                     : "text-gray-600 hover:text-[#41bfb8]"
                     }`}
@@ -241,27 +256,28 @@ const Navbar = () => {
             </div>
 
             {/* CTA Button & Mobile Toggle */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              {/* Language Switcher - Desktop */}
+              <div className="hidden lg:block">
+                <LanguageSwitcher />
+              </div>
+
               {/* Get Course Button - Desktop */}
               <Link href="/courses" className="hidden lg:block">
                 <div className="relative group overflow-hidden rounded-md">
-                  {/* Gradient Background */}
                   <div className="absolute inset-0 bg-gradient-to-r from-[#41bfb8] via-[#2dd4bf] to-[#41bfb8] bg-[length:200%_100%] group-hover:animate-[shimmer_2s_linear_infinite] transition-all"></div>
-
-                  {/* Glow Effect */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <div className="absolute inset-0 bg-[#41bfb8] blur-xl opacity-40"></div>
                   </div>
-
-                  {/* Content */}
                   <div className="relative flex gap-2 items-center px-5 py-2.5">
                     <LuBookOpenCheck className="text-xl text-white group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="text-white font-semibold text-[14px] tracking-wide">
-                      Get Course
+                    <span className={`text-white font-semibold text-[14px] tracking-wide ${bengaliClass}`}>
+                      {t("navbar.getCourse")}
                     </span>
                   </div>
                 </div>
               </Link>
+
 
               {/* Mobile Menu Toggle */}
               <button

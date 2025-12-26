@@ -78,23 +78,23 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
         </button>
       )}
 
-      {/* Course Type Filter */}
+      {/* Skill Level Filter */}
       <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-200">
           <HiOutlineSparkles className="text-[#F79952]" />
-          <h3 className="font-semibold text-gray-800 outfit text-sm">Course Type</h3>
+          <h3 className="font-semibold text-gray-800 outfit text-sm">Skill Level</h3>
         </div>
         <div className="p-3 flex flex-wrap gap-2">
-          {typeOptions.map((type) => (
+          {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
             <button
-              key={type}
-              onClick={() => setSelectedType && setSelectedType(type)}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium work transition-all duration-200 ${selectedType === type
-                  ? "bg-[#41bfb8] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              key={level}
+              onClick={() => setSelectedType && setSelectedType(level)}
+              className={`px-3 py-1.5 rounded-md text-sm font-medium work transition-all duration-200 ${selectedType === level
+                ? "bg-[#41bfb8] text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
             >
-              {type}
+              {level}
             </button>
           ))}
         </div>
@@ -116,8 +116,8 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
           {/* All Option */}
           <label
             className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors ${selectedCategories.length === 0
-                ? "bg-[#41bfb8]/10 text-[#41bfb8]"
-                : "hover:bg-gray-50 text-gray-700"
+              ? "bg-[#41bfb8]/10 text-[#41bfb8]"
+              : "hover:bg-gray-50 text-gray-700"
               }`}
             onClick={() => dispatch(setSelectedCategories([]))}
           >
@@ -143,14 +143,14 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
               <label
                 key={category._id || category.id}
                 className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors ${selectedCategories.includes(category.name)
-                    ? "bg-[#41bfb8]/10 text-[#41bfb8]"
-                    : "hover:bg-gray-50 text-gray-700"
+                  ? "bg-[#41bfb8]/10 text-[#41bfb8]"
+                  : "hover:bg-gray-50 text-gray-700"
                   }`}
                 onClick={() => handleCategoryChange(category.name)}
               >
                 <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${selectedCategories.includes(category.name)
-                    ? "border-[#41bfb8] bg-[#41bfb8]"
-                    : "border-gray-300"
+                  ? "border-[#41bfb8] bg-[#41bfb8]"
+                  : "border-gray-300"
                   }`}>
                   {selectedCategories.includes(category.name) && (
                     <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">

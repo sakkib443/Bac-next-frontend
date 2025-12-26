@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { LuCopy, LuCheck } from "react-icons/lu";
+import { useLanguage } from "@/context/LanguageContext";
 
 const paymentMethods = [
   {
@@ -22,6 +23,8 @@ const paymentMethods = [
 
 const PaymentMethod = () => {
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const copyToClipboard = (number, index) => {
     navigator.clipboard.writeText(number);
@@ -33,8 +36,8 @@ const PaymentMethod = () => {
     <section className="py-10 bg-gray-50">
       <div className="container mx-auto px-4 lg:px-16">
         {/* Header */}
-        <h2 className="text-xl sm:text-2xl font-bold outfit text-center text-gray-800 mb-6">
-          Payment Methods
+        <h2 className={`text-xl sm:text-2xl font-bold outfit text-center text-gray-800 mb-6 ${bengaliClass}`}>
+          {t("paymentMethod.title")}
         </h2>
 
         {/* Payment Cards */}
@@ -74,8 +77,8 @@ const PaymentMethod = () => {
         </div>
 
         {/* Note */}
-        <p className="text-center text-xs text-gray-400 work mt-4">
-          Reference: Your Name + Course Name
+        <p className={`text-center text-xs text-gray-400 work mt-4 ${bengaliClass}`}>
+          {t("paymentMethod.reference")}
         </p>
       </div>
     </section>

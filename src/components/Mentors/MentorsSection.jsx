@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Shimmer Loading Skeleton
 const MentorSkeleton = () => (
@@ -67,6 +68,8 @@ const MentorsSection = () => {
   const [mentors, setMentors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     fetch("https://bacdb.vercel.app/api/mentors")
@@ -123,8 +126,8 @@ const MentorsSection = () => {
                           />
                           {/* Hover Overlay with View Details */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-6">
-                            <span className="px-5 py-2.5 bg-white text-[#41bfb8] font-semibold rounded-md shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2">
-                              View Details
+                            <span className={`px-5 py-2.5 bg-white text-[#41bfb8] font-semibold rounded-md shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2 ${bengaliClass}`}>
+                              {t("mentorsPage.viewDetails")}
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                               </svg>
@@ -139,15 +142,14 @@ const MentorsSection = () => {
                             {mentor?.designation}{" "}
                             {mentor?.subject && `• ${mentor.subject}`}
                           </p>
-                          <p className="text-sm text-gray-500 mt-2 work">
-                            ✅ {mentor?.training_experience?.years} Years of
-                            Training Experience
+                          <p className={`text-sm text-gray-500 mt-2 work ${bengaliClass}`}>
+                            ✅ {mentor?.training_experience?.years} {t("mentorsPage.yearsOfExperience")}
                           </p>
 
                           <div>
-                            <h3 className="text-xl outfit mt-5 font-bold text-gray-800 mb-3 flex items-center">
+                            <h3 className={`text-xl outfit mt-5 font-bold text-gray-800 mb-3 flex items-center ${bengaliClass}`}>
                               <span className="w-3 h-3 bg-[#F79952] rounded-full mr-2"></span>
-                              Work Experience
+                              {t("mentorsPage.workExperience")}
                             </h3>
                             <ul className="space-y-1 work">
                               {mentor.work_experience

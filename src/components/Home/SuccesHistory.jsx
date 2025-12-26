@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HiOutlinePlayCircle, HiOutlineSparkles, HiXMark } from "react-icons/hi2";
 import { LuArrowRight, LuPlay } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const videoData = [
   { id: "_6cBwuHNKgI", title: "Career Transformation - Success Story", name: "Shakil Ahmed" },
@@ -16,6 +17,8 @@ const videoData = [
 const SuccesHistory = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -24,24 +27,51 @@ const SuccesHistory = () => {
 
   return (
     <section className="relative py-16 lg:py-20 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#ecfcfb] via-white to-[#ecfcfb]"></div>
-      <div className="absolute top-20 left-10 w-72 h-72 bg-[#41bfb8]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#F79952]/10 rounded-full blur-3xl"></div>
+      {/* Base Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#ecfcfb] via-white to-[#fef9f3]"></div>
+
+      {/* Circuit Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2341bfb8' fill-opacity='1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }}></div>
+
+      {/* Gradient Orbs */}
+      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-[#41bfb8]/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-tl from-[#F79952]/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+
+      {/* Star Decorations */}
+      <svg className="absolute top-[10%] right-[15%] w-8 h-8 text-[#F79952]/20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+      </svg>
+      <svg className="absolute bottom-[20%] left-[10%] w-6 h-6 text-[#41bfb8]/20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+      </svg>
+      <svg className="absolute top-[40%] left-[5%] w-4 h-4 text-[#F79952]/15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+      </svg>
+
+      {/* Curved Accent Lines */}
+      <svg className="absolute bottom-0 left-0 w-full h-32 opacity-5" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,60 Q360,120 720,60 T1440,60" fill="none" stroke="#41bfb8" strokeWidth="2" />
+        <path d="M0,80 Q360,20 720,80 T1440,80" fill="none" stroke="#F79952" strokeWidth="1.5" />
+      </svg>
+
+      {/* Corner Brackets */}
+      <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-[#41bfb8]/15 rounded-tl-lg"></div>
+      <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-[#F79952]/15 rounded-br-lg"></div>
 
       <div className="container mx-auto px-4 lg:px-16 relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm">
             <HiOutlineSparkles className="text-[#F79952] text-lg" />
-            <span className="text-sm font-medium text-gray-700 work">Real Stories, Real Success</span>
+            <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("successHistory.badge")}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800">
-            Our <span className="text-[#41bfb8]">Success Stories</span>
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+            {t("successHistory.title1")}<span className="text-[#41bfb8]">{t("successHistory.title2")}</span>
           </h2>
-          <p className="mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto">
-            At Bdcalling Academy, our students grow with confidence, help others, and build real careers.
-            Their success inspires us to keep creating opportunities.
+          <p className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}>
+            {t("successHistory.subtitle")}
           </p>
 
           {/* Stats */}
@@ -52,10 +82,10 @@ const SuccesHistory = () => {
                   <FaStar key={i} className="text-[#F79952] text-sm" />
                 ))}
               </div>
-              <span className="text-sm text-gray-600 work">4.9/5 Rating</span>
+              <span className={`text-sm text-gray-600 work ${bengaliClass}`}>4.9/5 {t("successHistory.rating")}</span>
             </div>
             <div className="w-px h-5 bg-gray-300"></div>
-            <span className="text-sm text-gray-600 work"><strong className="text-[#41bfb8]">500+</strong> Success Stories</span>
+            <span className={`text-sm text-gray-600 work ${bengaliClass}`}><strong className="text-[#41bfb8]">500+</strong> {t("successHistory.successStories")}</span>
           </div>
         </div>
 
@@ -94,8 +124,8 @@ const SuccesHistory = () => {
                   </div>
 
                   {/* Top Badge */}
-                  <div className="absolute top-3 left-3 px-2 py-1 bg-[#F79952] text-white text-xs font-medium rounded-md">
-                    Student Story
+                  <div className={`absolute top-3 left-3 px-2 py-1 bg-[#F79952] text-white text-xs font-medium rounded-md ${bengaliClass}`}>
+                    {t("successHistory.studentStory")}
                   </div>
                 </div>
               </div>
@@ -107,13 +137,13 @@ const SuccesHistory = () => {
         <div className={`text-center mt-12 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
           <Link
             href="/success-story"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white rounded-md font-semibold work hover:shadow-xl hover:shadow-[#41bfb8]/30 transition-all duration-300 group"
+            className={`inline-flex items-center gap-2 px-8 py-3.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white rounded-md font-semibold work hover:shadow-xl hover:shadow-[#41bfb8]/30 transition-all duration-300 group ${bengaliClass}`}
           >
-            <span>View All Success Stories</span>
+            <span>{t("successHistory.viewAllSuccessStories")}</span>
             <LuArrowRight className="transform group-hover:translate-x-1 transition-transform" />
           </Link>
-          <p className="mt-3 text-sm text-gray-400 work">
-            Be the next success story
+          <p className={`mt-3 text-sm text-gray-400 work ${bengaliClass}`}>
+            {t("successHistory.beNextSuccessStory")}
           </p>
         </div>
       </div>
@@ -121,7 +151,7 @@ const SuccesHistory = () => {
       {/* Video Modal */}
       {selectedVideo && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 animate-fadeIn cursor-pointer"
           onClick={() => setSelectedVideo(null)}
         >
           <div

@@ -56,10 +56,14 @@ const PopularCourseCard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Filter courses by category _id (course.category is ObjectId string)
   const filteredCourses =
     selectedCategory === "All"
       ? courses
-      : courses.filter((course) => course.category === selectedCategory);
+      : courses.filter((course) => {
+        const courseCategoryId = course.category?._id || course.category;
+        return courseCategoryId === selectedCategory;
+      });
 
   const visibleCourses = filteredCourses.slice(startIndex, startIndex + visibleItems);
 
@@ -81,8 +85,8 @@ const PopularCourseCard = () => {
     setTimeout(() => setIsAnimating(false), 500);
   };
 
-  const handleCategoryChange = (catName) => {
-    setSelectedCategory(catName);
+  const handleCategoryChange = (catId) => {
+    setSelectedCategory(catId);
     setStartIndex(0);
   };
 
@@ -92,19 +96,19 @@ const PopularCourseCard = () => {
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10">
         {courseCategories.map((cat, index) => (
           <button
-            key={cat.id}
-            onClick={() => handleCategoryChange(cat.name)}
-            className={`relative px-4 sm:px-5 py-2 sm:py-2.5 rounded-md font-medium text-sm work transition-all duration-300 overflow-hidden ${selectedCategory === cat.name
-                ? "text-white shadow-lg shadow-[#41bfb8]/30"
-                : "bg-white text-gray-600 border border-gray-200 hover:border-[#41bfb8]/50 hover:text-[#41bfb8]"
+            key={cat._id || cat.id}
+            onClick={() => handleCategoryChange(cat._id || cat.id)}
+            className={`relative px-4 sm:px-5 py-2 sm:py-2.5 rounded-md font-medium text-sm work transition-all duration-300 overflow-hidden ${selectedCategory === (cat._id || cat.id)
+              ? "text-white shadow-lg shadow-[#41bfb8]/30"
+              : "bg-white text-gray-600 border border-gray-200 hover:border-[#41bfb8]/50 hover:text-[#41bfb8]"
               }`}
           >
             {/* Active Background */}
-            {selectedCategory === cat.name && (
+            {selectedCategory === (cat._id || cat.id) && (
               <span className="absolute inset-0 bg-gradient-to-r from-[#41bfb8] to-[#38a89d]"></span>
             )}
             <span className="relative z-10 flex items-center gap-1.5">
-              {selectedCategory === cat.name && <HiOutlineSparkles className="text-sm" />}
+              {selectedCategory === (cat._id || cat.id) && <HiOutlineSparkles className="text-sm" />}
               {cat.name}
             </span>
           </button>
@@ -119,7 +123,7 @@ const PopularCourseCard = () => {
             <button
               onClick={handlePrev}
               disabled={isAnimating}
-              className="absolute left-0 lg:left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-[#41bfb8] hover:text-white hover:border-[#41bfb8] hover:shadow-xl hover:shadow-[#41bfb8]/20 transition-all duration-300 disabled:opacity-50"
+              className="absolute left-0 lg:left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-[#41bfb8] hover:text-white hover:border-[#41bfb8] hover:shadow-xl hover:shadow-[#41bfb8]/20 transition-all duration-300 disabled:opacity-50 cursor-pointer"
             >
               <FaChevronLeft className="text-sm sm:text-base" />
             </button>
@@ -127,7 +131,7 @@ const PopularCourseCard = () => {
             <button
               onClick={handleNext}
               disabled={isAnimating}
-              className="absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-[#41bfb8] hover:text-white hover:border-[#41bfb8] hover:shadow-xl hover:shadow-[#41bfb8]/20 transition-all duration-300 disabled:opacity-50"
+              className="absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-[#41bfb8] hover:text-white hover:border-[#41bfb8] hover:shadow-xl hover:shadow-[#41bfb8]/20 transition-all duration-300 disabled:opacity-50 cursor-pointer"
             >
               <FaChevronRight className="text-sm sm:text-base" />
             </button>
@@ -192,8 +196,8 @@ const PopularCourseCard = () => {
                   setStartIndex(index * visibleItems);
                 }}
                 className={`transition-all duration-300 rounded-full ${Math.floor(startIndex / visibleItems) === index
-                    ? "w-8 h-2 bg-[#41bfb8]"
-                    : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+                  ? "w-8 h-2 bg-[#41bfb8]"
+                  : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
                   }`}
               />
             ))}

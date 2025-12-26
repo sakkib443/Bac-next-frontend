@@ -46,7 +46,7 @@ const LeftEventSection = () => {
 
                   <div className="flex items-center gap-6">
                     <p className="uppercase cpr text-lg font-medium">Offline</p>
-                    <button className="border bg-[#41bfb8] border-[#41bfb8] px-4 py-2 rounded-md">
+                    <button className="border bg-[#41bfb8] border-[#41bfb8] px-4 py-2 rounded-md cursor-pointer">
                       <span className="work tracking-tight text-[15px] text-white">
                         Join Event
                       </span>
@@ -60,9 +60,8 @@ const LeftEventSection = () => {
 
                 <div className="relative">
                   <p
-                    className={`crd text-sm md:text-base font-semibold ${
-                      expanded ? "" : "line-clamp-2"
-                    }`}
+                    className={`crd text-sm md:text-base font-semibold ${expanded ? "" : "line-clamp-2"
+                      }`}
                   >
                     {eventDescription}
                   </p>
@@ -119,9 +118,8 @@ const LeftEventSection = () => {
 
                   <div className="relative md:hidden">
                     <p
-                      className={`crd text-sm md:text-base font-semibold ${
-                        expanded ? "" : "line-clamp-2"
-                      }`}
+                      className={`crd text-sm md:text-base font-semibold ${expanded ? "" : "line-clamp-2"
+                        }`}
                     >
                       {eventDescription}
                     </p>
@@ -177,9 +175,8 @@ const LeftEventSection = () => {
 
                   <div className="relative md:hidden">
                     <p
-                      className={`crd text-sm md:text-base font-semibold ${
-                        expanded ? "" : "line-clamp-2"
-                      }`}
+                      className={`crd text-sm md:text-base font-semibold ${expanded ? "" : "line-clamp-2"
+                        }`}
                     >
                       {eventDescription}
                     </p>

@@ -1,8 +1,14 @@
+"use client";
+
 import MentorsSection from "@/components/Mentors/MentorsSection";
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { HiOutlineAcademicCap } from "react-icons/hi2";
 
 const MentorsPage = () => {
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -15,14 +21,13 @@ const MentorsPage = () => {
           <div className="text-center max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 bg-[#41bfb8]/10 border border-[#41bfb8]/20 rounded-full">
               <HiOutlineAcademicCap className="text-[#41bfb8] text-base" />
-              <span className="text-xs font-medium text-gray-700 work">Expert Instructors</span>
+              <span className={`text-xs font-medium text-gray-700 work ${bengaliClass}`}>{t("mentorsPage.badge")}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2">
-              Our <span className="text-[#41bfb8]">Mentors</span>
+            <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2 ${bengaliClass}`}>
+              {t("mentorsPage.title1")}<span className="text-[#41bfb8]">{t("mentorsPage.title2")}</span>
             </h1>
-            <p className="text-gray-500 work text-sm leading-relaxed">
-              Behind the leading IT skill development platform, masterminds of industry leaders are working.
-              From the management to the expert mentors, highly skilled people are dedicated to your skill advancement.
+            <p className={`text-gray-500 work text-sm leading-relaxed ${bengaliClass}`}>
+              {t("mentorsPage.subtitle")}
             </p>
           </div>
         </div>

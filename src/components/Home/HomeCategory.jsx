@@ -3,45 +3,106 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
-const categories = [
-    { img: '/images/gdIcon.png', title: 'Art & Design', subtitle: 'Platform for Creativity', color: '#FF6B6B', bgColor: '#FFF5F5' },
-    { img: '/images/webicon.png', title: 'Programming', subtitle: 'Code with Confidence', color: '#41bfb8', bgColor: '#F0FDFA' },
-    { img: '/images/icon5.png', title: 'Digital Marketing', subtitle: 'The Art of Influence', color: '#F79952', bgColor: '#FFF7ED' },
-    { img: '/images/icon6 (2).png', title: 'Media & Film', subtitle: 'Storytelling in Motion', color: '#8B5CF6', bgColor: '#F5F3FF' },
-    { img: '/images/icon3.png', title: 'Networking & Server', subtitle: 'Protector of IT Industry', color: '#3B82F6', bgColor: '#EFF6FF' },
-    { img: '/images/icon4.png', title: 'Management', subtitle: 'Leading with Strategy', color: '#10B981', bgColor: '#ECFDF5' },
-    { img: '/images/icon3.png', title: 'Database', subtitle: 'Structure, Store, Strategize', color: '#EC4899', bgColor: '#FDF2F8' },
-    { img: '/images/gdIcon.png', title: 'Diploma', subtitle: 'Skill Up, Stand Out', color: '#6366F1', bgColor: '#EEF2FF' }
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 const HomeCategory = () => {
     const [isVisible, setIsVisible] = useState(false);
+    const { t, language } = useLanguage();
+    const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
     useEffect(() => {
         const timer = setTimeout(() => setIsVisible(true), 100);
         return () => clearTimeout(timer);
     }, []);
 
+    const categories = [
+        { img: '/images/gdIcon.png', titleKey: 'artDesign', subtitleKey: 'artDesignSub', color: '#FF6B6B', bgColor: '#FFF5F5' },
+        { img: '/images/webicon.png', titleKey: 'programming', subtitleKey: 'programmingSub', color: '#41bfb8', bgColor: '#F0FDFA' },
+        { img: '/images/icon5.png', titleKey: 'digitalMarketing', subtitleKey: 'digitalMarketingSub', color: '#F79952', bgColor: '#FFF7ED' },
+        { img: '/images/icon6 (2).png', titleKey: 'mediaFilm', subtitleKey: 'mediaFilmSub', color: '#8B5CF6', bgColor: '#F5F3FF' },
+        { img: '/images/icon3.png', titleKey: 'networkingServer', subtitleKey: 'networkingServerSub', color: '#3B82F6', bgColor: '#EFF6FF' },
+        { img: '/images/icon4.png', titleKey: 'management', subtitleKey: 'managementSub', color: '#10B981', bgColor: '#ECFDF5' },
+        { img: '/images/icon3.png', titleKey: 'database', subtitleKey: 'databaseSub', color: '#EC4899', bgColor: '#FDF2F8' },
+        { img: '/images/gdIcon.png', titleKey: 'diploma', subtitleKey: 'diplomaSub', color: '#6366F1', bgColor: '#EEF2FF' }
+    ];
+
+    // Map for URL category names (keep English for URLs)
+    const categoryUrlMap = {
+        'artDesign': 'Art & Design',
+        'programming': 'Programming',
+        'digitalMarketing': 'Digital Marketing',
+        'mediaFilm': 'Media & Film',
+        'networkingServer': 'Networking & Server',
+        'management': 'Management',
+        'database': 'Database',
+        'diploma': 'Diploma'
+    };
+
     return (
-        <section className='relative bg-white py-12 lg:py-16 overflow-hidden'>
-            {/* Background Decoration */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#41bfb8]/20 to-transparent"></div>
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#41bfb8]/5 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#F79952]/5 rounded-full blur-3xl"></div>
+        <section className='relative bg-gradient-to-b from-white via-slate-50/50 to-white py-12 lg:py-16 overflow-hidden'>
+            {/* Top Border Gradient */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#41bfb8]/30 to-transparent"></div>
+
+            {/* Background Gradient Mesh */}
+            <div className="absolute inset-0 opacity-40">
+                <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-[#41bfb8]/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-bl from-[#F79952]/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-purple-200/20 via-transparent to-transparent rounded-full blur-3xl"></div>
+            </div>
+
+            {/* Decorative Grid Pattern */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(65,191,184,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(65,191,184,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+
+            {/* Floating Geometric Shapes */}
+            <div className="absolute top-20 left-[8%] w-20 h-20 border border-[#41bfb8]/10 rounded-2xl rotate-12"></div>
+            <div className="absolute top-1/3 right-[5%] w-16 h-16 border border-[#F79952]/10 rounded-full"></div>
+            <div className="absolute bottom-20 left-[15%] w-12 h-12 bg-[#41bfb8]/5 rounded-lg rotate-45"></div>
+            <div className="absolute bottom-1/3 right-[12%] w-14 h-14 border border-purple-200/20 rounded-xl -rotate-12"></div>
+
+            {/* Dot Pattern - Left Side */}
+            <div className="absolute top-1/4 left-[3%] hidden lg:flex flex-col gap-3 opacity-30">
+                {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex gap-3">
+                        {[...Array(3)].map((_, j) => (
+                            <div key={j} className="w-1.5 h-1.5 bg-[#41bfb8] rounded-full"></div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+
+            {/* Dot Pattern - Right Side */}
+            <div className="absolute bottom-1/4 right-[3%] hidden lg:flex flex-col gap-3 opacity-30">
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="flex gap-3">
+                        {[...Array(3)].map((_, j) => (
+                            <div key={j} className="w-1.5 h-1.5 bg-[#F79952] rounded-full"></div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+
+            {/* Curved Lines */}
+            <svg className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" viewBox="0 0 1440 600" preserveAspectRatio="none">
+                <path d="M0,300 Q360,200 720,300 T1440,300" fill="none" stroke="#41bfb8" strokeWidth="2" />
+                <path d="M0,350 Q360,250 720,350 T1440,350" fill="none" stroke="#F79952" strokeWidth="1.5" />
+            </svg>
+
+            {/* Corner Decorations */}
+            <div className="absolute top-8 right-8 w-24 h-24 border-t-2 border-r-2 border-[#41bfb8]/10 rounded-tr-3xl"></div>
+            <div className="absolute bottom-8 left-8 w-24 h-24 border-b-2 border-l-2 border-[#F79952]/10 rounded-bl-3xl"></div>
 
             <div className='container mx-auto px-4 lg:px-16'>
                 {/* Section Header */}
                 <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
                     <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 bg-[#41bfb8]/10 rounded-full">
                         <span className="w-2 h-2 bg-[#41bfb8] rounded-full"></span>
-                        <span className="text-sm font-medium text-[#41bfb8] work">Browse Categories</span>
+                        <span className={`text-sm font-medium text-[#41bfb8] work ${bengaliClass}`}>{t("homeCategory.badge")}</span>
                     </div>
-                    <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 outfit'>
-                        Explore Our Course Categories
+                    <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 outfit ${bengaliClass}`}>
+                        {t("homeCategory.title")}
                     </h2>
-                    <p className='mt-2 text-gray-500 work text-sm sm:text-base max-w-xl mx-auto'>
-                        Choose from 8+ categories and start your learning journey today
+                    <p className={`mt-2 text-gray-500 work text-sm sm:text-base max-w-xl mx-auto ${bengaliClass}`}>
+                        {t("homeCategory.subtitle")}
                     </p>
                 </div>
 
@@ -50,7 +111,7 @@ const HomeCategory = () => {
                     {categories.map((cat, index) => (
                         <Link
                             key={index}
-                            href={`/courses?category=${encodeURIComponent(cat.title)}`}
+                            href={`/courses?category=${encodeURIComponent(categoryUrlMap[cat.titleKey])}`}
                             className={`group relative bg-white border border-gray-200 rounded-md p-4 lg:p-5 transition-all duration-500 hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 hover:border-transparent ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
                             style={{ transitionDelay: `${index * 50}ms` }}
                         >
@@ -76,7 +137,7 @@ const HomeCategory = () => {
                                 >
                                     <Image
                                         src={cat.img}
-                                        alt={cat.title}
+                                        alt={t(`homeCategory.categories.${cat.titleKey}`)}
                                         width={32}
                                         height={32}
                                         className='w-7 h-7 lg:w-8 lg:h-8 object-contain transition-transform duration-300 group-hover:scale-110'
@@ -85,11 +146,11 @@ const HomeCategory = () => {
 
                                 {/* Text Content */}
                                 <div className='flex-1 min-w-0'>
-                                    <h3 className='font-semibold text-gray-800 outfit-semibold text-sm lg:text-base truncate group-hover:text-gray-900 transition-colors'>
-                                        {cat.title}
+                                    <h3 className={`font-semibold text-gray-800 outfit-semibold text-sm lg:text-base truncate group-hover:text-gray-900 transition-colors ${bengaliClass}`}>
+                                        {t(`homeCategory.categories.${cat.titleKey}`)}
                                     </h3>
-                                    <p className='work text-xs lg:text-sm text-gray-500 truncate group-hover:text-gray-600 transition-colors'>
-                                        {cat.subtitle}
+                                    <p className={`work text-xs lg:text-sm text-gray-500 truncate group-hover:text-gray-600 transition-colors ${bengaliClass}`}>
+                                        {t(`homeCategory.categories.${cat.subtitleKey}`)}
                                     </p>
                                 </div>
 
@@ -108,15 +169,15 @@ const HomeCategory = () => {
 
                             {/* Course Count Badge */}
                             <div className='mt-3 pt-3 border-t border-gray-50 flex items-center justify-between'>
-                                <span className='text-xs text-gray-400 work'>Explore courses</span>
+                                <span className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("homeCategory.exploreCourses")}</span>
                                 <span
-                                    className='text-xs font-medium px-2 py-0.5 rounded-full transition-colors duration-300'
+                                    className={`text-xs font-medium px-2 py-0.5 rounded-full transition-colors duration-300 ${bengaliClass}`}
                                     style={{
                                         backgroundColor: `${cat.color}15`,
                                         color: cat.color
                                     }}
                                 >
-                                    View All
+                                    {t("homeCategory.viewAll")}
                                 </span>
                             </div>
                         </Link>
@@ -127,9 +188,9 @@ const HomeCategory = () => {
                 <div className={`text-center mt-10 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
                     <Link
                         href="/courses"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white rounded-md font-medium work hover:shadow-lg hover:shadow-[#41bfb8]/30 transition-all duration-300"
+                        className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white rounded-md font-medium work hover:shadow-lg hover:shadow-[#41bfb8]/30 transition-all duration-300 ${bengaliClass}`}
                     >
-                        <span>Browse All Courses</span>
+                        <span>{t("homeCategory.browseAllCourses")}</span>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>

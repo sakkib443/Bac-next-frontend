@@ -5,9 +5,12 @@ import { LuAlarmClockMinus, LuCalendarDays, LuUsers, LuArrowRight } from "react-
 import { PiCertificateThin } from "react-icons/pi";
 import { HiOutlineComputerDesktop, HiOutlineSparkles } from "react-icons/hi2";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 const SeminarAndEvent = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -16,10 +19,17 @@ const SeminarAndEvent = () => {
 
   return (
     <section className="relative py-16 lg:py-20 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#e8f9f9] via-white to-[#e8f9f9]"></div>
-      <div className="absolute top-10 right-10 w-72 h-72 bg-[#41bfb8]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#F79952]/10 rounded-full blur-3xl"></div>
+      {/* Base Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#e8f9f9] via-white to-[#fff8f0]"></div>
+
+      {/* Zigzag Pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm20 0L26.172 0h5.656L20 11.828V6.172zm20 0L46.172 0h5.656L40 11.828V6.172zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zM20 0L26.172 6.172 20 12 13.828 6.172 20 0z' fill='%2341bfb8' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`
+      }}></div>
+
+      {/* Gradient Orbs */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-[#41bfb8]/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-gradient-to-tl from-[#F79952]/10 via-transparent to-transparent rounded-full blur-3xl"></div>
 
       <div className="container mx-auto px-4 lg:px-16 relative z-10">
         <div className="flex lg:flex-row flex-col justify-center items-center gap-12 lg:gap-16">
@@ -47,7 +57,7 @@ const SeminarAndEvent = () => {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-gray-800 outfit">100+</p>
-                      <p className="text-xs text-gray-500 work">Events Completed</p>
+                      <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("seminarEvent.eventsCompleted")}</p>
                     </div>
                   </div>
                 </div>
@@ -63,20 +73,18 @@ const SeminarAndEvent = () => {
                 <div className="w-8 h-8 rounded-full bg-[#D8F7F6] flex items-center justify-center">
                   <LuAlarmClockMinus className="text-[#41bfb8]" />
                 </div>
-                <span className="text-sm font-medium text-gray-700 work">To Know Us Better</span>
+                <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("seminarEvent.badge")}</span>
               </div>
 
               {/* Heading */}
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit-semibold text-gray-800 mb-4">
-                Let&apos;s Explore the
-                <span className="text-[#41bfb8]"> World of IT</span>
+              <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit-semibold text-gray-800 mb-4 ${bengaliClass}`}>
+                {t("seminarEvent.title1")}
+                <span className="text-[#41bfb8]">{t("seminarEvent.title2")}</span>
               </h2>
 
               {/* Description */}
-              <p className="text-gray-600 work text-sm sm:text-base leading-relaxed mb-6">
-                Whether you&apos;re a student or a working professional, our interactive seminars and
-                industry events are crafted to educate, motivate, and equip you for a successful
-                career in the tech industry. Gain valuable insights from experienced professionals.
+              <p className={`text-gray-600 work text-sm sm:text-base leading-relaxed mb-6 ${bengaliClass}`}>
+                {t("seminarEvent.description")}
               </p>
 
               {/* Event Cards */}
@@ -89,11 +97,11 @@ const SeminarAndEvent = () => {
                       <PiCertificateThin className="text-3xl text-[#41bfb8]" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg text-gray-800 outfit-semibold group-hover:text-[#41bfb8] transition-colors">
-                        Join Our Seminar
+                      <h3 className={`font-semibold text-lg text-gray-800 outfit-semibold group-hover:text-[#41bfb8] transition-colors ${bengaliClass}`}>
+                        {t("seminarEvent.joinSeminar")}
                       </h3>
-                      <p className="text-sm text-gray-500 work">
-                        Unlock your potential with guidance from industry leaders.
+                      <p className={`text-sm text-gray-500 work ${bengaliClass}`}>
+                        {t("seminarEvent.seminarDesc")}
                       </p>
                     </div>
                     <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-[#41bfb8] flex items-center justify-center transition-all duration-300">
@@ -110,11 +118,11 @@ const SeminarAndEvent = () => {
                       <HiOutlineComputerDesktop className="text-3xl text-[#F79952]" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg text-gray-800 outfit-semibold group-hover:text-[#F79952] transition-colors">
-                        Enjoy Our Events
+                      <h3 className={`font-semibold text-lg text-gray-800 outfit-semibold group-hover:text-[#F79952] transition-colors ${bengaliClass}`}>
+                        {t("seminarEvent.enjoyEvents")}
                       </h3>
-                      <p className="text-sm text-gray-500 work">
-                        Build your network through meaningful connections.
+                      <p className={`text-sm text-gray-500 work ${bengaliClass}`}>
+                        {t("seminarEvent.eventsDesc")}
                       </p>
                     </div>
                     <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-[#F79952] flex items-center justify-center transition-all duration-300">
@@ -130,14 +138,14 @@ const SeminarAndEvent = () => {
                   <LuUsers className="text-[#41bfb8] text-xl" />
                   <div>
                     <p className="text-lg font-bold text-gray-800 outfit">5000+</p>
-                    <p className="text-xs text-gray-500 work">Attendees</p>
+                    <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("seminarEvent.attendees")}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <HiOutlineSparkles className="text-[#F79952] text-xl" />
                   <div>
                     <p className="text-lg font-bold text-gray-800 outfit">50+</p>
-                    <p className="text-xs text-gray-500 work">Expert Speakers</p>
+                    <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("seminarEvent.expertSpeakers")}</p>
                   </div>
                 </div>
               </div>

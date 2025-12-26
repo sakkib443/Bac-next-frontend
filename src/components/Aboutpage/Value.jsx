@@ -2,46 +2,50 @@
 
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { LuRocket, LuTrendingUp, LuTarget, LuUsers, LuAward } from "react-icons/lu";
-
-const valueItems = [
-  {
-    icon: LuRocket,
-    title: "Pioneers",
-    subtitle: "Empowering learners with real-world skills.",
-    description: "We focus on practical, industry-relevant training that prepares individuals for successful careers in the tech world.",
-    color: "#41bfb8",
-  },
-  {
-    icon: LuTrendingUp,
-    title: "Growth",
-    subtitle: "Building a future-ready workforce.",
-    description: "We believe in continuous learning and personal development, encouraging students to expand their potential and adapt to the evolving digital landscape.",
-    color: "#F79952",
-  },
-  {
-    icon: LuTarget,
-    title: "Impact",
-    subtitle: "Creating meaningful change through learning.",
-    description: "We measure our success by the impact our training has on learners' careers and their contributions to the tech ecosystem.",
-    color: "#8B5CF6",
-  },
-  {
-    icon: LuUsers,
-    title: "Community",
-    subtitle: "Learning together, winning together.",
-    description: "We foster a supportive environment where collaboration and shared learning drive collective success.",
-    color: "#EC4899",
-  },
-  {
-    icon: LuAward,
-    title: "Excellence",
-    subtitle: "Setting the standard for digital skill sets.",
-    description: "We are committed to delivering high-quality, cutting-edge training that empowers learners to innovate and lead in the tech industry.",
-    color: "#10B981",
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 const Value = () => {
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
+  const valueItems = [
+    {
+      icon: LuRocket,
+      titleKey: "pioneers",
+      subtitleKey: "pioneersSubtitle",
+      descKey: "pioneersDesc",
+      color: "#41bfb8",
+    },
+    {
+      icon: LuTrendingUp,
+      titleKey: "growth",
+      subtitleKey: "growthSubtitle",
+      descKey: "growthDesc",
+      color: "#F79952",
+    },
+    {
+      icon: LuTarget,
+      titleKey: "impact",
+      subtitleKey: "impactSubtitle",
+      descKey: "impactDesc",
+      color: "#8B5CF6",
+    },
+    {
+      icon: LuUsers,
+      titleKey: "community",
+      subtitleKey: "communitySubtitle",
+      descKey: "communityDesc",
+      color: "#EC4899",
+    },
+    {
+      icon: LuAward,
+      titleKey: "excellence",
+      subtitleKey: "excellenceSubtitle",
+      descKey: "excellenceDesc",
+      color: "#10B981",
+    },
+  ];
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4 lg:px-16">
@@ -49,10 +53,10 @@ const Value = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm">
             <HiOutlineSparkles className="text-[#41bfb8] text-lg" />
-            <span className="text-sm font-medium text-gray-700 work">Core Values That Define Us</span>
+            <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("aboutPage.valuesBadge")}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800">
-            Our Values <span className="text-[#F79952]">& Ethics</span>
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+            {t("aboutPage.valuesTitle1")}<span className="text-[#F79952]">{t("aboutPage.valuesTitle2")}</span>
           </h2>
         </div>
 
@@ -72,19 +76,19 @@ const Value = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-bold text-gray-800 outfit mb-1">{item.title}</h3>
+              <h3 className={`text-xl font-bold text-gray-800 outfit mb-1 ${bengaliClass}`}>{t(`aboutPage.${item.titleKey}`)}</h3>
 
               {/* Subtitle */}
               <p
-                className="text-sm font-medium mb-3 work"
+                className={`text-sm font-medium mb-3 work ${bengaliClass}`}
                 style={{ color: item.color }}
               >
-                {item.subtitle}
+                {t(`aboutPage.${item.subtitleKey}`)}
               </p>
 
               {/* Description */}
-              <p className="text-sm text-gray-500 work leading-relaxed">
-                {item.description}
+              <p className={`text-sm text-gray-500 work leading-relaxed ${bengaliClass}`}>
+                {t(`aboutPage.${item.descKey}`)}
               </p>
 
               {/* Bottom Accent */}

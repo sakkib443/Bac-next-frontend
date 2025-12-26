@@ -3,35 +3,39 @@
 import Image from "next/image";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { LuTarget, LuTrendingUp, LuBookOpen, LuUsers } from "react-icons/lu";
-
-const missionItems = [
-  {
-    icon: LuTrendingUp,
-    title: "Global Leadership",
-    description: "To be the world's leading IT training platform, developing a skilled workforce with a diverse range of technical expertise to shape the future of the global tech industry.",
-    color: "#41bfb8",
-  },
-  {
-    icon: LuTarget,
-    title: "Employment Goals",
-    description: "Our goal is to create over 5,000 job opportunities by 2030, actively contributing to building the Digital Bangladesh and helping to lower the nation's unemployment rate.",
-    color: "#F79952",
-  },
-  {
-    icon: LuBookOpen,
-    title: "Practical Skills",
-    description: "We're committed to equipping individuals with practical technical skills, developing the core foundation for career success in a rapidly changing tech world.",
-    color: "#8B5CF6",
-  },
-  {
-    icon: LuUsers,
-    title: "Career Paths",
-    description: "We provide industry-focused training that opens up a variety of IT career paths, empowering more people to excel in the IT sector and make a meaningful impact.",
-    color: "#EC4899",
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 const Mission = () => {
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
+  const missionItems = [
+    {
+      icon: LuTrendingUp,
+      titleKey: "globalLeadership",
+      descKey: "globalLeadershipDesc",
+      color: "#41bfb8",
+    },
+    {
+      icon: LuTarget,
+      titleKey: "employmentGoals",
+      descKey: "employmentGoalsDesc",
+      color: "#F79952",
+    },
+    {
+      icon: LuBookOpen,
+      titleKey: "practicalSkills",
+      descKey: "practicalSkillsDesc",
+      color: "#8B5CF6",
+    },
+    {
+      icon: LuUsers,
+      titleKey: "careerPaths",
+      descKey: "careerPathsDesc",
+      color: "#EC4899",
+    },
+  ];
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 lg:px-16">
@@ -39,10 +43,10 @@ const Mission = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gray-50 border border-gray-200 rounded-full">
             <HiOutlineSparkles className="text-[#41bfb8] text-lg" />
-            <span className="text-sm font-medium text-gray-700 work">The Goal We Breath</span>
+            <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("aboutPage.missionBadge")}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800">
-            Our Mission <span className="text-[#F79952]">& Vision</span>
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+            {t("aboutPage.missionTitle1")}<span className="text-[#F79952]">{t("aboutPage.missionTitle2")}</span>
           </h2>
         </div>
 
@@ -62,7 +66,7 @@ const Mission = () => {
               {/* Floating Badge */}
               <div className="absolute -bottom-4 -right-4 bg-[#41bfb8] text-white px-6 py-3 rounded-md shadow-lg">
                 <p className="text-2xl font-bold outfit">5000+</p>
-                <p className="text-xs work">Jobs by 2030</p>
+                <p className={`text-xs work ${bengaliClass}`}>{t("aboutPage.jobsByYear")}</p>
               </div>
             </div>
           </div>
@@ -81,8 +85,8 @@ const Mission = () => {
                   >
                     <item.icon className="text-2xl" style={{ color: item.color }} />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-800 outfit mb-2">{item.title}</h3>
-                  <p className="text-sm text-gray-500 work leading-relaxed">{item.description}</p>
+                  <h3 className={`text-lg font-bold text-gray-800 outfit mb-2 ${bengaliClass}`}>{t(`aboutPage.${item.titleKey}`)}</h3>
+                  <p className={`text-sm text-gray-500 work leading-relaxed ${bengaliClass}`}>{t(`aboutPage.${item.descKey}`)}</p>
                 </div>
               ))}
             </div>

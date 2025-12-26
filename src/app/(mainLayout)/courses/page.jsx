@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCoursesData } from "@/redux/CourseSlice";
 import { fetchCategories } from "@/redux/categorySlice";
@@ -8,17 +8,27 @@ import LeftCategory from "@/components/coursepage/LeftCategory";
 import dynamic from "next/dynamic";
 import { HiOutlineAcademicCap, HiOutlineSparkles } from "react-icons/hi2";
 import { LuBookOpen, LuFilter } from "react-icons/lu";
+import { useLanguage } from "@/context/LanguageContext";
 
 const RightCoursesDetalis = dynamic(
   () => import("@/components/coursepage/RightCoursesDetalis"),
   { ssr: false }
 );
 
-const Course = () => {
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center py-20">
+    <div className="w-8 h-8 border-4 border-[#41bfb8] border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
+const CourseContent = () => {
   const dispatch = useDispatch();
   const { courses = [], loading } = useSelector((state) => state.courses || {});
   const [searchQuery, setSearchQuery] = useState("");
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const { t, language } = useLanguage();
+  const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
     dispatch(fetchCoursesData());
@@ -41,17 +51,17 @@ const Course = () => {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 bg-[#41bfb8]/10 border border-[#41bfb8]/20 rounded-full">
               <HiOutlineAcademicCap className="text-[#41bfb8] text-base" />
-              <span className="text-xs font-medium text-gray-700 work">Explore All Courses</span>
+              <span className={`text-xs font-medium text-gray-700 work ${bengaliClass}`}>{t("coursesPage.badge")}</span>
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2">
-              Discover Your <span className="text-[#41bfb8]">Next Skill</span>
+            <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 mb-2 ${bengaliClass}`}>
+              {t("coursesPage.title1")}<span className="text-[#41bfb8]">{t("coursesPage.title2")}</span>
             </h1>
 
             {/* Description */}
-            <p className="text-gray-500 work text-sm leading-relaxed mb-6">
-              Unlock practical, in-demand courses designed to align with your career goals.
+            <p className={`text-gray-500 work text-sm leading-relaxed mb-6 ${bengaliClass}`}>
+              {t("coursesPage.subtitle")}
             </p>
 
             {/* Stats */}
@@ -62,7 +72,7 @@ const Course = () => {
                 </div>
                 <div className="text-left">
                   <p className="text-lg font-bold text-gray-800 outfit">{courses.length || '20'}+</p>
-                  <p className="text-xs text-gray-500 work">Courses</p>
+                  <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("coursesPage.courses")}</p>
                 </div>
               </div>
               <div className="w-px h-10 bg-gray-200 hidden sm:block"></div>
@@ -72,7 +82,7 @@ const Course = () => {
                 </div>
                 <div className="text-left">
                   <p className="text-lg font-bold text-gray-800 outfit">10+</p>
-                  <p className="text-xs text-gray-500 work">Categories</p>
+                  <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("coursesPage.categories")}</p>
                 </div>
               </div>
             </div>
@@ -85,30 +95,42 @@ const Course = () => {
         {/* Mobile Filter Toggle */}
         <button
           onClick={() => setShowMobileFilter(!showMobileFilter)}
-          className="lg:hidden flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-md shadow-sm w-full justify-center"
+          className={`lg:hidden flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-200 rounded-md shadow-sm w-full justify-center ${bengaliClass}`}
         >
           <LuFilter className="text-[#41bfb8]" />
-          <span className="work text-gray-700">Filters & Categories</span>
+          <span className="work text-gray-700">{t("coursesPage.filtersCategories")}</span>
         </button>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Sidebar - Filters */}
           <div className={`lg:w-[280px] shrink-0 ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
             <div className="lg:sticky lg:top-24">
-              <LeftCategory
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-              />
+              <Suspense fallback={<LoadingFallback />}>
+                <LeftCategory
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
+                />
+              </Suspense>
             </div>
           </div>
 
           {/* Right - Course Grid */}
           <div className="flex-1 min-w-0">
-            <RightCoursesDetalis searchQuery={searchQuery} />
+            <Suspense fallback={<LoadingFallback />}>
+              <RightCoursesDetalis searchQuery={searchQuery} />
+            </Suspense>
           </div>
         </div>
       </section>
     </div>
+  );
+};
+
+const Course = () => {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CourseContent />
+    </Suspense>
   );
 };
 
