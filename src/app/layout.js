@@ -14,6 +14,7 @@ import TopHeader from "@/components/sheard/TopHeader";
 import PaymentMethod from "@/components/sheard/PaymentMethod";
 import ReduxProviderWrapper from "@/components/ReduxProvaiderWrapper";
 import { LanguageProvider } from "@/context/LanguageContext";
+import MouseCursorEffect from "@/components/ui/MouseCursorEffect";
 
 // Google Fonts
 const poppins = Poppins({
@@ -68,6 +69,7 @@ export default function RootLayout({ children }) {
       <body className="antialiased">
         <ReduxProviderWrapper>
           <LanguageProvider>
+            <MouseCursorEffect />
             {children}
           </LanguageProvider>
         </ReduxProviderWrapper>
