@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories, setSelectedCategories } from "@/redux/categorySlice";
 import { IoSearchSharp, IoClose } from "react-icons/io5";
@@ -14,21 +14,25 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
   const { items: courseCategories, status, selectedCategories } = useSelector(
     (state) => state.categories
   );
+  const initialUrlCategorySet = useRef(false);
 
   useEffect(() => { dispatch(fetchCategories()); }, [dispatch]);
 
-  // Handle URL category parameter
+  // Handle URL category parameter - only once on initial load
   useEffect(() => {
     const urlCategory = searchParams.get("category");
-    if (urlCategory && !selectedCategories.includes(urlCategory)) {
+    if (urlCategory && !initialUrlCategorySet.current) {
+      initialUrlCategorySet.current = true;
       dispatch(setSelectedCategories([urlCategory]));
     }
-  }, [searchParams, dispatch, selectedCategories]);
+  }, [searchParams, dispatch]);
 
   const handleCategoryChange = (categoryName) => {
+    // Single-select behavior: clicking a new category replaces the old one
+    // Clicking the same category unselects it
     const newSelection = selectedCategories.includes(categoryName)
-      ? selectedCategories.filter((item) => item !== categoryName)
-      : [...selectedCategories, categoryName];
+      ? []  // Unselect if already selected
+      : [categoryName];  // Only select this one category
     dispatch(setSelectedCategories(newSelection));
   };
 

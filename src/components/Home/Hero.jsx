@@ -106,7 +106,7 @@ const Hero = () => {
                             <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold outfit leading-tight ${bengaliClass}`}>
                                 <span className="text-gray-800">{t("hero.heading1")} </span>
                                 <span className="relative inline-block">
-                                    <span className="bg-gradient-to-r from-[#41bfb8] via-[#26a69a] to-[#00897b] bg-clip-text text-transparent">
+                                    <span className="bg-gradient-to-r from-[#41bfb8] via-[#26a69a] to-[#41bfb8] bg-clip-text text-transparent">
                                         {t("hero.heading2")}
                                     </span>
                                     {/* Ice underline */}
@@ -116,7 +116,7 @@ const Hero = () => {
                                 </span>
                             </h1>
                             <p className={`mt-2 text-lg lg:text-3xl text-gray-600 outfit-semibold ${bengaliClass}`}>
-                                {t("hero.headingWith")} <span className="text-[#26a69a]">{t("hero.academyName")}</span>
+                                {t("hero.headingWith")} <span className="text-[#41bfb8]">{t("hero.academyName")}</span>
                             </p>
                         </div>
 
@@ -161,7 +161,7 @@ const Hero = () => {
                         {/* CTA Buttons */}
                         <div className="flex flex-wrap gap-3 mb-5">
                             <a href="/events" className="group relative overflow-hidden">
-                                <div className={`relative flex items-center gap-2 bg-gradient-to-r from-[#26a69a] to-[#00897b] text-white px-5 py-2.5 rounded-md font-semibold work transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#26a69a]/30 text-sm ${bengaliClass}`}>
+                                <div className={`relative flex items-center gap-2 bg-gradient-to-r from-[#41bfb8] to-[#41bfb8] text-white px-5 py-2.5 rounded-md font-semibold work transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#26a69a]/30 text-sm ${bengaliClass}`}>
                                     <LuSparkles className="text-lg group-hover:rotate-12 transition-transform" />
                                     <span>{t("hero.joinSeminar")}</span>
                                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
