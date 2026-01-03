@@ -80,7 +80,7 @@ const PopularCourse = () => {
                 <HiOutlineAcademicCap className="text-[#F79952] text-lg" />
               </div>
               <div className="text-left">
-                <p className="text-xl font-bold text-gray-800 outfit">4,200+</p>
+                <p className="text-xl font-bold text-gray-800 outfit">6,200+</p>
                 <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("popularCourse.students")}</p>
               </div>
             </div>

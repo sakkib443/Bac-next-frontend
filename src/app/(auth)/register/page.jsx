@@ -72,7 +72,16 @@ const Register = () => {
         throw new Error(data.message || "Registration failed");
       }
 
-      router.push("/login");
+      // Save token and user data for auto-login
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.data));
+        // Redirect to dashboard after successful registration
+        router.push("/dashboard/user");
+      } else {
+        // Fallback to login if no token (shouldn't happen)
+        router.push("/login");
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -82,7 +91,7 @@ const Register = () => {
 
   const features = [
     { icon: FiBookOpen, text: language === "bn" ? "৫০+ প্রফেশনাল কোর্স" : "50+ Professional Courses" },
-    { icon: FiUsers, text: language === "bn" ? "৪,২০০+ সফল শিক্ষার্থী" : "4,200+ Successful Students" },
+    { icon: FiUsers, text: language === "bn" ? "৬,২০০+ সফল শিক্ষার্থী" : "6,200+ Successful Students" },
     { icon: FiAward, text: language === "bn" ? "ইন্ডাস্ট্রি সার্টিফিকেট" : "Industry Certificates" },
   ];
 
@@ -256,9 +265,9 @@ const Register = () => {
                         <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-300 ${passwordStrength === 0 ? "w-0" :
-                                passwordStrength === 1 ? "w-1/3 bg-red-400" :
-                                  passwordStrength === 2 ? "w-2/3 bg-yellow-400" :
-                                    "w-full bg-green-500"
+                              passwordStrength === 1 ? "w-1/3 bg-red-400" :
+                                passwordStrength === 2 ? "w-2/3 bg-yellow-400" :
+                                  "w-full bg-green-500"
                               }`}
                           />
                         </div>
@@ -321,8 +330,8 @@ const Register = () => {
                     type="submit"
                     disabled={loading || !termsAccepted}
                     className={`w-full py-3.5 rounded-xl text-white font-semibold shadow-lg transition text-base ${loading || !termsAccepted
-                        ? "bg-gray-300 cursor-not-allowed"
-                        : "bg-gradient-to-r from-[#41bfb8] to-[#38a89d] hover:shadow-xl hover:-translate-y-0.5"
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-gradient-to-r from-[#41bfb8] to-[#38a89d] hover:shadow-xl hover:-translate-y-0.5"
                       } ${bengaliClass}`}
                   >
                     {loading ? (

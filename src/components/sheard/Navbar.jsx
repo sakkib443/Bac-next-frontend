@@ -193,12 +193,21 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-[80px]">
             {/* Logo Section */}
             <div className="flex items-center gap-6 lg:gap-10">
-              <Link href="/" className="relative group">
+              <Link href="/" className="relative group flex items-center gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="w-32 lg:w-40 transition-transform duration-300 group-hover:scale-105"
                   src="/images/logo.png"
                   alt="BD Calling Academy"
+                />
+                {/* Separator */}
+                <div className="hidden sm:block h-8 w-px bg-gradient-to-b from-transparent via-gray-300 to-transparent"></div>
+                {/* Betopia Logo */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="hidden sm:block w-24 lg:w-28 transition-transform duration-300 group-hover:scale-105"
+                  src="/images/Concern Of Betopia group-01 (2).png"
+                  alt="Concern of Betopia Group"
                 />
               </Link>
 

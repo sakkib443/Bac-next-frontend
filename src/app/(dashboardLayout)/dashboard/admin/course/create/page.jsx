@@ -17,6 +17,7 @@ const courseValidationSchema = z.object({
   type: z.string().min(1, "Type is required"),
   image: z.string().url("Image must be a valid URL"),
   fee: z.string().min(1, "Fee is required"),
+  offerPrice: z.string().optional(),
   rating: z.coerce.number().min(0).max(5),
   totalRating: z.coerce.number().min(0),
   totalStudentsEnroll: z.coerce.number().min(0),
@@ -177,7 +178,8 @@ const CreateCourse = () => {
           {/* 2. Pricing & Metrics */}
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-5">
             <h2 style={{ color: '#41bfb8' }} className="md:col-span-4 text-xs font-black uppercase border-b pb-2 italic">Pricing & Metrics</h2>
-            <div><label className={labelClass}>Course Fee</label><input {...register('fee')} className={inputClass} /></div>
+            <div><label className={labelClass}>Course Fee</label><input {...register('fee')} className={inputClass} placeholder="15,000৳" /></div>
+            <div><label className={labelClass}>Offer Price (Optional)</label><input {...register('offerPrice')} className={inputClass} placeholder="12,000৳" /></div>
             <div><label className={labelClass}>Type</label><select {...register('type')} className={inputClass}><option value="Online">Online</option><option value="Offline">Offline</option><option value="Recorded">Recorded</option></select></div>
             <div><label className={labelClass}>Rating</label><input type="number" step="0.1" {...register('rating')} className={inputClass} /></div>
             <div><label className={labelClass}>Total Rating Count</label><input type="number" {...register('totalRating')} className={inputClass} /></div>

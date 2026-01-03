@@ -17,6 +17,7 @@ const courseValidationSchema = z.object({
   type: z.string().min(1, "Type is required"),
   image: z.string().min(1, "Image URL is required"),
   fee: z.string().min(1, "Fee is required"),
+  offerPrice: z.string().optional(),
   rating: z.coerce.number().default(5),
   totalRating: z.coerce.number().default(0),
   totalStudentsEnroll: z.coerce.number().default(0),
@@ -193,6 +194,7 @@ const EditCourse = () => {
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-5">
             <h2 style={{ color: '#41bfb8' }} className="md:col-span-4 text-[10px] font-black uppercase border-b pb-2 tracking-[2px] italic">2. Metrics</h2>
             <div><label className={labelClass}>Fee</label><input {...register('fee')} className={inputClass} /></div>
+            <div><label className={labelClass}>Offer Price (Optional)</label><input {...register('offerPrice')} className={inputClass} placeholder="Discounted price" /></div>
             <div><label className={labelClass}>Duration (Months)</label><input type="number" {...register('durationMonth')} className={inputClass} /></div>
             <div><label className={labelClass}>Lectures</label><input type="number" {...register('lectures')} className={inputClass} /></div>
             <div><label className={labelClass}>Rating</label><input type="number" step="0.1" {...register('rating')} className={inputClass} /></div>

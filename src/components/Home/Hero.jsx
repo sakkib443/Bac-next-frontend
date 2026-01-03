@@ -28,7 +28,7 @@ const Hero = () => {
             const progress = step / steps;
             setCounts({
                 courses: Math.floor(50 * progress),
-                students: Math.floor(4200 * progress),
+                students: Math.floor(6200 * progress),
                 placement: Math.floor(92 * progress)
             });
 

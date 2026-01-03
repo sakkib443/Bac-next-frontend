@@ -57,6 +57,7 @@ const AdminSidebar = () => {
       ],
     },
     { title: 'Certifications', href: '/dashboard/admin/certification', icon: FiAward },
+    { title: 'Batches', href: '/dashboard/admin/batch', icon: FiList },
     { title: 'Users', href: '/dashboard/admin/user', icon: FiUsers },
     { title: 'Feedback', href: '/dashboard/admin/feedback', icon: FiMessageSquare },
     { title: 'Images', href: '/dashboard/admin/image', icon: FiImage },

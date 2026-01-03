@@ -36,7 +36,7 @@ const SuccessHistoryPage = () => {
   };
 
   const stats = [
-    { icon: LuUsers, value: "4,200+", label: language === "bn" ? "সফল শিক্ষার্থী" : "Successful Students" },
+    { icon: LuUsers, value: "6,200+", label: language === "bn" ? "সফল শিক্ষার্থী" : "Successful Students" },
     { icon: LuTrophy, value: "92%", label: language === "bn" ? "প্লেসমেন্ট রেট" : "Placement Rate" },
     { icon: LuStar, value: "4.9/5", label: language === "bn" ? "ছাত্র রেটিং" : "Student Rating" },
   ];
@@ -127,8 +127,8 @@ const SuccessHistoryPage = () => {
               key={filter.key}
               onClick={() => setActiveFilter(filter.key)}
               className={`relative px-6 py-3 rounded-xl font-medium work transition-all duration-300 ${bengaliClass} ${activeFilter === filter.key
-                  ? "bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white shadow-lg shadow-[#41bfb8]/30"
-                  : "bg-white text-gray-600 border border-gray-200 hover:border-[#41bfb8]/50 hover:text-[#41bfb8]"
+                ? "bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white shadow-lg shadow-[#41bfb8]/30"
+                : "bg-white text-gray-600 border border-gray-200 hover:border-[#41bfb8]/50 hover:text-[#41bfb8]"
                 }`}
             >
               {filter.label}

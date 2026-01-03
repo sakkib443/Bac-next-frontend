@@ -132,7 +132,7 @@ const HomeCategory = () => {
                             <div className='relative flex flex-col sm:flex-row items-start sm:items-center gap-3 lg:gap-4'>
                                 {/* Icon Container */}
                                 <div
-                                    className='w-12 h-12 lg:w-14 lg:h-14 rounded-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg shrink-0'
+                                    className='w-12 h-12 lg:w-14 lg:h-14 rounded-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg shrink-0 relative overflow-hidden'
                                     style={{ backgroundColor: cat.bgColor }}
                                 >
                                     <Image
@@ -140,8 +140,40 @@ const HomeCategory = () => {
                                         alt={t(`homeCategory.categories.${cat.titleKey}`)}
                                         width={32}
                                         height={32}
-                                        className='w-7 h-7 lg:w-8 lg:h-8 object-contain transition-transform duration-300 group-hover:scale-110'
+                                        className='w-7 h-7 lg:w-8 lg:h-8 object-contain transition-transform duration-300 group-hover:scale-110 relative z-10'
                                     />
+
+                                    {/* Moving Particles Animation */}
+                                    <div
+                                        className="absolute w-2 h-2 rounded-full opacity-40 animate-place-move"
+                                        style={{
+                                            backgroundColor: cat.color,
+                                            top: '20%',
+                                            left: '-20%',
+                                            animationDuration: '3s',
+                                            animationDelay: '0s'
+                                        }}
+                                    ></div>
+                                    <div
+                                        className="absolute w-1.5 h-1.5 rounded-full opacity-30 animate-place-move"
+                                        style={{
+                                            backgroundColor: cat.color,
+                                            bottom: '30%',
+                                            left: '-20%',
+                                            animationDuration: '4s',
+                                            animationDelay: '1.5s'
+                                        }}
+                                    ></div>
+                                    <div
+                                        className="absolute w-1 h-1 rounded-full opacity-20 animate-place-move"
+                                        style={{
+                                            backgroundColor: cat.color,
+                                            top: '60%',
+                                            left: '-20%',
+                                            animationDuration: '5s',
+                                            animationDelay: '0.5s'
+                                        }}
+                                    ></div>
                                 </div>
 
                                 {/* Text Content */}
@@ -197,6 +229,30 @@ const HomeCategory = () => {
                     </Link>
                 </div>
             </div>
+
+            {/* Animation Keyframes */}
+            <style jsx>{`
+              @keyframes place-move {
+                0% {
+                  transform: translate(0, 0);
+                  opacity: 0;
+                }
+                10% {
+                  opacity: 0.4;
+                }
+                90% {
+                  opacity: 0.4;
+                }
+                100% {
+                  transform: translate(300%, 0);
+                  opacity: 0;
+                  left: 100%;
+                }
+              }
+              .animate-place-move {
+                animation: place-move linear infinite;
+              }
+            `}</style>
         </section>
     );
 };
