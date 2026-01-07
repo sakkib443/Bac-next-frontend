@@ -1,6 +1,6 @@
 [
     {
-        "count": 3800,
+        "count": 5800,
         "label": "Successful Students",
         "icon": "FaUserGraduate",
         "suffix": "+"
@@ -30,7 +30,7 @@
         "suffix": "%"
     },
     {
-        "count": 10,
+        "count": 14,
         "label": "Companies",
         "icon": "FaBuilding",
         "suffix": "+"

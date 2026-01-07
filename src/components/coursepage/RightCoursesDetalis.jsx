@@ -184,7 +184,7 @@ const RightCoursesDetalis = ({ searchQuery }) => {
       ) : sortedCourses.length > 0 ? (
         <div className={`grid gap-6 ${isGridView ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1'}`}>
           {sortedCourses.map((course) => (
-            <CourseCard key={course?._id || course?.id} course={course} />
+            <CourseCard key={course?._id || course?.id} course={course} isGridView={isGridView} />
           ))}
         </div>
       ) : (

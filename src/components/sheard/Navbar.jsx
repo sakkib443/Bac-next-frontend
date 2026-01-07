@@ -86,7 +86,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <Link href="/" onClick={closeMobileMenu}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-32 cursor-pointer" src="/images/logo.png" alt="BD Calling Academy" />
+            <img className="w-32 cursor-pointer" src="/images/logo (5).png" alt="BD Calling Academy" />
           </Link>
           <button
             onClick={closeMobileMenu}
@@ -193,12 +193,21 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-[80px]">
             {/* Logo Section */}
             <div className="flex items-center gap-6 lg:gap-10">
-              <Link href="/" className="relative group">
+              <Link href="/" className="relative group flex items-center gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="w-32 lg:w-40 transition-transform duration-300 group-hover:scale-105"
-                  src="/images/logo.png"
+                  src="/images/logo (5).png"
                   alt="BD Calling Academy"
+                />
+                {/* Divider between logos - Desktop Only */}
+                <div className="hidden lg:block h-8 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent"></div>
+                {/* Betopia Logo - Desktop Only */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="hidden lg:block w-30 transition-transform duration-300 group-hover:scale-105"
+                  src="/images/Concern Of Betopia group-01.png"
+                  alt="Concern Of Betopia Group"
                 />
               </Link>
 

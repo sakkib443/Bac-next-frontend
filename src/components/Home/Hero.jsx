@@ -28,7 +28,7 @@ const Hero = () => {
             const progress = step / steps;
             setCounts({
                 courses: Math.floor(50 * progress),
-                students: Math.floor(4200 * progress),
+                students: Math.floor(6200 * progress),
                 placement: Math.floor(92 * progress)
             });
 
@@ -106,7 +106,7 @@ const Hero = () => {
                             <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold outfit leading-tight ${bengaliClass}`}>
                                 <span className="text-gray-800">{t("hero.heading1")} </span>
                                 <span className="relative inline-block">
-                                    <span className="bg-gradient-to-r from-[#41bfb8] via-[#26a69a] to-[#41bfb8] bg-clip-text text-transparent">
+                                    <span className="text-[#41bfb8]">
                                         {t("hero.heading2")}
                                     </span>
                                     {/* Ice underline */}
@@ -193,7 +193,7 @@ const Hero = () => {
                                 ))}
                             </div>
                             <p className={`text-xs text-gray-500 work ${bengaliClass}`}>
-                                <span className="text-gray-800 font-semibold">500+</span> {t("hero.enrolledThisMonth")}
+                                <span className="text-gray-800 font-semibold">Join Our Community</span>
                             </p>
                         </div>
                     </div>

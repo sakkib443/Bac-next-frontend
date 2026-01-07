@@ -82,28 +82,6 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
         </button>
       )}
 
-      {/* Skill Level Filter */}
-      <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-200">
-          <HiOutlineSparkles className="text-[#F79952]" />
-          <h3 className="font-semibold text-gray-800 outfit text-sm">Skill Level</h3>
-        </div>
-        <div className="p-3 flex flex-wrap gap-2">
-          {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
-            <button
-              key={level}
-              onClick={() => setSelectedType && setSelectedType(level)}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium work transition-all duration-200 ${selectedType === level
-                ? "bg-[#41bfb8] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-            >
-              {level}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Categories Filter */}
       <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-200">
