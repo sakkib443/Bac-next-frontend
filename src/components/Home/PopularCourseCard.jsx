@@ -56,11 +56,34 @@ const PopularCourseCard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Filter courses by category _id (course.category is ObjectId string)
+  // Prioritize "AI and Automation" courses
+  const sortedAllCourses = [...courses].sort((a, b) => {
+    const getCatName = (course) => {
+      if (course.category?.name) return course.category.name;
+      const catId = course.category?._id || course.category;
+      const category = courseCategories.find(c => c._id === catId || c.id === catId);
+      return category?.name || "";
+    };
+
+    const isAICategory = (course) => {
+      const catName = getCatName(course).toLowerCase();
+      // Match "ai" and "automation" anywhere in the name
+      return catName.includes("ai") && catName.includes("automation");
+    };
+
+    const aIsAI = isAICategory(a);
+    const bIsAI = isAICategory(b);
+
+    if (aIsAI && !bIsAI) return -1;
+    if (!aIsAI && bIsAI) return 1;
+    return 0;
+  });
+
+  // Filter courses by category _id (course.category is ObjectId string or populated)
   const filteredCourses =
     selectedCategory === "All"
-      ? courses
-      : courses.filter((course) => {
+      ? sortedAllCourses
+      : sortedAllCourses.filter((course) => {
         const courseCategoryId = course.category?._id || course.category;
         return courseCategoryId === selectedCategory;
       });

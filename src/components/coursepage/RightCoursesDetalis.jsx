@@ -92,6 +92,21 @@ const RightCoursesDetalis = ({ searchQuery }) => {
 
   // Sort courses
   const sortedCourses = [...filteredCourses].sort((a, b) => {
+    // If default sorting, prioritize "AI and Automation"
+    if (sortBy === "default") {
+      const isAICategory = (course) => {
+        const catName = getCategoryName(course.category);
+        return catName.toLowerCase().includes("ai") && catName.toLowerCase().includes("automation");
+      };
+
+      const aIsAI = isAICategory(a);
+      const bIsAI = isAICategory(b);
+
+      if (aIsAI && !bIsAI) return -1;
+      if (!aIsAI && bIsAI) return 1;
+      return 0; // Maintain existing order for others
+    }
+
     switch (sortBy) {
       case "rating":
         return (b.rating || 0) - (a.rating || 0);

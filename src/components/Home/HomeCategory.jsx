@@ -20,7 +20,7 @@ const HomeCategory = () => {
     }, []);
 
     const categories = [
-        { img: '/images/ai-icon.png', titleKey: 'aiAutomation', subtitleKey: 'aiAutomationSub', color: '#8B5CF6', bgColor: '#F5F3FF' },
+        { img: '/images/ai-automation-new.png', titleKey: 'aiAutomation', subtitleKey: 'aiAutomationSub', color: '#8B5CF6', bgColor: '#F5F3FF' },
         { img: '/images/gdIcon.png', titleKey: 'artDesign', subtitleKey: 'artDesignSub', color: '#FF6B6B', bgColor: '#FFF5F5' },
         { img: '/images/webicon.png', titleKey: 'programming', subtitleKey: 'programmingSub', color: '#41bfb8', bgColor: '#F0FDFA' },
         { img: '/images/icon5.png', titleKey: 'digitalMarketing', subtitleKey: 'digitalMarketingSub', color: '#F79952', bgColor: '#FFF7ED' },
