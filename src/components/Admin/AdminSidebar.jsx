@@ -70,6 +70,14 @@ const AdminSidebar = () => {
     { title: 'Messages', href: '/dashboard/admin/messages', icon: FiMessageSquare },
     { title: 'Feedback', href: '/dashboard/admin/feedback', icon: FiMessageSquare },
     { title: 'Images', href: '/dashboard/admin/image', icon: FiImage },
+    {
+      title: 'Working Partners',
+      icon: FiUsers,
+      submenu: [
+        { title: 'All Partners', href: '/dashboard/admin/partners' },
+        { title: 'Add Partner', href: '/dashboard/admin/partners/create' },
+      ],
+    },
     { title: 'Settings', href: '/dashboard/admin/settings', icon: FiSettings },
   ];
 

@@ -3,6 +3,7 @@ import courseReducer from "./CourseSlice";
 import categoryReducer from "./categorySlice";
 import mentorReducer from "./mentorSlice";
 import blogReducer from "./blogSlice";
+import partnerReducer from "./partnerSlice";
 
 export default configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export default configureStore({
     categories: categoryReducer,
     mentors: mentorReducer,
     blogs: blogReducer,
+    partners: partnerReducer,
   },
 });
 

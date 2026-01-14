@@ -14,6 +14,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.ibb.co.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };

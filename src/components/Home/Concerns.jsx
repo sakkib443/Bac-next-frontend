@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { HiOutlineBuildingOffice2, HiOutlineSparkles } from "react-icons/hi2";
 import { LuHandshake, LuUsers } from "react-icons/lu";
 import { useLanguage } from "@/context/LanguageContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPartners } from "@/redux/partnerSlice";
 
 const Concerns = () => {
+  const dispatch = useDispatch();
+  const { partners = [], loading } = useSelector((state) => state.partners || {});
   const [selectedCategory, setSelectedCategory] = useState("Our Concern");
   const { t, language } = useLanguage();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
@@ -15,73 +19,88 @@ const Concerns = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
+  const staticCollaborations = [
+    { id: 10, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/1_bteb.png" },
+    { id: 11, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/2_ict.png" },
+    { id: 12, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/3_iitu.png" },
+    { id: 13, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/4_edge.png" },
+    { id: 14, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/5_nsda.png" },
+    { id: 15, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/6_dhaka_university.jpg" },
+    { id: 16, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/7_crown_institute_of_business_and_technology.jpg" },
+    { id: 17, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/8_eastern_eniversity.png" },
+    { id: 18, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/9_jagannath_university.png" },
+    { id: 19, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/10_dhaka_college.png" },
+    { id: 20, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/11_united_international_university.png" },
+    { id: 21, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/12_metropolitan_university.png" },
+    { id: 22, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/13_north_south_university.png" },
+    { id: 23, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/14_east_west_university.png" },
+    { id: 24, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/15_smuct.png" },
+    { id: 25, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/16_bracu.png" },
+    { id: 26, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/17_polytechnic.png" },
+    { id: 27, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/18_polytechnic.png" },
+    { id: 28, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/19_polytechnic.jpg" },
+    { id: 29, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/20_polytechnic.jpg" },
+    { id: 30, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/21_polytechnic.png" },
+    { id: 31, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/22_polytechnic.jpg" },
+    { id: 32, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/23_polytechnic.png" },
+    { id: 33, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/24_polytechnic.png" },
+    { id: 34, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/25_polytechnic.png" },
+    { id: 35, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/26_polytechnic.png" },
+    { id: 36, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/27_polytechnic.jpg" },
+    { id: 37, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/28_polytechnic.png" },
+    { id: 38, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/29_polytechnic.png" },
+    { id: 39, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/30_polytechnic.png" },
+    { id: 40, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/31_polytechnic.jpg" },
+    { id: 41, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/32_polytechnic.png" },
+    { id: 42, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/33_polytechnic.jpg" },
+    { id: 43, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/34_polytechnic.png" },
+    { id: 44, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/35_polytechnic.jpg" },
+    { id: 45, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/36_polytechnic.jpg" },
+    { id: 46, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/37_polytechnic.png" },
+    { id: 47, category: "Colaboration With", image: "/images/Our Working Partner Images/Working with all images/38_polytechnic.png" },
+  ];
 
-  const images = [
-    // Our Concerns
-    { id: 1, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/1_softvence.png", link: "https://softvence.agency/" },
-    { id: 2, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/2_sm_technology.png", link: "https://smtech24.com/" },
-    { id: 3, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/3_backbencher_studio.png", link: "https://backbencher.studio/" },
-    { id: 4, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/4_sparktech.png", link: "https://www.sparktech.agency/" },
-    { id: 5, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/5_scaleup.png", link: "https://scaleupadsagency.com/" },
-    { id: 6, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/6_Data-insight.png", link: "https://www.facebook.com/profile.php?id=61568359432521" },
-    { id: 7, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/1738666687308.jpeg", link: "https://www.joinventureai.com/" },
-    { id: 8, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/zenex.png", link: "https://zenexcloud.com/" },
-    { id: 9, category: "Our Concern", src: "/images/Our Working Partner Images/Our Concerns all images/bdcalling.png", link: "https://bdcalling.com/" },
+  const staticMembers = [
+    { id: 48, category: "Member Of", image: "/images/Our Working Partner Images/Members of all images/1_basis.png" },
+    { id: 49, category: "Member Of", image: "/images/Our Working Partner Images/Members of all images/2_bangladesh_computer_samity.png" },
+    { id: 50, category: "Member Of", image: "/images/memberOf/member og -bitm.webp" },
+    { id: 51, category: "Member Of", image: "/images/Our Working Partner Images/Members of all images/british-council-logo.svg--BugRp5Z9.png" },
+  ];
 
-    // Collaborations
-    { id: 10, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/1_bteb.png" },
-    { id: 11, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/2_ict.png" },
-    { id: 12, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/3_iitu.png" },
-    { id: 13, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/4_edge.png" },
-    { id: 14, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/5_nsda.png" },
-    { id: 15, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/6_dhaka_university.jpg" },
-    { id: 16, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/7_crown_institute_of_business_and_technology.jpg" },
-    { id: 17, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/8_eastern_eniversity.png" },
-    { id: 18, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/9_jagannath_university.png" },
-    { id: 19, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/10_dhaka_college.png" },
-    { id: 20, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/11_united_international_university.png" },
-    { id: 21, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/12_metropolitan_university.png" },
-    { id: 22, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/13_north_south_university.png" },
-    { id: 23, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/14_east_west_university.png" },
-    { id: 24, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/15_smuct.png" },
-    { id: 25, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/16_bracu.png" },
-    { id: 26, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/17_polytechnic.png" },
-    { id: 27, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/18_polytechnic.png" },
-    { id: 28, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/19_polytechnic.jpg" },
-    { id: 29, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/20_polytechnic.jpg" },
-    { id: 30, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/21_polytechnic.png" },
-    { id: 31, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/22_polytechnic.jpg" },
-    { id: 32, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/23_polytechnic.png" },
-    { id: 33, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/24_polytechnic.png" },
-    { id: 34, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/25_polytechnic.png" },
-    { id: 35, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/26_polytechnic.png" },
-    { id: 36, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/27_polytechnic.jpg" },
-    { id: 37, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/28_polytechnic.png" },
-    { id: 38, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/29_polytechnic.png" },
-    { id: 39, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/30_polytechnic.png" },
-    { id: 40, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/31_polytechnic.jpg" },
-    { id: 41, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/32_polytechnic.png" },
-    { id: 42, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/33_polytechnic.jpg" },
-    { id: 43, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/34_polytechnic.png" },
-    { id: 44, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/35_polytechnic.jpg" },
-    { id: 45, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/36_polytechnic.jpg" },
-    { id: 46, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/37_polytechnic.png" },
-    { id: 47, category: "Colaboration With", src: "/images/Our Working Partner Images/Working with all images/38_polytechnic.png" },
+  useEffect(() => {
+    dispatch(fetchPartners());
+  }, [dispatch]);
 
-    // Members
-    { id: 48, category: "Member Of", src: "/images/Our Working Partner Images/Members of all images/1_basis.png" },
-    { id: 49, category: "Member Of", src: "/images/Our Working Partner Images/Members of all images/2_bangladesh_computer_samity.png" },
-    { id: 50, category: "Member Of", src: "/images/memberOf/member og -bitm.webp" },
-    { id: 51, category: "Member Of", src: "/images/Our Working Partner Images/Members of all images/british-council-logo.svg--BugRp5Z9.png" },
+  const dynamicConcerns = partners.filter(p => p.category === "Our Concern");
+
+  const allPartners = [
+    ...dynamicConcerns,
+    ...staticCollaborations,
+    ...staticMembers
   ];
 
   const categories = [
-    { name: "Our Concern", labelKey: "ourConcern", icon: HiOutlineBuildingOffice2, count: 9 },
-    { name: "Colaboration With", labelKey: "collaborationWith", icon: LuHandshake, count: 38 },
-    { name: "Member Of", labelKey: "memberOf", icon: LuUsers, count: 4 },
+    {
+      name: "Our Concern",
+      labelKey: "ourConcern",
+      icon: HiOutlineBuildingOffice2,
+      count: dynamicConcerns.length
+    },
+    {
+      name: "Colaboration With",
+      labelKey: "collaborationWith",
+      icon: LuHandshake,
+      count: staticCollaborations.length
+    },
+    {
+      name: "Member Of",
+      labelKey: "memberOf",
+      icon: LuUsers,
+      count: staticMembers.length
+    },
   ];
 
-  const filteredImages = images.filter((image) => image.category === selectedCategory);
+  const filteredImages = allPartners.filter((image) => image.category === selectedCategory);
 
   return (
     <section className="relative py-16 lg:py-20 bg-white overflow-hidden">
@@ -203,7 +222,7 @@ const Concerns = () => {
             filteredImages.map((image, index) => (
               <motion.div
                 layout
-                key={image.id}
+                key={image._id || index}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
@@ -222,8 +241,8 @@ const Concerns = () => {
                     {/* Fixed Size Container for Logo */}
                     <div className="w-full h-24 p-4 flex items-center justify-center">
                       <Image
-                        src={image.src}
-                        alt={`Partner ${image.id}`}
+                        src={image.image}
+                        alt={image.name || `Partner ${image.id}`}
                         width={150}
                         height={80}
                         className="max-w-[120px] max-h-[60px] w-auto h-auto object-contain transition-transform duration-300 group-hover:scale-105"
