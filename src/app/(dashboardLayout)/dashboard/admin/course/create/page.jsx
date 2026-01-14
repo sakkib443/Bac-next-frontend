@@ -71,8 +71,8 @@ const CreateCourse = () => {
     const fetchData = async () => {
       try {
         const [catRes, mentorRes] = await Promise.all([
-          fetch('https://bacdb.vercel.app/api/categories'),
-          fetch('https://bacdb.vercel.app/api/mentors')
+          fetch('https://bacdbs.vercel.app/api/categories'),
+          fetch('https://bacdbs.vercel.app/api/mentors')
         ]);
         const catData = await catRes.json();
         const mentorData = await mentorRes.json();
@@ -86,7 +86,7 @@ const CreateCourse = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch('https://bacdb.vercel.app/api/courses/create-course', {
+      const response = await fetch('https://bacdbs.vercel.app/api/courses/create-course', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

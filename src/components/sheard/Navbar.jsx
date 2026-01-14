@@ -58,9 +58,12 @@ const Navbar = () => {
   const menu = [
     { href: "/", label: t("navbar.home") },
     { href: "/courses", label: t("navbar.courses") },
+
     { href: "/success-story", label: t("navbar.successHistory") },
     { href: "/mentors", label: t("navbar.mentors") },
+    // { href: "/blogs", label: t("navbar.blogs") },
     { href: "/about", label: t("navbar.about") },
+
     { href: "/contact", label: t("navbar.contact") },
     { href: "/certification", label: t("navbar.certification") },
   ];

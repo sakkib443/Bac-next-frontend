@@ -14,6 +14,7 @@ import TopHeader from "@/components/sheard/TopHeader";
 import PaymentMethod from "@/components/sheard/PaymentMethod";
 import ReduxProviderWrapper from "@/components/ReduxProvaiderWrapper";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { SettingsProvider } from "@/context/SettingsContext";
 import MouseCursorEffect from "@/components/ui/MouseCursorEffect";
 
 // Google Fonts
@@ -69,8 +70,10 @@ export default function RootLayout({ children }) {
       <body className="antialiased">
         <ReduxProviderWrapper>
           <LanguageProvider>
-            <MouseCursorEffect />
-            {children}
+            <SettingsProvider>
+              <MouseCursorEffect />
+              {children}
+            </SettingsProvider>
           </LanguageProvider>
         </ReduxProviderWrapper>
       </body>

@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { LuCopy, LuCheck } from "react-icons/lu";
 import { useLanguage } from "@/context/LanguageContext";
+import { motion, useInView } from "framer-motion";
 
 const paymentMethods = [
   {
@@ -26,6 +27,9 @@ const PaymentMethod = () => {
   const { t, language } = useLanguage();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
   const copyToClipboard = (number, index) => {
     navigator.clipboard.writeText(number);
     setCopiedIndex(index);
@@ -34,17 +38,43 @@ const PaymentMethod = () => {
 
   return (
     <section className="py-10 bg-gray-50">
-      <div className="container mx-auto px-4 lg:px-16">
+      <div ref={sectionRef} className="container mx-auto px-4 lg:px-16">
         {/* Header */}
-        <h2 className={`text-xl sm:text-2xl font-bold outfit text-center text-gray-800 mb-6 ${bengaliClass}`}>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5 }}
+          className={`text-xl sm:text-2xl font-bold outfit text-center text-gray-800 mb-6 ${bengaliClass}`}
+        >
           {t("paymentMethod.title")}
-        </h2>
+        </motion.h2>
 
         {/* Payment Cards */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.2, delayChildren: 0.2 },
+            },
+          }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto"
+        >
           {paymentMethods.map((method, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={{
+                hidden: { opacity: 0, y: 20, scale: 0.9 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  transition: { duration: 0.4, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.02, y: -2 }}
               className="group flex items-center gap-4 bg-white border border-gray-200 rounded-md px-5 py-4 hover:shadow-lg hover:border-transparent transition-all duration-300 cursor-pointer w-full sm:w-auto"
               onClick={() => copyToClipboard(method.number, index)}
             >
@@ -72,14 +102,19 @@ const PaymentMethod = () => {
                   <LuCopy className="text-gray-400" />
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Note */}
-        <p className={`text-center text-xs text-gray-400 work mt-4 ${bengaliClass}`}>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className={`text-center text-xs text-gray-400 work mt-4 ${bengaliClass}`}
+        >
           {t("paymentMethod.reference")}
-        </p>
+        </motion.p>
       </div>
     </section>
   );

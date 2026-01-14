@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@layer base {
+  body {
+    @apply overflow-x-hidden;
+    scrollbar-gutter: stable;
+  }
+}
+
 
 /* Poppins Font */
 
@@ -259,4 +266,353 @@
 
 .border-csd {
   border-color: #41bfb8;
+}
+
+/* ========================================
+   AI HERO SECTION - FUTURISTIC ANIMATIONS
+   ======================================== */
+
+/* Neural Network Pulse Animation */
+@keyframes neural-pulse {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* AI Data Flow Animation */
+@keyframes data-flow {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-200px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Circuit Line Animation */
+@keyframes circuit-flow {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* AI Node Glow */
+@keyframes node-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(139, 92, 246, 0.5), 0 0 10px rgba(139, 92, 246, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(139, 92, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.3);
+  }
+}
+
+/* Hologram Effect */
+@keyframes hologram {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+
+  25% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  75% {
+    opacity: 0.7;
+  }
+}
+
+/* AI Typing Cursor */
+@keyframes ai-cursor {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Scan Line Effect */
+@keyframes scan-line {
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+/* Matrix Rain Effect */
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* AI Orb Float */
+@keyframes ai-orb-float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-15px) rotate(120deg);
+    filter: hue-rotate(30deg);
+  }
+
+  66% {
+    transform: translateY(10px) rotate(240deg);
+    filter: hue-rotate(-30deg);
+  }
+}
+
+/* Connection Line Dash */
+@keyframes connection-dash {
+  0% {
+    stroke-dashoffset: 100;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* AI Text Gradient Animation */
+@keyframes text-gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Neon Border Animation */
+@keyframes neon-border {
+
+  0%,
+  100% {
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 5px rgba(139, 92, 246, 0.3), inset 0 0 5px rgba(139, 92, 246, 0.1);
+  }
+
+  50% {
+    border-color: rgba(59, 130, 246, 0.8);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* AI Animation Classes */
+.animate-neural-pulse {
+  animation: neural-pulse 3s ease-in-out infinite;
+}
+
+.animate-data-flow {
+  animation: data-flow 6s linear infinite;
+}
+
+.animate-circuit-flow {
+  animation: circuit-flow 3s linear infinite;
+  stroke-dasharray: 1000;
+}
+
+.animate-node-glow {
+  animation: node-glow 2s ease-in-out infinite;
+}
+
+.animate-hologram {
+  animation: hologram 4s ease-in-out infinite;
+}
+
+.animate-ai-cursor {
+  animation: ai-cursor 1s step-end infinite;
+}
+
+.animate-scan-line {
+  animation: scan-line 4s linear infinite;
+}
+
+.animate-ai-orb {
+  animation: ai-orb-float 8s ease-in-out infinite;
+}
+
+.animate-connection-dash {
+  animation: connection-dash 2s linear infinite;
+}
+
+.animate-text-gradient {
+  background-size: 200% 200%;
+  animation: text-gradient-flow 3s ease infinite;
+}
+
+.animate-neon-border {
+  animation: neon-border 3s ease-in-out infinite;
+}
+
+/* AI Gradient Backgrounds */
+.ai-gradient-bg {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 25%, #0d0d1f 50%, #1e1e4a 75%, #0f0f23 100%);
+}
+
+.ai-gradient-purple {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+}
+
+.ai-gradient-cyan {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+}
+
+.ai-text-gradient {
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4, #8b5cf6);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-gradient-flow 4s ease infinite;
+}
+
+/* Glass Effect for AI Components */
+.ai-glass {
+  background: rgba(15, 15, 35, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.ai-glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+/* AI Grid Pattern */
+.ai-grid-pattern {
+  background-image:
+    linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* AI Circuit Pattern */
+.ai-circuit-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0v10M30 50v10M0 30h10M50 30h10M10 10l5 5M45 45l5 5M10 50l5-5M45 15l5-5' stroke='%238b5cf615' stroke-width='1' fill='none'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%238b5cf610'/%3E%3C/svg%3E");
+}
+
+/* 3D Floating Rotation Animation */
+@keyframes float-3d {
+
+  0%,
+  100% {
+    transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) translateY(0);
+  }
+
+  25% {
+    transform: perspective(1000px) rotateY(5deg) rotateX(-3deg) translateY(-10px);
+  }
+
+  50% {
+    transform: perspective(1000px) rotateY(-3deg) rotateX(-5deg) translateY(-5px);
+  }
+
+  75% {
+    transform: perspective(1000px) rotateY(3deg) rotateX(3deg) translateY(-8px);
+  }
+}
+
+@keyframes float-3d-slow {
+
+  0%,
+  100% {
+    transform: perspective(1200px) rotateY(-3deg) rotateX(3deg) translateY(0) scale(1);
+  }
+
+  33% {
+    transform: perspective(1200px) rotateY(3deg) rotateX(-2deg) translateY(-8px) scale(1.02);
+  }
+
+  66% {
+    transform: perspective(1200px) rotateY(-2deg) rotateX(-3deg) translateY(-4px) scale(1.01);
+  }
+}
+
+@keyframes glow-pulse-3d {
+
+  0%,
+  100% {
+    box-shadow:
+      0 25px 50px -12px rgba(65, 191, 184, 0.25),
+      0 0 30px rgba(65, 191, 184, 0.1),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  50% {
+    box-shadow:
+      0 30px 60px -15px rgba(247, 153, 82, 0.3),
+      0 0 40px rgba(247, 153, 82, 0.15),
+      inset 0 0 25px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.animate-float-3d {
+  animation: float-3d 8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-float-3d-slow {
+  animation: float-3d-slow 10s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-glow-pulse-3d {
+  animation: glow-pulse-3d 4s ease-in-out infinite;
 }

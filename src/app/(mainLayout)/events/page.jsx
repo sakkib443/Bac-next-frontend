@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
 
 const seminars = [
   {
@@ -49,6 +50,8 @@ const seminars = [
 
 const EventsPage = () => {
   const { t, language } = useLanguage();
+  const { settings } = useSettings();
+  const whatsappNumber = settings?.whatsappNumber || '8801321231802';
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const getLocationType = (location) => {
@@ -170,7 +173,7 @@ const EventsPage = () => {
 
                   {/* Register Button */}
                   <a
-                    href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                       `আমি "${event.title}" সেমিনারটিতে যোগ দিতে চাই।`
                     )}`}
                     target="_blank"

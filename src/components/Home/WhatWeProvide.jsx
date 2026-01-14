@@ -1,15 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LuTarget, LuRocket, LuAward, LuArrowRight } from "react-icons/lu";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { motion, useInView } from "framer-motion";
 
 const WhatWeProvide = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { t, language } = useLanguage();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -75,30 +79,81 @@ const WhatWeProvide = () => {
       <div className="absolute bottom-[30%] left-[25%] w-1.5 h-1.5 bg-[#F79952] rounded-full animate-ping animation-delay-1000 opacity-30"></div>
       <div className="absolute top-[60%] left-[15%] w-2 h-2 bg-[#41bfb8]/50 rounded-full animate-ping animation-delay-3000 opacity-25"></div>
 
-      <div className="container mx-auto px-4 lg:px-16 relative z-10">
-        {/* Section Header */}
-        <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full">
+      <div ref={sectionRef} className="container mx-auto px-4 lg:px-16 relative z-10">
+        {/* Section Header with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+            },
+          }}
+          className="text-center mb-12"
+        >
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20, scale: 0.9 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] } }
+            }}
+            className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full"
+          >
             <HiOutlineSparkles className="text-[#41bfb8] text-lg" />
             <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("whatWeProvide.badge")}</span>
-          </div>
-          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+          </motion.div>
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } }
+            }}
+            className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}
+          >
             {t("whatWeProvide.title1")}<span className="text-[#41bfb8]">{t("whatWeProvide.title2")}</span>
-          </h2>
-          <p className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}>
+          </motion.h2>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}
+          >
             {t("whatWeProvide.subtitle")}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Features Grid with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+            },
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {[features[1], features[0], features[2]].map((feature, index) => {
             const isCenterCard = index === 1; // Job Placement Support is now at index 1
             return (
-              <div
+              <motion.div
                 key={index}
-                className={`group relative bg-white border border-gray-200 rounded-md p-6 lg:p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-2 hover:border-transparent ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                variants={{
+                  hidden: { opacity: 0, y: 40, scale: 0.9 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: {
+                      duration: 0.6,
+                      ease: [0.34, 1.56, 0.64, 1]
+                    }
+                  }
+                }}
+                className="group relative bg-white border border-gray-200 rounded-md p-6 lg:p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-gray-200/50 hover:-translate-y-2 hover:border-transparent"
               >
                 {/* Top Accent Line */}
                 <div
@@ -210,10 +265,10 @@ const WhatWeProvide = () => {
                     animation: place-move linear infinite;
                   }
                 `}</style>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Bottom CTA */}
         <div className={`text-center mt-12 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
@@ -226,7 +281,7 @@ const WhatWeProvide = () => {
           </Link>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

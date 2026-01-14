@@ -4,19 +4,25 @@ import TopHeader from '@/components/sheard/TopHeader';
 import WhatsAppButton from '@/components/sheard/WhatsAppButton';
 import FloatingSeminarButton from '@/components/sheard/FloatingSeminarButton';
 import FloatingLanguageButton from '@/components/sheard/FloatingLanguageButton';
+import IntroWrapper from '@/components/IntroWrapper';
 import React from 'react';
 
 const mainLayout = ({ children }) => {
     return (
-        <div>
-            <TopHeader></TopHeader>
-            <Navbar></Navbar>
-            {children}
-            <Footer></Footer>
+        <>
+            <IntroWrapper>
+                <div>
+                    <TopHeader></TopHeader>
+                    <Navbar></Navbar>
+                    {children}
+                    <Footer></Footer>
+                </div>
+            </IntroWrapper>
+            {/* These buttons must be outside IntroWrapper because IntroWrapper uses transform, which breaks fixed positioning */}
             <WhatsAppButton />
             <FloatingSeminarButton />
             <FloatingLanguageButton />
-        </div>
+        </>
     );
 };
 

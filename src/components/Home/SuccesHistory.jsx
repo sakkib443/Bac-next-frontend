@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { HiOutlinePlayCircle, HiOutlineSparkles, HiXMark } from "react-icons/hi2";
 import { LuArrowRight, LuPlay } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const videoData = [
   { id: "_6cBwuHNKgI", title: "Career Transformation - Success Story", name: "Shakil Ahmed" },
@@ -16,14 +17,25 @@ const videoData = [
 
 const SuccesHistory = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
   const { t, language } = useLanguage();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+    // Only lock body scroll when video modal is actually open
+    if (selectedVideo) {
+      document.body.style.overflow = "hidden";
+    }
+
+    // Cleanup function to reset overflow when modal closes or component unmounts
+    return () => {
+      if (selectedVideo) {
+        document.body.style.overflow = "";
+      }
+    };
+  }, [selectedVideo]);
 
   return (
     <section className="relative py-16 lg:py-20 overflow-hidden">
@@ -60,22 +72,57 @@ const SuccesHistory = () => {
       <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-[#41bfb8]/15 rounded-tl-lg"></div>
       <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-[#F79952]/15 rounded-br-lg"></div>
 
-      <div className="container mx-auto px-4 lg:px-16 relative z-10">
-        {/* Section Header */}
-        <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm">
+      <div ref={sectionRef} className="container mx-auto px-4 lg:px-16 relative z-10">
+        {/* Section Header with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+            },
+          }}
+          className="text-center mb-12"
+        >
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20, scale: 0.9 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] } }
+            }}
+            className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm"
+          >
             <HiOutlineSparkles className="text-[#F79952] text-lg" />
             <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("successHistory.badge")}</span>
-          </div>
-          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+          </motion.div>
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } }
+            }}
+            className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}
+          >
             {t("successHistory.title1")}<span className="text-[#41bfb8]">{t("successHistory.title2")}</span>
-          </h2>
-          <p className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}>
+          </motion.h2>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}
+          >
             {t("successHistory.subtitle")}
-          </p>
+          </motion.p>
 
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-6 mt-6">
+          {/* Stats with Animation */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { duration: 0.5, delay: 0.3 } }
+            }}
+            className="flex flex-wrap justify-center gap-6 mt-6"
+          >
             <div className="flex items-center gap-2">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map(i => (
@@ -86,19 +133,42 @@ const SuccesHistory = () => {
             </div>
             <div className="w-px h-5 bg-gray-300"></div>
             <span className={`text-sm text-gray-600 work ${bengaliClass}`}><strong className="text-[#41bfb8]">500+</strong> {t("successHistory.successStories")}</span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Video Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {/* Video Grid with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+            },
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+        >
           {videoData.map((video, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={{
+                hidden: { opacity: 0, y: 40, scale: 0.95 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  transition: {
+                    duration: 0.6,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }
+                }
+              }}
+              whileHover={{ y: -5 }}
               onClick={() => setSelectedVideo(video)}
-              className={`group cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              className="group cursor-pointer"
             >
-              <div className="relative rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="relative rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
                 {/* Video Thumbnail */}
                 <div className="relative aspect-video">
                   <img
@@ -129,12 +199,17 @@ const SuccesHistory = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Bottom CTA */}
-        <div className={`text-center mt-12 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+        {/* Bottom CTA with Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+          className="text-center mt-12"
+        >
           <Link
             href="/success-story"
             className={`inline-flex items-center gap-2 px-8 py-3.5 bg-[#41bfb8] hover:bg-[#38a89d] text-white rounded-md font-semibold work hover:shadow-xl hover:shadow-[#41bfb8]/30 transition-all duration-300 group ${bengaliClass}`}
@@ -145,67 +220,58 @@ const SuccesHistory = () => {
           <p className={`mt-3 text-sm text-gray-400 work ${bengaliClass}`}>
             {t("successHistory.beNextSuccessStory")}
           </p>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Video Modal */}
-      {selectedVideo && (
-        <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 animate-fadeIn cursor-pointer"
-          onClick={() => setSelectedVideo(null)}
-        >
-          <div
-            className="relative w-full max-w-4xl animate-scaleIn"
-            onClick={(e) => e.stopPropagation()}
+      {/* Video Modal with AnimatePresence */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 cursor-pointer"
+            onClick={() => setSelectedVideo(null)}
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedVideo(null)}
-              className="absolute -top-12 right-0 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-4xl"
+              onClick={(e) => e.stopPropagation()}
             >
-              <HiXMark className="w-6 h-6" />
-            </button>
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="absolute -top-12 right-0 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+              >
+                <HiXMark className="w-6 h-6" />
+              </button>
 
-            {/* Video */}
-            <div className="relative rounded-md overflow-hidden shadow-2xl bg-black">
-              <div className="aspect-video">
-                <iframe
-                  src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
-                  title={selectedVideo.title}
-                  frameBorder="0"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
+              {/* Video */}
+              <div className="relative rounded-md overflow-hidden shadow-2xl bg-black">
+                <div className="aspect-video">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                    title={selectedVideo.title}
+                    frameBorder="0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
               </div>
-            </div>
 
-            {/* Video Info */}
-            <div className="mt-4 text-center">
-              <p className="text-white font-semibold outfit text-lg">{selectedVideo.title}</p>
-              <p className="text-white/70 text-sm work">{selectedVideo.name}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Animation Styles */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-        .animate-scaleIn {
-          animation: scaleIn 0.3s ease-out forwards;
-        }
-      `}</style>
+              {/* Video Info */}
+              <div className="mt-4 text-center">
+                <p className="text-white font-semibold outfit text-lg">{selectedVideo.title}</p>
+                <p className="text-white/70 text-sm work">{selectedVideo.name}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

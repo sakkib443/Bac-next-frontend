@@ -63,9 +63,9 @@ const MentorEditCourse = () => {
                 setFetching(true);
 
                 const [catRes, mentorRes, courseRes] = await Promise.all([
-                    fetch('https://bacdb.vercel.app/api/categories'),
-                    fetch('https://bacdb.vercel.app/api/mentors'),
-                    fetch(`https://bacdb.vercel.app/api/courses/${id}`)
+                    fetch('https://bacdbs.vercel.app/api/categories'),
+                    fetch('https://bacdbs.vercel.app/api/mentors'),
+                    fetch(`https://bacdbs.vercel.app/api/courses/${id}`)
                 ]);
 
                 const catData = await catRes.json();
@@ -101,7 +101,7 @@ const MentorEditCourse = () => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const response = await fetch(`https://bacdb.vercel.app/api/courses/${id}`, {
+            const response = await fetch(`https://bacdbs.vercel.app/api/courses/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

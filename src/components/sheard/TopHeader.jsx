@@ -10,11 +10,20 @@ import { LuFacebook, LuChevronDown } from "react-icons/lu";
 import { FaInstagram } from "react-icons/fa";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
 
 const TopHeader = () => {
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { t, language } = useLanguage();
+  const { settings } = useSettings();
+
+  // Dynamic values from settings with fallbacks
+  const phoneNumber = settings?.phoneNumber || "+880 1321-231802";
+  const email = settings?.email || "info@bdcallingacademy.com";
+  const facebookUrl = settings?.facebookUrl || "https://www.facebook.com/bdcallingacademy.bd";
+  const youtubeUrl = settings?.youtubeUrl || "https://www.youtube.com/@bdcallingacademy";
+  const linkedinUrl = settings?.linkedinUrl || "https://www.linkedin.com/company/bdcalling-academy/";
 
   // Apply Bengali font class when language is Bengali
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
@@ -56,7 +65,7 @@ const TopHeader = () => {
           <div className="flex items-center gap-6">
             {/* Phone with Premium Styling */}
             <a
-              href="tel:01321231802"
+              href={`tel:${phoneNumber.replace(/\s/g, '')}`}
               className="group flex gap-2 items-center px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#41bfb8]/50 hover:bg-[#41bfb8]/10 transition-all duration-300"
             >
               <span className="relative">
@@ -64,18 +73,18 @@ const TopHeader = () => {
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
               </span>
               <span className="text-[13px] font-medium text-white/90 group-hover:text-white tracking-wide">
-                +880 1321-231802
+                {phoneNumber}
               </span>
             </a>
 
             {/* Email with Premium Styling */}
             <a
-              href="mailto:info@bdcallingacademy.com"
+              href={`mailto:${email}`}
               className="group flex gap-2 items-center px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#F79952]/50 hover:bg-[#F79952]/10 transition-all duration-300"
             >
               <IoMailOutline className="text-[18px] text-[#F79952] group-hover:scale-110 transition-transform duration-300" />
               <span className="text-[13px] font-medium text-white/90 group-hover:text-white tracking-wide">
-                info@bdcallingacademy.com
+                {email}
               </span>
             </a>
           </div>
@@ -85,7 +94,7 @@ const TopHeader = () => {
             <div className="flex gap-2 items-center">
               {/* Facebook */}
               <a
-                href="https://www.facebook.com/bdcallingacademy.bd"
+                href={facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:border-[#1877F2]/50 hover:bg-[#1877F2]/20 transition-all duration-300 overflow-hidden"
@@ -96,7 +105,7 @@ const TopHeader = () => {
 
               {/* YouTube */}
               <a
-                href="https://www.youtube.com/@bdcallingacademy"
+                href={youtubeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:border-[#FF0000]/50 hover:bg-[#FF0000]/20 transition-all duration-300 overflow-hidden"
@@ -107,7 +116,7 @@ const TopHeader = () => {
 
               {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/company/bdcalling-academy/"
+                href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/20 transition-all duration-300 overflow-hidden"

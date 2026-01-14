@@ -7,10 +7,14 @@ import { BiCategory } from "react-icons/bi";
 import { FaStar, FaWhatsapp } from "react-icons/fa";
 import { LuBookOpenCheck, LuClock, LuUsers, LuEye } from "react-icons/lu";
 import { HiOutlinePlayCircle, HiOutlineCheckCircle } from "react-icons/hi2";
+import { useSettings } from "@/context/SettingsContext";
 
 const CourseCard = ({ course, isGridView = true }) => {
   const courseId = course.id || course._id;
   const { items: categories = [] } = useSelector((state) => state.categories);
+  const { settings } = useSettings();
+  const rawWhatsappNumber = settings?.whatsappNumber || '8801321231802';
+  const whatsappNumber = rawWhatsappNumber.replace(/[^0-9]/g, '');
 
   // Get category name from ID
   const getCategoryName = (categoryId) => {
@@ -140,7 +144,7 @@ const CourseCard = ({ course, isGridView = true }) => {
                   <span>View Details</span>
                 </Link>
                 <a
-                  href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                     `আমি "${course.title}" কোর্সটি করতে চাই।`
                   )}`}
                   target="_blank"
@@ -256,7 +260,7 @@ const CourseCard = ({ course, isGridView = true }) => {
               <span>Details</span>
             </Link>
             <a
-              href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                 `আমি "${course.title}" কোর্সটি করতে চাই।`
               )}`}
               target="_blank"

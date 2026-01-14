@@ -56,7 +56,7 @@ const CreateMentor = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch('https://bacdb.vercel.app/api/mentors/create-mentor', {
+      const response = await fetch('https://bacdbs.vercel.app/api/mentors/create-mentor', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

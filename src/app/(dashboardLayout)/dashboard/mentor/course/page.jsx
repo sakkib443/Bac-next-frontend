@@ -24,7 +24,7 @@ export default function MentorCoursePage() {
     const loadCourses = async () => {
         setLoading(true);
         try {
-            const res = await fetch('https://bacdb.vercel.app/api/courses');
+            const res = await fetch('https://bacdbs.vercel.app/api/courses');
             const data = await res.json();
             setCourses(Array.isArray(data) ? data : data.data || []);
         } catch (error) {

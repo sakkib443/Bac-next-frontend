@@ -23,7 +23,7 @@ export default function MentorMentorsPage() {
         const load = async () => {
             setLoading(true);
             try {
-                const res = await fetch('https://bacdb.vercel.app/api/mentors');
+                const res = await fetch('https://bacdbs.vercel.app/api/mentors');
                 const data = await res.json();
                 setMentors(Array.isArray(data) ? data : data.data || []);
             } catch (error) {

@@ -7,10 +7,20 @@ import { FaFacebook, FaLinkedin, FaYoutube, FaInstagram } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import { LuSend, LuArrowUpRight, LuHeart } from "react-icons/lu";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const { t, language } = useLanguage();
+  const { settings, getSetting } = useSettings();
+
+  // Dynamic values from settings with fallbacks
+  const phoneNumber = settings?.phoneNumber || "+880 1321-231802";
+  const emailAddress = settings?.email || "info@bdcallingacademy.com";
+  const address = getSetting('address', language) || "Daisy Garden, House 14 (Level-5), Block A, Banasree, Dhaka";
+  const facebookUrl = settings?.facebookUrl || "https://www.facebook.com/bdcallingacademy.bd";
+  const linkedinUrl = settings?.linkedinUrl || "https://www.linkedin.com/company/bdcalling-academy/";
+  const youtubeUrl = settings?.youtubeUrl || "https://www.youtube.com/@bdcallingacademy";
 
   // Apply Bengali font class when language is Bengali
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
@@ -34,9 +44,9 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: FaFacebook, href: "https://www.facebook.com/bdcallingacademy.bd", color: "#1877F2", label: "Facebook" },
-    { icon: FaLinkedin, href: "https://www.linkedin.com/company/bdcalling-academy/", color: "#0A66C2", label: "LinkedIn" },
-    { icon: FaYoutube, href: "https://www.youtube.com/@bdcallingacademy", color: "#FF0000", label: "YouTube" },
+    { icon: FaFacebook, href: facebookUrl, color: "#1877F2", label: "Facebook" },
+    { icon: FaLinkedin, href: linkedinUrl, color: "#0A66C2", label: "LinkedIn" },
+    { icon: FaYoutube, href: youtubeUrl, color: "#FF0000", label: "YouTube" },
     { icon: FaInstagram, href: "https://www.instagram.com/bdcallingacademy/", color: "#E4405F", label: "Instagram" },
   ];
 
@@ -175,24 +185,24 @@ const Footer = () => {
             </h4>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+8801321231802" className="group flex items-start gap-3">
+                <a href={`tel:${phoneNumber.replace(/\s/g, '')}`} className="group flex items-start gap-3">
                   <div className="w-9 h-9 rounded-md bg-[#41bfb8]/10 flex items-center justify-center shrink-0 group-hover:bg-[#41bfb8]/20 transition-colors">
                     <IoCallOutline className="text-[#41bfb8]" />
                   </div>
                   <div>
                     <p className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("footer.phone")}</p>
-                    <p className="text-gray-700 text-sm work group-hover:text-[#41bfb8] transition-colors">+880 1321-231802</p>
+                    <p className="text-gray-700 text-sm work group-hover:text-[#41bfb8] transition-colors">{phoneNumber}</p>
                   </div>
                 </a>
               </li>
               <li>
-                <a href="mailto:info@bdcallingacademy.com" className="group flex items-start gap-3">
+                <a href={`mailto:${emailAddress}`} className="group flex items-start gap-3">
                   <div className="w-9 h-9 rounded-md bg-[#F79952]/10 flex items-center justify-center shrink-0 group-hover:bg-[#F79952]/20 transition-colors">
                     <IoMailOutline className="text-[#F79952]" />
                   </div>
                   <div>
                     <p className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("footer.email")}</p>
-                    <p className="text-gray-700 text-sm work group-hover:text-[#F79952] transition-colors break-all">info@bdcallingacademy.com</p>
+                    <p className="text-gray-700 text-sm work group-hover:text-[#F79952] transition-colors break-all">{emailAddress}</p>
                   </div>
                 </a>
               </li>
@@ -203,7 +213,7 @@ const Footer = () => {
                   </div>
                   <div>
                     <p className={`text-xs text-gray-400 work ${bengaliClass}`}>{t("footer.address")}</p>
-                    <p className={`text-gray-700 text-sm work ${bengaliClass}`}>{t("footer.addressValue")}</p>
+                    <p className={`text-gray-700 text-sm work ${bengaliClass}`}>{address}</p>
                   </div>
                 </div>
               </li>

@@ -19,7 +19,7 @@ const SingleMentor = () => {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`https://bacdb.vercel.app/api/mentors/${id}`)
+    fetch(`https://bacdbs.vercel.app/api/mentors/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load mentor");
         return res.json();

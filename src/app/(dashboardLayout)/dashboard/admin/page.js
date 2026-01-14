@@ -19,9 +19,9 @@ export default function AdminDashboard() {
       try {
         // Fetch all data in parallel
         const [coursesRes, mentorsRes, categoriesRes] = await Promise.all([
-          fetch('https://bacdb.vercel.app/api/courses'),
-          fetch('https://bacdb.vercel.app/api/mentors'),
-          fetch('https://bacdb.vercel.app/api/categories'),
+          fetch('https://bacdbs.vercel.app/api/courses'),
+          fetch('https://bacdbs.vercel.app/api/mentors'),
+          fetch('https://bacdbs.vercel.app/api/categories'),
         ]);
 
         const coursesData = await coursesRes.json();

@@ -25,7 +25,7 @@ export default function CoursesPage() {
   const loadCourses = async () => {
     setLoading(true);
     try {
-      const res = await fetch('https://bacdb.vercel.app/api/courses');
+      const res = await fetch('https://bacdbs.vercel.app/api/courses');
       const data = await res.json();
       setCourses(Array.isArray(data) ? data : data.data || []);
     } catch (error) {
@@ -42,7 +42,7 @@ export default function CoursesPage() {
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this course?')) return;
     try {
-      const res = await fetch(`https://bacdb.vercel.app/api/courses/${id}`, {
+      const res = await fetch(`https://bacdbs.vercel.app/api/courses/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {

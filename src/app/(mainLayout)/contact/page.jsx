@@ -6,12 +6,16 @@ import { HiOutlineSparkles } from "react-icons/hi2";
 import { LuMail, LuPhone, LuMapPin, LuSend, LuClock, LuArrowRight } from "react-icons/lu";
 import { FaFacebookF, FaYoutube, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
 
 const ContactPage = () => {
   const { t, language } = useLanguage();
+  const { settings, getSetting } = useSettings();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const [messageSent, setMessageSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,35 +23,61 @@ const ContactPage = () => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessageSent(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(`${API_URL}/api/contacts/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessageSent(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error('Error sending message:', err);
+      setError("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  // Dynamic contact info from settings
   const contactInfo = [
     {
       icon: LuMail,
       titleKey: "emailUs",
-      value: "info@bdcallingacademy.com",
-      link: "mailto:info@bdcallingacademy.com",
+      value: settings?.email || "info@bdcallingacademy.com",
+      link: `mailto:${settings?.email || "info@bdcallingacademy.com"}`,
       color: "#41bfb8",
     },
     {
       icon: LuPhone,
       titleKey: "callUs",
-      value: "+88 01321231802",
-      link: "tel:+8801321231802",
+      value: settings?.phoneNumber || "+88 01321231802",
+      link: `tel:${(settings?.phoneNumber || "+88 01321231802").replace(/\s/g, '')}`,
       color: "#F79952",
     },
     {
       icon: LuMapPin,
       titleKey: "visitUs",
-      value: "Daisy Garden, House 14 (Level-5), Block A, Banasree, Dhaka",
-      valueBn: "ডেইজি গার্ডেন, বাড়ি ১৪ (লেভেল-৫), ব্লক এ, বনশ্রী, ঢাকা",
+      value: settings?.address || "Daisy Garden, House 14 (Level-5), Block A, Banasree, Dhaka",
+      valueBn: settings?.addressBn || "ডেইজি গার্ডেন, বাড়ি ১৪ (লেভেল-৫), ব্লক এ, বনশ্রী, ঢাকা",
       link: "#map",
       color: "#8B5CF6",
     },
@@ -60,20 +90,34 @@ const ContactPage = () => {
     },
   ];
 
+  // Dynamic social links from settings
   const socialLinks = [
-    { icon: FaFacebookF, href: "https://www.facebook.com/bdcallingacademy.bd", label: "Facebook", color: "#1877F2" },
-    { icon: FaYoutube, href: "https://www.youtube.com/@bdCalling", label: "YouTube", color: "#FF0000" },
-    { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/bdcallingitltd", label: "LinkedIn", color: "#0A66C2" },
-    { icon: FaWhatsapp, href: "https://wa.me/8801321231802", label: "WhatsApp", color: "#25D366" },
+    { icon: FaFacebookF, href: settings?.facebookUrl || "https://www.facebook.com/bdcallingacademy.bd", label: "Facebook", color: "#1877F2" },
+    { icon: FaYoutube, href: settings?.youtubeUrl || "https://www.youtube.com/@bdCalling", label: "YouTube", color: "#FF0000" },
+    { icon: FaLinkedinIn, href: settings?.linkedinUrl || "https://www.linkedin.com/company/bdcallingitltd", label: "LinkedIn", color: "#0A66C2" },
+    { icon: FaWhatsapp, href: `https://wa.me/${settings?.whatsappNumber || '8801321231802'}`, label: "WhatsApp", color: "#25D366" },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Success Modal */}
+      {/* Success Modal - Using inline styles to avoid transform interference */}
       {messageSent && (
         <>
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setMessageSent(false)}></div>
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-11/12 max-w-md bg-white rounded-xl shadow-2xl p-8 text-center">
+          <div
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9998 }}
+            className="bg-black/50 backdrop-blur-sm"
+            onClick={() => setMessageSent(false)}
+          ></div>
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 9999
+            }}
+            className="w-11/12 max-w-md bg-white rounded-xl shadow-2xl p-8 text-center"
+          >
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <LuSend className="text-green-600 text-2xl" />
             </div>
@@ -204,12 +248,27 @@ const ContactPage = () => {
                   required
                 ></textarea>
               </div>
+              {error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
               <button
                 type="submit"
-                className={`w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-all hover:shadow-lg group ${bengaliClass}`}
+                disabled={loading}
+                className={`w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#41bfb8] hover:bg-[#38a89d] text-white font-medium rounded-md transition-all hover:shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed ${bengaliClass}`}
               >
-                <LuSend className="text-lg group-hover:translate-x-1 transition-transform" />
-                <span>{t("contactPage.send")}</span>
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <LuSend className="text-lg group-hover:translate-x-1 transition-transform" />
+                    <span>{t("contactPage.send")}</span>
+                  </>
+                )}
               </button>
             </form>
           </div>
@@ -258,7 +317,7 @@ const ContactPage = () => {
                 {t("contactPage.whatsappDescription")}
               </p>
               <a
-                href="https://wa.me/8801321231802"
+                href={`https://wa.me/${settings?.whatsappNumber || '8801321231802'}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#41bfb8] font-medium rounded-md hover:shadow-lg transition-all group ${bengaliClass}`}

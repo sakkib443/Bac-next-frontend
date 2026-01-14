@@ -2,6 +2,7 @@
     "navbar": {
         "home": "Home",
         "courses": "Courses",
+        "blogs": "Blog",
         "events": "Events",
         "success": "Success",
         "successHistory": "Success History",
@@ -33,7 +34,7 @@
         "heading2": "Career Path",
         "headingWith": "with",
         "academyName": "Bdcalling Academy",
-        "description": "Welcome to Bdcalling Academy — a leading IT training institute in Bangladesh. We specialize in career-oriented education with expert instructors, hands-on learning, and personalized support for real career success.",
+        "description": "Welcome to Bdcalling Academy — a leading IT training institute in Bangladesh.",
         "courses": "Courses",
         "students": "Students",
         "placement": "Placement",
@@ -56,6 +57,8 @@
         "viewAll": "View All",
         "browseAllCourses": "Browse All Courses",
         "categories": {
+            "aiAutomation": "AI and Automation",
+            "aiAutomationSub": "Shape the Future",
             "artDesign": "Art & Design",
             "artDesignSub": "Platform for Creativity",
             "programming": "Programming",
@@ -68,8 +71,6 @@
             "networkingServerSub": "Protector of IT Industry",
             "management": "Management",
             "managementSub": "Leading with Strategy",
-            "database": "Database",
-            "databaseSub": "Structure, Store, Strategize",
             "diploma": "Diploma",
             "diplomaSub": "Skill Up, Stand Out"
         }

@@ -2,6 +2,7 @@
     "navbar": {
         "home": "হোম",
         "courses": "কোর্সসমূহ",
+        "blogs": "ব্লগ",
         "events": "ইভেন্ট",
         "success": "সাফল্য",
         "successHistory": "সাফল্যের গল্প",
@@ -56,6 +57,8 @@
         "viewAll": "সব দেখুন",
         "browseAllCourses": "সব কোর্স ব্রাউজ করুন",
         "categories": {
+            "aiAutomation": "এআই এবং অটোমেশন",
+            "aiAutomationSub": "ভবিষ্যত গড়ুন",
             "artDesign": "আর্ট ও ডিজাইন",
             "artDesignSub": "সৃজনশীলতার প্ল্যাটফর্ম",
             "programming": "প্রোগ্রামিং",
@@ -68,8 +71,6 @@
             "networkingServerSub": "আইটি ইন্ডাস্ট্রির রক্ষক",
             "management": "ম্যানেজমেন্ট",
             "managementSub": "কৌশলের সাথে নেতৃত্ব",
-            "database": "ডাটাবেস",
-            "databaseSub": "স্ট্রাকচার, স্টোর, কৌশল",
             "diploma": "ডিপ্লোমা",
             "diplomaSub": "দক্ষতা বাড়ান, আলাদা হোন"
         }

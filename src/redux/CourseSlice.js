@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchCoursesData = createAsyncThunk(
   "courses/fetchCoursesData",
   async () => {
-    const response = await fetch("https://bacdb.vercel.app/api/courses", {
+    const response = await fetch("https://bacdbs.vercel.app/api/courses", {
       cache: "no-store",
       headers: {
         'Content-Type': 'application/json',

@@ -2,13 +2,19 @@
 
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
+import { useSettings } from "@/context/SettingsContext";
 
 const WhatsAppButton = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const { settings } = useSettings();
+
+    const rawNumber = settings?.whatsappNumber || '8801321231802';
+    // Remove everything except numbers (handles cases where user might put +, spaces, or dashes)
+    const whatsappNumber = rawNumber.replace(/[^0-9]/g, '');
 
     return (
         <a
-            href="https://wa.me/8801321231802?text=Hello%20BD%20Calling%20Academy!%20I%20want%20to%20know%20more%20about%20your%20courses."
+            href={`https://wa.me/${whatsappNumber}?text=Hello%20BD%20Calling%20Academy!%20I%20want%20to%20know%20more%20about%20your%20courses.`}
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => setIsHovered(true)}
@@ -38,3 +44,4 @@ const WhatsAppButton = () => {
 };
 
 export default WhatsAppButton;
+

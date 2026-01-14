@@ -72,7 +72,7 @@ const MentorsSection = () => {
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
-    fetch("https://bacdb.vercel.app/api/mentors")
+    fetch("https://bacdbs.vercel.app/api/mentors")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch mentors");
         return res.json();

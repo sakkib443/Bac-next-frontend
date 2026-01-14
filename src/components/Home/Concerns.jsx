@@ -1,22 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { HiOutlineBuildingOffice2, HiOutlineSparkles } from "react-icons/hi2";
 import { LuHandshake, LuUsers } from "react-icons/lu";
 import { useLanguage } from "@/context/LanguageContext";
 
 const Concerns = () => {
   const [selectedCategory, setSelectedCategory] = useState("Our Concern");
-  const [isVisible, setIsVisible] = useState(false);
   const { t, language } = useLanguage();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
+
 
   const images = [
     // Our Concerns
@@ -122,23 +120,57 @@ const Concerns = () => {
       <div className="absolute top-0 right-1/4 w-px h-32 bg-gradient-to-b from-[#41bfb8]/20 to-transparent"></div>
       <div className="absolute bottom-0 left-1/3 w-px h-24 bg-gradient-to-t from-[#F79952]/20 to-transparent"></div>
 
-      <div className="container mx-auto px-4 lg:px-16 relative z-10">
-        {/* Section Header */}
-        <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full">
+      <div ref={sectionRef} className="container mx-auto px-4 lg:px-16 relative z-10">
+        {/* Section Header with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+            },
+          }}
+          className="text-center mb-12"
+        >
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20, scale: 0.9 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] } }
+            }}
+            className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full"
+          >
             <HiOutlineSparkles className="text-[#41bfb8] text-lg" />
             <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("concerns.badge")}</span>
-          </div>
-          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}>
+          </motion.div>
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } }
+            }}
+            className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 ${bengaliClass}`}
+          >
             {t("concerns.title1")}<span className="text-[#41bfb8]">{t("concerns.title2")}</span>
-          </h2>
-          <p className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}>
+          </motion.h2>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className={`mt-3 text-gray-500 work text-sm sm:text-base max-w-2xl mx-auto ${bengaliClass}`}
+          >
             {t("concerns.subtitle")}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Category Tabs */}
-        <div className={`flex flex-wrap justify-center gap-3 mb-10 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+        {/* Category Tabs with Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-wrap justify-center gap-3 mb-10"
+        >
           {categories.map((cat, idx) => (
             <button
               key={idx}
@@ -160,17 +192,22 @@ const Concerns = () => {
               </span>
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Partners Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <motion.div
+          layout
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+        >
           {filteredImages.length > 0 ? (
             filteredImages.map((image, index) => (
               <motion.div
+                layout
                 key={image.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.03 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3 }}
               >
                 <a
                   href={image.link || "#"}
@@ -202,10 +239,15 @@ const Concerns = () => {
               <p className={`text-gray-500 work ${bengaliClass}`}>{t("concerns.noPartners")}</p>
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* Stats */}
-        <div className={`flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-gray-100 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+          className="flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-gray-100"
+        >
           <div className="text-center">
             <p className="text-3xl font-bold text-[#41bfb8] outfit">50+</p>
             <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("concerns.partners")}</p>
@@ -220,7 +262,7 @@ const Concerns = () => {
             <p className="text-3xl font-bold text-[#8B5CF6] outfit">10+</p>
             <p className={`text-sm text-gray-500 work ${bengaliClass}`}>{t("concerns.govtOrganizations")}</p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

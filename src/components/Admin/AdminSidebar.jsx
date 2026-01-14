@@ -16,6 +16,7 @@ import {
   FiLogOut,
   FiChevronDown,
   FiArrowLeft,
+  FiSettings,
 } from 'react-icons/fi';
 
 const AdminSidebar = () => {
@@ -49,6 +50,14 @@ const AdminSidebar = () => {
       ],
     },
     {
+      title: 'Blogs',
+      icon: FiBook,
+      submenu: [
+        { title: 'All Blogs', href: '/dashboard/admin/blog' },
+        { title: 'Create Blog', href: '/dashboard/admin/blog/create' },
+      ],
+    },
+    {
       title: 'Mentors',
       icon: FiUsers,
       submenu: [
@@ -58,8 +67,10 @@ const AdminSidebar = () => {
     },
     { title: 'Certifications', href: '/dashboard/admin/certification', icon: FiAward },
     { title: 'Users', href: '/dashboard/admin/user', icon: FiUsers },
+    { title: 'Messages', href: '/dashboard/admin/messages', icon: FiMessageSquare },
     { title: 'Feedback', href: '/dashboard/admin/feedback', icon: FiMessageSquare },
     { title: 'Images', href: '/dashboard/admin/image', icon: FiImage },
+    { title: 'Settings', href: '/dashboard/admin/settings', icon: FiSettings },
   ];
 
   return (

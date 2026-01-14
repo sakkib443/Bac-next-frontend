@@ -42,7 +42,16 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
     if (setSelectedType) setSelectedType("All");
   };
 
-  const filteredCategories = courseCategories.filter((category) => category.name !== "All");
+  // Filter out "All" and sort to put "AI and Automation" first
+  const filteredCategories = courseCategories
+    .filter((category) => category.name !== "All")
+    .sort((a, b) => {
+      // "AI and Automation" always comes first
+      if (a.name === "AI and Automation") return -1;
+      if (b.name === "AI and Automation") return 1;
+      return 0; // Keep original order for other categories
+    });
+
   const hasActiveFilters = selectedCategories.length > 0 || searchQuery || (selectedType && selectedType !== "All");
 
   const typeOptions = ["All", "Online", "Offline"];

@@ -25,6 +25,7 @@ import { RiLiveLine, RiComputerLine, RiTranslate2 } from "react-icons/ri";
 import CourseCard from "@/components/sheard/CourseCard";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
 
 const SingleCourse = () => {
   const params = useParams();
@@ -39,6 +40,8 @@ const SingleCourse = () => {
   const [course, setCourse] = useState(null);
   const [instructor, setInstructor] = useState(null);
   const [popularCourses, setPopularCourses] = useState([]);
+  const { settings } = useSettings();
+  const whatsappNumber = settings?.whatsappNumber || '8801321231802';
 
   useEffect(() => {
     dispatch(fetchCoursesData());
@@ -236,7 +239,7 @@ const SingleCourse = () => {
               <div className="p-5 bg-white">
                 <span className="text-2xl font-bold text-gray-900 outfit block mb-3">{course.fee}</span>
                 <a
-                  href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                     `আমি "${course.title}" কোর্সটি করতে চাই।`
                   )}`}
                   target="_blank"
@@ -476,7 +479,7 @@ const SingleCourse = () => {
 
                 <div>
                   <a
-                    href={`https://wa.me/8801321231802?text=${encodeURIComponent(
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                       `আমি "${course.title}" কোর্সটি করতে চাই।`
                     )}`}
                     target="_blank"

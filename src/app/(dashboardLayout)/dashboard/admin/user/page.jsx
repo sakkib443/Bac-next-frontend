@@ -33,7 +33,7 @@ export default function UsersPage() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await fetch('https://bacdb.vercel.app/api/user');
+      const res = await fetch('https://bacdbs.vercel.app/api/user');
       const data = await res.json();
       if (data.success) {
         setUsers(data.data || []);
@@ -57,7 +57,7 @@ export default function UsersPage() {
     }
     setUpdatingRole(mongoId);
     try {
-      const res = await fetch(`https://bacdb.vercel.app/api/user/${customId}`, {
+      const res = await fetch(`https://bacdbs.vercel.app/api/user/${customId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: newRole }),
@@ -91,7 +91,7 @@ export default function UsersPage() {
     }
     setUpdatingStatus(mongoId);
     try {
-      const res = await fetch(`https://bacdb.vercel.app/api/user/${customId}`, {
+      const res = await fetch(`https://bacdbs.vercel.app/api/user/${customId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),

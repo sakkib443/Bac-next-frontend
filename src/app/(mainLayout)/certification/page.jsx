@@ -6,6 +6,7 @@ import Link from "next/link";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { LuSearch, LuDownload, LuEye, LuAward, LuUser, LuBookOpen, LuHash, LuArrowRight } from "react-icons/lu";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
 
 const CertificationPage = () => {
   const [users, setUsers] = useState([]);
@@ -18,6 +19,8 @@ const CertificationPage = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { t, language } = useLanguage();
+  const { settings } = useSettings();
+  const whatsappNumber = settings?.whatsappNumber || '8801321231802';
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   useEffect(() => {
@@ -313,7 +316,7 @@ const CertificationPage = () => {
               </p>
             </div>
             <a
-              href="https://wa.me/8801321231802"
+              href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className={`inline-flex items-center gap-2 px-6 py-3 bg-white text-[#41bfb8] font-medium rounded-md hover:shadow-lg transition-all shrink-0 ${bengaliClass}`}

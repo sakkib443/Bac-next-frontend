@@ -11,7 +11,7 @@ const FloatingLanguageButton = () => {
 
   return (
     <>
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center">
+      <div className="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-50 items-center">
         {/* Toggle Handle */}
         <button
           onClick={() => setIsOpen(!isOpen)}

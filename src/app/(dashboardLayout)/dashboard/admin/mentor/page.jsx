@@ -24,7 +24,7 @@ export default function MentorsPage() {
     const load = async () => {
       setLoading(true);
       try {
-        const res = await fetch('https://bacdb.vercel.app/api/mentors');
+        const res = await fetch('https://bacdbs.vercel.app/api/mentors');
         const data = await res.json();
         setMentors(Array.isArray(data) ? data : data.data || []);
       } catch (error) {
@@ -39,7 +39,7 @@ export default function MentorsPage() {
   const handleDelete = async (id) => {
     if (!confirm('Delete this mentor?')) return;
     try {
-      await fetch(`https://bacdb.vercel.app/api/mentors/${id}`, { method: 'DELETE' });
+      await fetch(`https://bacdbs.vercel.app/api/mentors/${id}`, { method: 'DELETE' });
       setMentors((prev) => prev.filter((m) => m._id !== id));
     } catch (error) {
       alert("Failed to delete mentor");

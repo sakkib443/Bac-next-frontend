@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PopularCourseCard from './PopularCourseCard';
 import { HiOutlineAcademicCap } from 'react-icons/hi2';
 import { LuSparkles } from 'react-icons/lu';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
+import { motion, useInView } from 'framer-motion';
 
 const PopularCourse = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { t, language } = useLanguage();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -43,29 +47,73 @@ const PopularCourse = () => {
         <line x1="100%" y1="0" x2="0" y2="100%" stroke="#F79952" strokeWidth="1" />
       </svg>
 
-      <div className="container mx-auto px-4 lg:px-16 relative z-10">
-        {/* Section Header */}
-        <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+      <div ref={sectionRef} className="container mx-auto px-4 lg:px-16 relative z-10">
+        {/* Section Header with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+            },
+          }}
+          className="text-center mb-12"
+        >
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20, scale: 0.9 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] } }
+            }}
+            className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-gradient-to-r from-[#41bfb8]/10 to-[#F79952]/10 border border-[#41bfb8]/20 rounded-full"
+          >
             <HiOutlineAcademicCap className="text-[#41bfb8] text-lg" />
             <span className={`text-sm font-medium text-gray-700 work ${bengaliClass}`}>{t("popularCourse.badge")}</span>
-          </div>
+          </motion.div>
 
           {/* Title */}
-          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold outfit ${bengaliClass}`}>
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } }
+            }}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-bold outfit ${bengaliClass}`}
+          >
             <span className="text-gray-800">{t("popularCourse.title1")}</span>
             <span className="bg-gradient-to-r from-[#41bfb8] to-[#38a89d] bg-clip-text text-transparent">{t("popularCourse.title2")}</span>
-          </h2>
+          </motion.h2>
 
           {/* Description */}
-          <p className={`mt-4 text-gray-500 work text-sm sm:text-base max-w-3xl mx-auto leading-relaxed ${bengaliClass}`}>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className={`mt-4 text-gray-500 work text-sm sm:text-base max-w-3xl mx-auto leading-relaxed ${bengaliClass}`}
+          >
             {t("popularCourse.description")}
-          </p>
+          </motion.p>
 
-          {/* Stats Row */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-8">
-            <div className="flex items-center gap-2">
+          {/* Stats Row with Individual Animation */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 },
+              },
+            }}
+            className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-8"
+          >
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, x: -30 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+              }}
+              className="flex items-center gap-2"
+            >
               <div className="w-10 h-10 bg-[#41bfb8]/10 rounded-md flex items-center justify-center">
                 <LuSparkles className="text-[#41bfb8] text-lg" />
               </div>
@@ -73,9 +121,15 @@ const PopularCourse = () => {
                 <p className="text-xl font-bold text-gray-800 outfit">50+</p>
                 <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("popularCourse.courses")}</p>
               </div>
-            </div>
+            </motion.div>
             <div className="w-px h-12 bg-gray-200 hidden sm:block"></div>
-            <div className="flex items-center gap-2">
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+              }}
+              className="flex items-center gap-2"
+            >
               <div className="w-10 h-10 bg-[#F79952]/10 rounded-md flex items-center justify-center">
                 <HiOutlineAcademicCap className="text-[#F79952] text-lg" />
               </div>
@@ -83,9 +137,15 @@ const PopularCourse = () => {
                 <p className="text-xl font-bold text-gray-800 outfit">6,200+</p>
                 <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("popularCourse.students")}</p>
               </div>
-            </div>
+            </motion.div>
             <div className="w-px h-12 bg-gray-200 hidden sm:block"></div>
-            <div className="flex items-center gap-2">
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, x: 30 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+              }}
+              className="flex items-center gap-2"
+            >
               <div className="w-10 h-10 bg-[#41bfb8]/10 rounded-md flex items-center justify-center">
                 <span className="text-[#41bfb8] font-bold text-sm">92%</span>
               </div>
@@ -93,15 +153,26 @@ const PopularCourse = () => {
                 <p className={`text-xl font-bold text-gray-800 outfit ${bengaliClass}`}>{t("popularCourse.success")}</p>
                 <p className={`text-xs text-gray-500 work ${bengaliClass}`}>{t("popularCourse.placementRate")}</p>
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
-        {/* Courses Slider */}
-        <PopularCourseCard />
+        {/* Courses Slider with Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.7, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <PopularCourseCard />
+        </motion.div>
 
-        {/* Bottom CTA */}
-        <div className={`text-center mt-14 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+        {/* Bottom CTA with Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+          className="text-center mt-14"
+        >
           <Link
             href="/courses"
             className={`inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#41bfb8] to-[#38a89d] text-white rounded-md font-semibold work hover:shadow-xl hover:shadow-[#41bfb8]/30 transition-all duration-300 group ${bengaliClass}`}
@@ -114,7 +185,7 @@ const PopularCourse = () => {
           <p className={`mt-3 text-sm text-gray-400 work ${bengaliClass}`}>
             {t("popularCourse.joinThousands")}
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
