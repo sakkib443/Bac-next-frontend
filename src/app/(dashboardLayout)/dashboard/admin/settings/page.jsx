@@ -109,9 +109,9 @@ const SettingsPage = () => {
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-gray-800 outfit flex items-center gap-3">
                     <FiSettings className="text-[#41bfb8]" />
-                    Site Settings
+                    Design & Settings
                 </h1>
-                <p className="text-gray-500 text-sm mt-1">Manage website content and contact information</p>
+                <p className="text-gray-500 text-sm mt-1">ওয়েবসাইটের কন্টেন্ট, ডিজাইন এবং যোগাযোগের তথ্য পরিচালনা করুন</p>
             </div>
 
             {/* Message */}
@@ -300,7 +300,7 @@ const SettingsPage = () => {
                                     <span className="p-1 bg-green-100 rounded text-green-600">
                                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.7 69.4 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.1 0-65.6-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.6-6.5 8.3-9.8 2.8-3.2 3.7-5.6 5.5-9.3 1.9-3.7.9-6.9-.5-9.8-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.6 11.8 14.1 4.5 26.9 3.9 37 2.4 11.3-1.7 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
                                     </span>
-                                    WhatsApp Number (Interantional Format)
+                                    WhatsApp Number
                                 </label>
                                 <input
                                     type="text"
@@ -315,20 +315,47 @@ const SettingsPage = () => {
                                     maxLength={15}
                                     className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-green-50 focus:border-green-400 outline-none text-lg font-mono transition-all"
                                 />
-                                <div className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                    <p className="text-xs text-gray-500 flex items-center gap-1 mb-1">
-                                        <span>💡</span> শুধু সংখ্যা লিখুন। কোনো প্লাস (+), স্পেস বা ড্যাশ দেওয়া যাবে না।
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-xs font-medium text-gray-400">Live Preview:</span>
-                                        <span className="text-xs font-mono text-green-600 bg-green-50 px-2 py-0.5 rounded">
+                                <div className="mt-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                        <span>📝</span> সঠিক ফরম্যাট:
+                                    </h4>
+                                    <ul className="space-y-1.5 text-xs text-gray-600">
+                                        <li className="flex items-center gap-2">
+                                            <span className="text-green-500">✓</span>
+                                            <code className="bg-white px-2 py-0.5 rounded border">8801321231802</code>
+                                            <span className="text-gray-400">- Country code সহ, শুধু সংখ্যা</span>
+                                        </li>
+                                        <li className="flex items-center gap-2">
+                                            <span className="text-red-500">✗</span>
+                                            <code className="bg-red-50 px-2 py-0.5 rounded border border-red-200 line-through">+8801321231802</code>
+                                            <span className="text-gray-400">- প্লাস চিহ্ন দেবেন না</span>
+                                        </li>
+                                        <li className="flex items-center gap-2">
+                                            <span className="text-red-500">✗</span>
+                                            <code className="bg-red-50 px-2 py-0.5 rounded border border-red-200 line-through">880-132-123-1802</code>
+                                            <span className="text-gray-400">- ড্যাশ বা স্পেস দেবেন না</span>
+                                        </li>
+                                    </ul>
+                                    <div className="mt-3 pt-3 border-t border-green-200 flex items-center justify-between">
+                                        <span className="text-xs font-medium text-gray-500">🔗 Live Preview:</span>
+                                        <a
+                                            href={`https://wa.me/${settings.whatsappNumber || ''}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-xs font-mono text-green-600 bg-white px-3 py-1 rounded-full border border-green-200 hover:bg-green-100 transition-colors"
+                                        >
                                             wa.me/{settings.whatsappNumber || 'your_number'}
-                                        </span>
+                                        </a>
                                     </div>
                                 </div>
                                 {settings.whatsappNumber && settings.whatsappNumber.length < 10 && (
-                                    <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
-                                        <span>❌</span> নম্বরটি পূর্ণাঙ্গ মনে হচ্ছে না (Country code সহ দিন)।
+                                    <p className="text-xs text-red-500 mt-2 flex items-center gap-1 bg-red-50 p-2 rounded-lg">
+                                        <span>⚠️</span> নম্বরটি সম্পূর্ণ মনে হচ্ছে না। Country code (88) সহ সম্পূর্ণ নম্বর দিন।
+                                    </p>
+                                )}
+                                {settings.whatsappNumber && settings.whatsappNumber.length >= 10 && (
+                                    <p className="text-xs text-green-600 mt-2 flex items-center gap-1 bg-green-50 p-2 rounded-lg">
+                                        <span>✅</span> নম্বরটি সঠিক মনে হচ্ছে! WhatsApp বাটনে ক্লিক করে টেস্ট করুন।
                                     </p>
                                 )}
                             </div>

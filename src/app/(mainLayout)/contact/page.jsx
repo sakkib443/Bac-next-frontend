@@ -13,6 +13,12 @@ const ContactPage = () => {
   const { settings, getSetting } = useSettings();
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
+  // Clean WhatsApp number - remove all non-numeric characters (+, spaces, dashes)
+  const cleanWhatsAppNumber = (number) => {
+    return (number || '8801321231802').replace(/[^0-9]/g, '');
+  };
+  const whatsappNumber = cleanWhatsAppNumber(settings?.whatsappNumber);
+
   const [messageSent, setMessageSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -95,7 +101,7 @@ const ContactPage = () => {
     { icon: FaFacebookF, href: settings?.facebookUrl || "https://www.facebook.com/bdcallingacademy.bd", label: "Facebook", color: "#1877F2" },
     { icon: FaYoutube, href: settings?.youtubeUrl || "https://www.youtube.com/@bdCalling", label: "YouTube", color: "#FF0000" },
     { icon: FaLinkedinIn, href: settings?.linkedinUrl || "https://www.linkedin.com/company/bdcallingitltd", label: "LinkedIn", color: "#0A66C2" },
-    { icon: FaWhatsapp, href: `https://wa.me/${settings?.whatsappNumber || '8801321231802'}`, label: "WhatsApp", color: "#25D366" },
+    { icon: FaWhatsapp, href: `https://wa.me/${whatsappNumber}`, label: "WhatsApp", color: "#25D366" },
   ];
 
   return (
@@ -317,7 +323,7 @@ const ContactPage = () => {
                 {t("contactPage.whatsappDescription")}
               </p>
               <a
-                href={`https://wa.me/${settings?.whatsappNumber || '8801321231802'}`}
+                href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#41bfb8] font-medium rounded-md hover:shadow-lg transition-all group ${bengaliClass}`}

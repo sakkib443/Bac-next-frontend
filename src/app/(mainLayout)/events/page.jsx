@@ -51,7 +51,9 @@ const seminars = [
 const EventsPage = () => {
   const { t, language } = useLanguage();
   const { settings } = useSettings();
-  const whatsappNumber = settings?.whatsappNumber || '8801321231802';
+  // Clean WhatsApp number - remove all non-numeric characters (+, spaces, dashes)
+  const rawWhatsappNumber = settings?.whatsappNumber || '8801321231802';
+  const whatsappNumber = rawWhatsappNumber.replace(/[^0-9]/g, '');
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const getLocationType = (location) => {

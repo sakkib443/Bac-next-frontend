@@ -9,7 +9,9 @@ import { useSettings } from "@/context/SettingsContext";
 const CourseCard = ({ course }) => {
   const { id, title, category, type, image, fee, rating } = course;
   const { settings } = useSettings();
-  const whatsappNumber = settings?.whatsappNumber || '8801321231802';
+  // Clean the number - remove all non-numeric characters (+, spaces, dashes)
+  const rawNumber = settings?.whatsappNumber || '8801321231802';
+  const whatsappNumber = rawNumber.replace(/[^0-9]/g, '');
 
   return (
     <div className="relative bg-transparent cursor-pointer transition-transform duration-700 ease-in-out hover:scale-[1.03] hover:shadow-xl group perspective rounded-xl">
