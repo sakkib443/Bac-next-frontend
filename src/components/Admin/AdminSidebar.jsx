@@ -78,7 +78,7 @@ const AdminSidebar = () => {
         { title: 'Add Partner', href: '/dashboard/admin/partners/create' },
       ],
     },
-    { title: 'Settings', href: '/dashboard/admin/settings', icon: FiSettings },
+    { title: 'Design & Settings', href: '/dashboard/admin/settings', icon: FiSettings },
   ];
 
   return (
